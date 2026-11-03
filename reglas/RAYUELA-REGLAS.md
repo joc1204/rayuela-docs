@@ -129,7 +129,7 @@ Detalles que se consultan seguido:
 - **Verificación externa**: `web_fetch` de `https://net-casa.tailfb7a36.ts.net/<ruta>` o
   `curl --resolve` con la IP pública del relay.
 
-## 7 · Errores ya cometidos (no repetir)
+## 8 · Errores ya cometidos (no repetir)
 
 1. Afirmar que un deploy no estaba hecho sin verificar.
 2. Suponer usos e integraciones no pedidos (la palabra "presupuesto", meter el lector
