@@ -39,9 +39,27 @@ Lo que nos importa publicar como "disponible" es **lo que se puede vender**:
 - El stock físico puede estar afectado por **reservas de clientes**: Rayuela reserva
   pedidos; cuando el libro entra queda reservado y **se descuenta del stock** para que no
   se venda a otro.
-- **Pendiente de verificar** (protocolo en curso): si `stockVenta` de la API ya descuenta
-  las reservas o si hay que restarlas nosotros. Se comprueba contrastando libros del
-  catálogo real contra el sistema.
+### Verificado (03/11/2026)
+
+Contrastado contra la pantalla de artículos de Bridge:
+
+| ISBN | Libro | Sistema: Actual | Sistema: Disponible | API `stockVenta` |
+|---|---|---|---|---|
+| 7705969463523 | ILIADA Y ODISEA (estuche) | 2 | 2 | **2** (coincide) |
+| 7798083708649 | CORAZON DE LO SAGRADO | 1 | 1 | **1** (coincide) |
+| 9789876284509 | SIGLO DE PERON, EL (con reserva) | 2 | 1 | **1** (coincide) |
+
+**Conclusión: `stockVenta` de la API es el "Disponible" del sistema, ya con las reservas
+descontadas.** No hay que restar nada: lo que devuelve la API es exactamente lo que se
+puede vender.
+
+Otros datos que confirma la misma pantalla:
+
+- Los libros figuran con alícuota "( %0,0 ) EXENTO" y `precioLista = precioVenta`
+  (un solo precio, sin IVA).
+- El material en consignación cuenta como stock vendible.
+- El libro reservado muestra "Actual 2 / Disponible 1": la reserva no aparece en el
+  stock de la API, ya está aplicada.
 
 ## 4 · Qué implica para el catálogo público (bot / web)
 
