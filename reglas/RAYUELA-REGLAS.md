@@ -81,7 +81,21 @@ explícitamente qué se resigna de las otras.
 4. Los datos de la librería son de la librería: copias locales, sin subirlas a servicios de
    terceros.
 
-## 6 · Estado de los proyectos (2026-11-01)
+## 6 · Bridge: solo lectura (regla nueva, 03/11/2026)
+
+1. **Contra la API de Bridge se hacen únicamente consultas (GET).** Nada de POST, nada de
+   crear, modificar ni anular comprobantes.
+2. **La reserva (`POST /rest/webservice/comprobante/reserva`) NO se ejecuta** hasta que se
+   esté online con alguien de Rayuela, para comprobar que:
+   - la reserva queda efectivamente registrada en el sistema,
+   - el stock disponible baja,
+   - y **cómo se anula** una reserva (procedimiento y efecto en el stock).
+3. Mientras eso no pase, el módulo de reservas se desarrolla en **modo simulación**: arma el
+   cuerpo del pedido, lo registra en un log y **no lo envía**.
+4. Toda prueba contra Bridge es **read-only** y sobre el ambiente de prueba; nada de escribir
+   datos en producción.
+
+## 7 · Estado de los proyectos (2026-11-01)
 
 **Procedimiento operativo** (deploy, verificación, rollback, accesos): está en
 `skills/rayuela-servidor/SKILL.md`. Leerlo antes de tocar servidores o hacer un deploy.
