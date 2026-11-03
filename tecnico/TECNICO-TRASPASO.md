@@ -86,7 +86,8 @@ La app de ferias guarda sus propios datos (stock de feria, ventas de feria) en S
 | **Cloudflare** | DNS de `rayuelalaplata.com.ar` (plan Free) | https://dash.cloudflare.com | **Cuenta personal de Jorge** | Jorge | Gratis |
 | **DonWeb** | VPS Cloud Server plan 2 (2 vCPU, 2 GB RAM, 10 GB SSD, 1 TB/mes, DC Argentina) | Panel de DonWeb | Rayuela / Jorge | Jorge | ~ARS 15.000–16.700/mes |
 | **Hostinger** | Correo del dominio `rayuelalibros.com.ar` y sitio web actual | Panel de Hostinger (`dns-parking`) | **Rayuela** (cuenta con ~25 años) | Rayuela (el ex-programador tuvo acceso) | Según plan contratado |
-| **Resend** | Envío de correo de la app (dominio ayuelalaplata.com.ar autenticado, plan Free 3.000/mes) | https://resend.com | Cuenta personal de Jorge | Jorge | Gratis |
+| **Resend** | Envío de correo de la app (dominio 
+ayuelalaplata.com.ar autenticado, plan Free 3.000/mes) | https://resend.com | Cuenta personal de Jorge | Jorge | Gratis |
 | **Tailscale** | Túnel del netbook (`net-casa.tailfb7a36.ts.net`) | https://login.tailscale.com | Jorge | Jorge | Gratis |
 | **Gmail** | Correo actual del bot de novedades (a reemplazar por Brevo) | `jorge.domotica34@gmail.com` | Jorge | Jorge | Gratis |
 
@@ -651,3 +652,48 @@ Si Jorge deja de mantener esto, en este orden:
 | Fecha | Cambio |
 |---|---|
 | 03/11/2026 | Primera versión completa, con inventario verificado en el servidor |
+
+---
+
+## 14 · Demo de tienda y canal de consulta (03/11/2026)
+
+### 14.1 Demo de tienda (`demo.rayuelalaplata.com.ar`)
+
+Prototipo de la tienda online, alimentado con datos reales de Bridge en **solo lectura**.
+
+| Dato | Valor |
+|---|---|
+| URL | `https://demo.rayuelalaplata.com.ar` |
+| Servicio | `rayuela-demo.service` (puerto 5052, usuario `rayuela`) |
+| Código | `/opt/rayuela/demo` |
+| Base | `/opt/rayuela/demo/catalogo.db` (SQLite, ~55 MB, 447.000 productos) |
+| Caché | `tapas/<isbn>.jpg` y `fichas/<isbn>.json` (archivos, no base) |
+| Repo | GitHub privado `rayuela-demo` |
+
+**Cómo se alimenta** (`carga_rapida.py` y `metadatos.py`, solo GET):
+
+- `articulos/precio/...` → 0,05 s por página de 100 → catálogo completo en ~35 min
+- `articulos/stock/...` → idem
+- `articulos/atributos/...` → **9,7 s por página** (título, autor, colección, temas): va de noche
+- Ficha con tapa y sinopsis: `articulo/{isbn}`, 1,6 s, **bajo demanda** y cacheada en archivos
+
+**Decisión de diseño**: la web **no escribe en la base del catálogo** (las fichas van a
+archivos) para que el sincronizador pueda escribir sin bloquearla. Un intento de escribir en
+ambos produjo `database is locked` en producción de prueba el 03/11.
+
+**Regla de publicación** (decidida por Jorge): se listan solo títulos con stock; un ISBN
+buscado exactamente aparece igual, marcado "a pedido".
+
+### 14.2 Canal de consulta por Telegram
+
+| Dato | Valor |
+|---|---|
+| Bot | `@RayuelaRepoBot_bot` |
+| Credenciales | `/etc/rayuela/telegram.env` (permisos 600, solo root) |
+| Chat autorizado | id `558061905` — los mensajes de otros chats se ignoran |
+| Comandos | `/usr/local/bin/avisar`, `/usr/local/bin/preguntar`, `/usr/local/bin/leer-respuestas` |
+| Estado | `/var/lib/rayuela-telegram.offset` (hasta dónde se leyó) |
+
+Uso: el asistente manda avisos y preguntas con botones; lee las respuestas entre tarea y
+tarea. **No se usa para secretos** (Telegram guarda los mensajes en la nube; no es cifrado
+extremo a extremo).
