@@ -1,0 +1,24 @@
+[Unit]
+Description=Ferias de la libreria (Rayuela)
+After=network.target
+
+[Service]
+Type=simple
+User=rayuela
+Group=rayuela
+WorkingDirectory=/opt/rayuela/ferias
+Environment=FERIAS_PUERTO=5050
+Environment=FERIAS_DB=/opt/rayuela/ferias/ferias.db
+Environment=FERIAS_PREFIJO=
+Environment=FERIAS_SECURE=1
+Environment=FERIAS_SECRETO=<valor real solo en el servidor>
+ExecStart=/opt/rayuela/ferias/venv/bin/python app.py
+Restart=always
+RestartSec=3
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ReadWritePaths=/opt/rayuela/ferias
+
+[Install]
+WantedBy=multi-user.target

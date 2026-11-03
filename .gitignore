@@ -1,0 +1,6 @@
+*.db
+*.db.gz
+*.tar.gz
+secreto.key
+.env
+alerta.env

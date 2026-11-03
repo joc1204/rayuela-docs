@@ -1,0 +1,623 @@
+# Rayuela · Documento técnico y de traspaso
+
+> **Qué es este documento.** Todo lo necesario para operar, mantener y —si hace
+> falta— entregar la infraestructura digital de la librería Rayuela a otra persona.
+> No es el manual del usuario final: para eso están `manual/Manual-Rayuela-Ferias`
+> y `manual_novedades/Guia-Novedades`.
+>
+> **Última actualización:** 03/11/2026
+> **Estado:** refleja lo verificado en el servidor en esa fecha, no lo que se supone.
+
+---
+
+## Índice
+
+1. [Resumen y mapa](#1-resumen-y-mapa)
+2. [Proveedores y cuentas](#2-proveedores-y-cuentas)
+3. [Infraestructura](#3-infraestructura)
+4. [Aplicaciones](#4-aplicaciones)
+5. [Base de datos](#5-base-de-datos)
+6. [Procedimientos (runbook)](#6-procedimientos-runbook)
+7. [Seguridad](#7-seguridad)
+8. [Respaldos y recuperación](#8-respaldos-y-recuperación)
+9. [Pruebas](#9-pruebas)
+10. [Estado del proyecto](#10-estado-del-proyecto)
+11. [Riesgos y deuda técnica](#11-riesgos-y-deuda-técnica)
+12. [Checklist de traspaso](#12-checklist-de-traspaso)
+13. [Glosario](#13-glosario)
+
+---
+
+## 1. Resumen y mapa
+
+Rayuela tiene dos grupos de sistemas:
+
+- **Digitales propios** (los que mantiene Jorge): app de ferias + lectores de precios,
+  bot de novedades, ambiente de prueba.
+- **Digitales heredados** (de la librería, con otro responsable histórico): sitio web
+  actual y correo del dominio, ambos en Hostinger; sistema de gestión **Bridge**,
+  que es el dueño de los datos comerciales (precios, stock, ventas del local).
+
+```
+                    ┌──────────────────────────────────────────┐
+   NIC.ar  (titular:│  rayuelalibros.com.ar  → nameservers      │
+   Rayuela)         │  hyperion/atlas.dns-parking.com (Hostinger)│
+                    │    · web actual (Hostinger)               │
+                    │    · correo (MX Hostinger, ~25 años)      │
+                    └──────────────────────────────────────────┘
+
+   NIC.ar (titular: Rayuela)
+   rayuelalaplata.com.ar  →  NS Cloudflare (nina / cosmin)
+        │
+        ├── ferias.rayuelalaplata.com.ar   → VPS   (app + panel admin)
+        ├── lector.rayuelalaplata.com.ar   → VPS   (lector público + vendedor)
+        ├── prueba.rayuelalaplata.com.ar   → VPS   (ambiente de prueba)
+        └── (apex sin registro: no existe web pública)
+
+   VPS DonWeb 201.32.132.197 (Ubuntu 24.04)
+        ├── nginx  → HTTPS, límites, cabeceras
+        ├── ferias.service       :5050  producción
+        ├── ferias-prueba.service:5051  prueba
+        ├── fail2ban, ufw, certbot (3 certificados)
+        └── SQLite: /opt/rayuela/ferias/ferias.db
+
+   Netbook del local 192.168.1.19 (Debian 32 bits)
+        ├── rayuela-novedades.service :5060   (bot de novedades)
+        ├── gastos.service            :5000   (Cuenta Clara, de Jorge)
+        ├── presupuestito.service     :5001   (Presupuestito, de Jorge)
+        ├── Node-RED                   :1880  (automatizaciones)
+        └── Tailscale Funnel: net-casa.tailfb7a36.ts.net
+```
+
+**Datos comerciales**: los precios que muestra el lector se consultan en vivo a
+**Bridge** (`http://rayuela1.serveftp.net:9090/BSGestion/...`, solo lectura, por ISBN).
+La app de ferias guarda sus propios datos (stock de feria, ventas de feria) en SQLite.
+
+---
+
+## 2. Proveedores y cuentas
+
+| Proveedor | Qué se contrata | Dónde se administra | Titular | Quién tiene acceso | Costo |
+|---|---|---|---|---|---|
+| **NIC.ar** | Registro de dominios `.com.ar` / `.ar` | https://nic.ar (CUIT/CUIL + Clave Fiscal nivel 2+ vía TAD) | **Rayuela** | Verónica / contador; Fermín hizo la última delegación | Anual, bajo |
+| **Cloudflare** | DNS de `rayuelalaplata.com.ar` (plan Free) | https://dash.cloudflare.com | **Cuenta personal de Jorge** | Jorge | Gratis |
+| **DonWeb** | VPS Cloud Server plan 2 (2 vCPU, 2 GB RAM, 10 GB SSD, 1 TB/mes, DC Argentina) | Panel de DonWeb | Rayuela / Jorge | Jorge | ~ARS 15.000–16.700/mes |
+| **Hostinger** | Correo del dominio `rayuelalibros.com.ar` y sitio web actual | Panel de Hostinger (`dns-parking`) | **Rayuela** (cuenta con ~25 años) | Rayuela (el ex-programador tuvo acceso) | Según plan contratado |
+| **Resend** | Envío de correo de la app (dominio ayuelalaplata.com.ar autenticado, plan Free 3.000/mes) | https://resend.com | Cuenta personal de Jorge | Jorge | Gratis |
+| **Tailscale** | Túnel del netbook (`net-casa.tailfb7a36.ts.net`) | https://login.tailscale.com | Jorge | Jorge | Gratis |
+| **Gmail** | Correo actual del bot de novedades (a reemplazar por Brevo) | `jorge.domotica34@gmail.com` | Jorge | Jorge | Gratis |
+
+### Credenciales: dónde viven (nunca en este documento)
+
+| Credencial | Ubicación |
+|---|---|
+| Clave SSH del VPS | `C:\Users\Jorge\Documents\deepseek-harness\default-workspace\.ssh_keys\ferias_ed25519` (privada) |
+| Clave SSH del netbook | `.ssh_keys\id_rsa` |
+| Contraseña de root del VPS | Solo para la **consola VNC** del panel de DonWeb (el SSH no acepta contraseña) |
+| `FERIAS_SECRETO` (firma de sesiones) | En el archivo de unidad `/etc/systemd/system/ferias.service` |
+| Clave SMTP de Novedades | `/home/jorge/rayuela_scrapping/servicio/.env` en el netbook |
+| PIN de la app de Novedades | Idem (`NOVEDADES_PIN`) |
+| Claves de usuario de la app de ferias | Solo hashes (scrypt) en la base |
+
+> **Al traspasar**: entregar las claves por un canal seguro (gestor de contraseñas, no
+> por mail), y **rotarlas todas** después del traspaso.
+
+---
+
+## 3. Infraestructura
+
+### 3.1 VPS
+
+| Dato | Valor |
+|---|---|
+| IP pública | `201.32.132.197` |
+| Hostname | `vps-6586187-x` |
+| Sistema | Ubuntu 24.04.5 LTS, kernel 6.8.0-147 |
+| CPU / RAM / Disco | 2 vCPU / 1960 MB / 14 GB (12 GB libres al 03/11) |
+| Zona horaria | America/Argentina/Buenos_Aires |
+| SSH | puerto **5186**, solo con clave (`PasswordAuthentication no`, `PermitRootLogin prohibit-password`). El puerto 22 se cerró el 03/11/2026 |
+| Puertos abiertos (ufw) | 5186/tcp, 80/tcp, 443/tcp |
+| Acceso de emergencia | **Consola VNC** del panel de DonWeb (contraseña de root) |
+
+**Servicios activos**: `ferias` (5050), `ferias-prueba` (5051), `nginx`, `fail2ban`,
+`unattended-upgrades`, `rayuela-respaldo.timer` (respaldo diario 03:10, ver §8). Los dos servicios de la app escuchan **solo en 127.0.0.1**: no
+son accesibles desde internet sin pasar por nginx.
+
+### 3.2 nginx
+
+Sitios en `/etc/nginx/sites-available/` (enlazados en `sites-enabled/`):
+
+| Archivo | Sirve |
+|---|---|
+| `frerias` → ver `ferias` | `201.32.132.197.sslip.io` y la IP — **nombre temporal de respaldo** (se retira cuando se confirme el uso en celulares) |
+| `rayuela-apps` | `ferias.rayuelalaplata.com.ar` (app) y `lector.rayuelalaplata.com.ar` (lector directo en `/`) |
+| `prueba` | `prueba.rayuelalaplata.com.ar` (ambiente de prueba + cartel inyectado con `sub_filter`) |
+
+Archivos compartidos:
+
+| Archivo | Contenido |
+|---|---|
+| `/etc/nginx/conf.d/99-rayuela.conf` | `server_tokens off`, `limit_req_status 429`, zonas de límite (`rayuela_general` 20 r/s, `rayuela_login` 30 r/m, `rayuela_conn`), y `map $request_uri $rayuela_basura` que corta rutas de escaneo (`.env`, `.git`, `wp-*`, `phpmyadmin`, `*.php`, etc.) con `444` |
+| `/etc/nginx/proxy_rayuela.conf` | Cabeceras de proxy (`Host`, `X-Real-IP`, `X-Forwarded-*`) |
+
+Cabeceras de seguridad en los bloques HTTPS: `Strict-Transport-Security`,
+`X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`,
+`Permissions-Policy` (cámara solo mismo origen), `X-Robots-Tag: noindex`,
+`Content-Security-Policy`.
+
+Límites por bloque: `limit_conn rayuela_conn 20`, `limit_req zone=rayuela_general
+burst=40 nodelay`, y en `location = /ingresar` `limit_req zone=rayuela_login burst=10`.
+Timeouts de cuerpo/cabecera 15 s (frena slowloris).
+
+### 3.3 Certificados (Let's Encrypt, renovación automática con `certbot.timer`)
+
+| Nombre | Dominios | Vence |
+|---|---|---|
+| `rayuela-apps` | `ferias.` y `lector.rayuelalaplata.com.ar` | 31/01/2027 |
+| `prueba.rayuelalaplata.com.ar` | `prueba.…` | 01/02/2027 |
+| `201.32.132.197.sslip.io` | el nombre temporal | 30/01/2027 |
+
+La validación es **HTTP-01 por webroot** (`/var/www/html`), por eso los bloques del
+puerto 80 tienen `location /.well-known/acme-challenge/` **antes** del redirect.
+
+> **Error histórico a no repetir**: un `return 301` a nivel de `server` se ejecuta
+> antes de elegir el `location`, y rompe el challenge. El `return` tiene que estar
+> dentro de `location /`.
+
+### 3.4 DNS
+
+**`rayuelalaplata.com.ar`** (gestionado en Cloudflare, **sin proxy: nube gris**):
+
+| Registro | Nombre | Valor |
+|---|---|---|
+| A | `ferias` | 201.32.132.197 |
+| A | `lector` | 201.32.132.197 |
+| A | `prueba` | 201.32.132.197 |
+| — | apex (`@`) | **sin registro**: no existe web pública (decisión: el apex queda para el portal futuro) |
+
+Nameservers: `nina.ns.cloudflare.com`, `cosmin.ns.cloudflare.com` (delegados desde NIC.ar).
+
+**`rayuelalibros.com.ar`** (Hostinger, **no tocar sin plan**: tiene el correo de Rayuela):
+
+| Registro | Valor | Nota |
+|---|---|---|
+| A `@` | 147.79.105.238 · 89.116.213.115 | sitio actual |
+| AAAA `@` | 2a02:4780:18:31b:b889:22cd:de88:caf0 · 2a02:4780:2f:64b:f650:d824:c048:5767 | idem |
+| CNAME `www` | `www.rayuelalibros.com.ar.cdn.hstgr.net` | |
+| MX | `mx1.hostinger.com` (5) · `mx2.hostinger.com` (10) | **correo** |
+| TXT `@` | `v=spf1 include:_spf.mail.hostinger.com ~all` | SPF |
+| CNAME `autodiscover` | `autodiscover.mail.hostinger.com` | clientes de correo |
+| TXT `_dmarc` | `v=DMARC1; p=none` | |
+| TXT `hostingermail-a._domainkey` | DKIM completo | firma del correo |
+| NS | `hyperion.dns-parking.com`, `atlas.dns-parking.com` | Hostinger |
+
+> Si algún día hay que mudar ese DNS, **copiar los 10 registros** (incluido DKIM) y
+> probar el correo antes y después. Windows/Outlook usan `autodiscover`.
+
+### 3.5 Netbook del local
+
+| Dato | Valor |
+|---|---|
+| IP / usuario | `192.168.1.19` / `jorge` (**sin sudo**: usar `su -` y la clave de root) |
+| Sistema | Debian de 32 bits (hardware viejo, funciona como servidor local) |
+| Túnel | `net-casa.tailfb7a36.ts.net`, configuración en `/etc/tunel-apps.conf`, verificador `funnel-check` |
+| Servicios | `rayuela-novedades` (5060), `gastos` (5000), `presupuestito` (5001), Node-RED (1880) |
+| **App de ferias** | **detenida y deshabilitada** (migró al VPS el 01/11/2026) |
+
+El túnel publica `/gastos`, `/presupuestos`, `/novedades` y otros. Republicar el túnel
+corta el servicio 30-40 segundos.
+
+---
+
+## 4. Aplicaciones
+
+### 4.1 App de ferias + lector de precios (Flask)
+
+| Dato | Valor |
+|---|---|
+| Código | `/opt/rayuela/ferias` (dueño `rayuela`) |
+| Servicio | `ferias.service`, puerto 5050, `Restart=always` |
+| Base | `/opt/rayuela/ferias/ferias.db` (SQLite) |
+| Entorno virtual | `/opt/rayuela/ferias/venv` (Python 3.12.3, Flask 3.1.3) |
+| Variables | `FERIAS_PUERTO=5050`, `FERIAS_DB=…`, `FERIAS_PREFIJO=` (vacío), `FERIAS_SECURE=1`, `FERIAS_SECRETO=<64 hex>` |
+| Endurecimiento de la unidad | `NoNewPrivileges`, `PrivateTmp`, `ProtectSystem=full`, `ReadWritePaths=/opt/rayuela/ferias` |
+
+**Funciones**: ferias, stock por feria, ventas, caja, reposiciones, reservas, precios,
+usuarios con roles, manual (`/manual`), estado (`/salud`), `robots.txt` con `Disallow: /`.
+
+**Lector de precios** (misma app):
+
+| URL | Modo |
+|---|---|
+| `https://lector.rayuelalaplata.com.ar` | **cliente**: escanea, arma lista de deseos, copia o envía por WhatsApp |
+| `https://lector.rayuelalaplata.com.ar/?m=v` (también `?modo=vendedor`) | **vendedor**: ficha completa + casilla "Armar lista" |
+
+Detalles del lector: corte por inactividad de 30 minutos (fijo hoy, se hará
+configurable), cámara liberada al cambiar de pestaña (`visibilitychange`), lista en
+memoria (hoy se pierde al recargar: se va a persistir), mensaje formateado por
+`static/lector_lista.js` (probado aparte con Node).
+
+**Seguridad de la app**: 10 intentos fallidos por IP en 15 min → bloqueo 15 min (HTTP
+429); claves de 8 caracteres mínimo; sesiones con cookie firmada (`FERIAS_SECRETO`).
+
+### 4.2 Ambiente de prueba
+
+| Dato | Valor |
+|---|---|
+| Código | `/opt/rayuela/prueba` (copia de producción) |
+| Servicio | `ferias-prueba.service`, puerto 5051, **secreto propio** |
+| Base | `/opt/rayuela/prueba/ferias.db` (copia) |
+| URL | `https://prueba.rayuelalaplata.com.ar` |
+| Cartel | Inyectado por nginx con `sub_filter` al final del `</body>`: "AMBIENTE DE PRUEBA - los datos no son reales" |
+| Refrescar datos | `sudo /root/refrescar-prueba.sh` (frena, copia con `sqlite3 .backup`, arranca) |
+
+Regla de trabajo: **nada se instala en producción sin pasar por `prueba.`**.
+
+### 4.3 Bot de novedades (scraping)
+
+| Dato | Valor |
+|---|---|
+| Código | `/home/jorge/rayuela_scrapping` en el netbook |
+| Servicio | `rayuela-novedades.service`, puerto 5060 |
+| URL | `https://net-casa.tailfb7a36.ts.net/novedades` |
+| Config | `/home/jorge/rayuela_scrapping/servicio/.env` (SMTP, PIN) |
+| PIN actual | en ese `.env` (no en este documento) |
+| Uso | escanea sitios de editoriales/distribuidoras, encuentra novedades, arma planillas y las manda por mail |
+
+### 4.4 Otros (de Jorge, no de Rayuela)
+
+`gastos` (Cuenta Clara, 5000), `presupuestito` (5001), Node-RED (1880). Proyectos
+separados: no se mezclan con los de Rayuela.
+
+---
+
+## 5. Base de datos
+
+SQLite, un archivo: `/opt/rayuela/ferias/ferias.db` (180 KB al 03/11/2026).
+
+| Tabla | Contenido |
+|---|---|
+| `ferias` | eventos (nombre, lugar, fecha, estado) |
+| `libros` | catálogo propio: ISBN, título, autor, precio, editorial, colección, temas |
+| `feria_libros` | stock por feria (un libro por feria con cantidad) |
+| `movimientos` | historial de stock/cambios por feria |
+| `ventas`, `venta_items` | ventas de feria |
+| `formas_pago` | medios de pago |
+| `arqueos` | cierres de caja |
+| `reservas`, `reserva_items` | reservas |
+| `reposiciones` | reposiciones |
+| `clientes` | clientes (futuro: listas de deseos) |
+| `usuarios` | usuarios con rol (`admin`, `vendedor`, `repositor`) y hash scrypt |
+| `dispositivos` | dispositivos/lectores registrados |
+| `contadores` | numeración interna |
+| `ajustes` | configuración de la app |
+
+### Comandos
+
+```bash
+# respaldo consistente (no copiar el archivo a mano con la app escribiendo)
+sudo -u rayuela sqlite3 /opt/rayuela/ferias/ferias.db ".backup '/root/ferias-$(date +%F).db'"
+
+# inspeccionar
+sudo -u rayuela sqlite3 /opt/rayuela/ferias/ferias.db "select count(*) from libros;"
+
+# restaurar (con el servicio detenido)
+sudo systemctl stop ferias
+sudo cp /root/ferias-2026-11-03.db /opt/rayuela/ferias/ferias.db
+sudo chown rayuela:rayuela /opt/rayuela/ferias/ferias.db
+sudo systemctl start ferias
+```
+
+---
+
+## 6. Procedimientos (runbook)
+
+### 6.1 Verificación rápida (siempre lo primero)
+
+```bash
+# en el VPS
+systemctl is-active ferias ferias-prueba nginx fail2ban
+curl -s https://ferias.rayuelalaplata.com.ar/salud      # {"app":"ferias","ok":true}
+curl -s https://lector.rayuelalaplata.com.ar/salud      # 200
+df -h / | tail -1
+```
+
+```powershell
+# desde cualquier máquina (externo, es lo que vale)
+# abrir https://ferias.rayuelalaplata.com.ar/salud en el navegador
+```
+
+### 6.2 Acceso al VPS
+
+```powershell
+ssh -i .ssh_keys\ferias_ed25519 -p 5186 root@201.32.132.197
+```
+
+Si el SSH no responde: panel de DonWeb → **Consola VNC** → entrar como root con la
+contraseña del servidor (el SSH no acepta contraseña a propósito).
+
+### 6.3 Deploy de la app de ferias
+
+```bash
+# 1. en la PC: pruebas locales
+python tests_flujo.py          # tiene que decir TODO OK
+
+# 2. copiar solo lo que cambió (nunca el venv ni ferias.db)
+scp -i .ssh_keys/ferias_ed25519 -P 5186 <archivos> root@201.32.132.197:/opt/rayuela/ferias/
+
+# 3. dueño + reinicio
+ssh ... 'chown -R rayuela:rayuela /opt/rayuela/ferias && systemctl restart ferias'
+
+# 4. verificar desde afuera, no desde el servidor
+```
+
+- Cambios en **estáticos** (`.js`, `.css`, imágenes): no requieren reinicio.
+- Cambios en **plantillas** (`.html`): requieren reinicio.
+- Si se toca el lector: **subir el `?v=`** en `base.html` / `lector.html` (los celulares cachean).
+
+### 6.4 Deploy en el ambiente de prueba (recomendado antes de producción)
+
+```bash
+rsync -a --exclude venv --exclude 'ferias.db*' --exclude __pycache__ \
+      /opt/rayuela/ferias/ /opt/rayuela/prueba/
+chown -R rayuela:rayuela /opt/rayuela/prueba
+systemctl restart ferias-prueba
+```
+
+### 6.5 Agregar un subdominio nuevo
+
+1. Cloudflare → DNS → `A <nombre> 201.32.132.197`, **DNS only**
+2. En el VPS: copiar un bloque de `sites-available/rayuela-apps` y cambiar `server_name`
+3. Primero solo puerto 80 (con el `location /.well-known/acme-challenge/`), `nginx -t`,
+   `reload`
+4. `certbot certonly --webroot -w /var/www/html -d <nombre> --non-interactive --agree-tos -m <mail>`
+5. Agregar el bloque 443 con el certificado nuevo, `nginx -t`, `reload`
+6. Verificar **desde afuera**
+
+### 6.6 Renovación de certificados
+
+Automática (`certbot.timer`, dos veces por día). Verificar:
+
+```bash
+certbot certificates
+certbot renew --dry-run     # prueba sin emitir
+```
+
+### 6.7 Rollback
+
+| Caso | Cómo |
+|---|---|
+| Código mal instalado | Restaurar los archivos anteriores (copia previa o `git` del workspace) + `systemctl restart ferias` |
+| Base dañada | Restaurar el último respaldo (5. Comandos) |
+| Volver a la netbook (ferias) | En el netbook: `su -`, `systemctl enable --now ferias` (tiene la misma base y claves) |
+| Dominio con problemas | El nombre temporal `https://201.32.132.197.sslip.io` sigue activo como respaldo |
+
+### 6.8 Rotar una credencial
+
+| Credencial | Cómo |
+|---|---|
+| `FERIAS_SECRETO` | Editar `Environment=` en `/etc/systemd/system/ferias.service`, `daemon-reload`, `restart` (invalida todas las sesiones) |
+| Clave de usuario de la app | Panel → Usuarios → cambiar clave |
+| Clave SMTP | Panel de Brevo → revocar y generar nueva → actualizar `.env` → `restart` |
+| Clave SSH | Generar par nuevo, agregar la pública a `/root/.ssh/authorized_keys`, probar, **después** borrar la vieja |
+
+### 6.9 Respaldos (automático, diario 03:10)
+
+El timer `rayuela-respaldo.timer` ejecuta `/usr/local/bin/rayuela-respaldo.sh`, que:
+
+1. Hace un dump **consistente** de la base (`sqlite3 .backup`) y lo comprime en
+   `/var/backups/rayuela/ferias-AAAA-MM-DD.db.gz`
+2. **Verifica** que el dump abra y tenga libros (si falla, deja "FALLA" en el log y sale con error)
+3. Guarda un tar con las configuraciones (`nginx`, unidades de systemd, `sshd_config`,
+   renovación de Let's Encrypt) en `config-AAAA-MM-DD.tar.gz`
+4. Borra lo que tenga más de 14 días
+
+```bash
+# ver estado
+systemctl list-timers rayuela-respaldo.timer
+cat /var/backups/rayuela/respaldo.log | tail -5
+
+# forzar un respaldo ahora
+systemctl start rayuela-respaldo.service
+
+# restaurar la base desde un respaldo
+systemctl stop ferias
+zcat /var/backups/rayuela/ferias-2026-11-03.db.gz > /opt/rayuela/ferias/ferias.db
+chown rayuela:rayuela /opt/rayuela/ferias/ferias.db
+systemctl start ferias
+curl -s https://ferias.rayuelalaplata.com.ar/salud
+```
+
+> Los respaldos están **en el mismo servidor**: sirven para errores de datos y
+> restauraciones puntuales, no para perder el servidor entero (para eso está el
+> snapshot de DonWeb). Si en el futuro se quiere copia fuera del servidor, se puede
+> bajar el `.db.gz` por `scp` o sincronizar a otro lado.
+
+---
+
+---
+
+## 7. Seguridad
+
+### 7.1 Qué está aplicado
+
+**SSH**: puerto 5186, solo clave pública, `PermitRootLogin prohibit-password`,
+`PasswordAuthentication no`.
+
+> **Atención al cambiar el puerto de SSH**: Ubuntu 24.04 usa activación por socket.
+> Los puertos que escucha se generan desde `Port` de `sshd_config` con
+> `sshd-socket-generator`. Después de cambiar `Port` hay que hacer
+> `systemctl daemon-reload` y **reiniciar `ssh.socket`** (no alcanza con recargar
+> `ssh.service`): un `reload` deja los sockets viejos abiertos.
+
+**Firewall (ufw)**: solo 5186, 80 y 443.
+
+**fail2ban** (dos cárceles):
+
+| Cárcel | Regla | Ban |
+|---|---|---|
+| `sshd` | 4 fallas | 24 h |
+| `nginx-rayuela-limit` | 5 excesos del límite de nginx | 6 h |
+
+`ignoreip` incluye 127.0.0.1 y la IP del propio VPS (para no autobloquearse al probar).
+
+**nginx**: `server_tokens off` (no revela versión), rutas de escaneo cortadas con 444,
+límites de tasa y de conexiones, timeouts cortos, cabeceras de seguridad, HSTS.
+
+**Aplicación**: freno de intentos en el login (10 fallas por IP en 15 min → 429 y
+bloqueo 15 min), claves de 8 caracteres mínimo, `robots.txt` con `Disallow: /`,
+cabecera `X-Robots-Tag: noindex` (el sitio no se indexa).
+
+**Sistema**: actualizaciones de seguridad automáticas (`unattended-upgrades`), servicios
+con usuario no privilegiado `rayuela` y `ProtectSystem=full`.
+
+### 7.2 Qué hacer si hay un incidente
+
+1. **Sospecha de acceso**: `last -20`, `journalctl -u sshd --since today`,
+   `fail2ban-client status sshd`
+2. **Bloquear**: `fail2ban-client set sshd banip <ip>` (o regla ufw)
+3. **Sospecha de compromiso**: cambiar contraseña de root (consola), rotar
+   `FERIAS_SECRETO`, rotar claves de usuario, revisar `/root/.ssh/authorized_keys`
+4. **Restaurar** desde respaldo si hay datos alterados
+5. **Registrar** qué pasó, cuándo y qué se cambió
+
+### 7.3 Pendiente (ver §11)
+
+Respaldo automático de la base, cierre definitivo del puerto 22 en sshd, y sacar el
+nombre temporal `sslip.io` cuando ya no haga falta.
+
+---
+
+## 8. Respaldos y recuperación
+
+### 8.1 Qué hay hoy
+
+| Respaldo | Frecuencia | Dónde |
+|---|---|---|
+| Snapshot del VPS | Diario (plan Premium de DonWeb) | Panel de DonWeb |
+| **Dump automático de la base + configuraciones** | **Diario 03:10** (retención 14 días) | `/var/backups/rayuela/` — ver §6.9 |
+| Copia manual de la base | Puntual, antes de cambios de datos | `/opt/rayuela/ferias/ferias.db.antes-de-…` y `/root/` |
+| Base de la netbook (ex ferias) | Congelada al 01/11/2026 | netbook `/home/jorge/ferias/ferias.db` |
+| Repositorios de código | Git privado | GitHub `rayuela-ferias`, `rayuela-novedades` |
+
+**RPO actual**: **24 h** (dump propio diario + snapshot diario del proveedor). **RTO
+estimado**: 10-15 minutos (restaurar archivo de base y reiniciar el servicio).
+
+### 8.2 Cómo restaurar el servidor completo
+
+1. Panel de DonWeb → restaurar el snapshot elegido
+2. Verificar: `systemctl status ferias nginx`, `curl https://ferias.…/salud`
+3. Si el snapshot es viejo, restaurar la base del último dump disponible
+
+---
+
+## 9. Pruebas
+
+| Qué | Comando | Resultado esperado |
+|---|---|---|
+| App de ferias (215 verificaciones) | `cd ferias_app && python tests_flujo.py` | `TODO OK`, 0 fallas |
+| Formato del mensaje de la lista (12) | `node ferias_app/_test_texto_lista.js` | `TODO OK` |
+| Scraper de novedades | `python tests/test_sitios.py` (+ `test_isbn`, `test_web`) | `TODO OK` |
+
+Las pruebas de ferias usan una base temporal (`FERIAS_DB=_test_tmp`) y **no tocan
+producción**. En el servidor corren con:
+`runuser -u rayuela -- ./venv/bin/python tests_flujo.py`
+
+---
+
+## 10. Estado del proyecto
+
+### Hecho y en producción
+
+- App de ferias migrada del netbook al VPS (HTTPS, dominio propio, 215 pruebas OK)
+- Lector de precios con dos modos (cliente / vendedor) y mensaje de WhatsApp
+- Endurecimiento completo (SSH, firewall, fail2ban, nginx, app)
+- Ambiente de prueba independiente con cartel identificatorio
+- Repositorios privados de código
+- QR definitivos generados y verificados
+- Netbook con la app de ferias **detenida y deshabilitada** (rollback disponible)
+
+### En curso / próximos
+
+Ver **`RAYUELA-BACKLOG.md`** (módulos aprobados con decisiones y costos):
+lector con horario, encabezado/pie configurables, búsqueda del tesoro con tarjetas,
+listas de deseos compartibles sin precios, docentes y listas de material,
+panel en módulos, correo con Brevo.
+
+### Regla de trabajo durante la feria
+
+**El viernes 6/11 no se toca nada.** Lector congelado desde el jueves.
+
+---
+
+## 11. Riesgos y deuda técnica
+
+| # | Riesgo | Impacto | Estado |
+|---|---|---|---|
+| 1 | ~~No hay dump automático de la base~~ | Alto | **RESUELTO 03/11/2026**: timer diario con verificación de que el dump abre |
+| 2 | El DNS del dominio principal (`rayuelalibros.com.ar`) está en la cuenta de Hostinger que administra un tercero | Medio | Rayuela tiene el dominio en NIC.ar: puede recuperar el control cambiando nameservers |
+| 3 | El DNS de `rayuelalaplata.com.ar` está en una cuenta personal de Jorge | Medio | Respaldo: NIC.ar (titular Rayuela). Se puede migrar a una cuenta de Rayuela en 10 min |
+| 4 | El bot de novedades manda desde un Gmail personal | Medio | Se resuelve con Brevo (en curso) |
+| 5 | El lector depende del Bridge en vivo para precios | Medio | Con la réplica local (pendiente, ver backlog) deja de depender |
+| 6 | ~~Puerto 22 abierto en sshd~~ | Bajo | **RESUELTO 03/11/2026**: solo escucha 5186 |
+| 7 | Nombre temporal `sslip.io` todavía activo | Bajo | Retirar cuando se confirme el uso en celulares |
+| 8 | Netbook con hardware viejo (32 bits) y servicios de Jorge mezclados con Novedades | Bajo | Documentado; separación futura |
+| 9 | La lista del lector se pierde al recargar | Bajo | Se resuelve en el módulo 1 |
+
+---
+
+## 12. Checklist de traspaso
+
+Si Jorge deja de mantener esto, en este orden:
+
+**Cuentas y accesos**
+1. Transferir la cuenta de Cloudflare (o al menos el acceso al DNS) a Rayuela
+2. Acceso al panel de DonWeb (VPS) con facturación a nombre de Rayuela
+3. Confirmar quién tiene la Clave Fiscal de NIC.ar y los dominios a nombre de Rayuela
+4. Acceso al panel de Hostinger del correo (no tocar; solo tener el acceso)
+5. Cuenta de Brevo (cuando esté activa)
+6. Entregar claves SSH (canal seguro) y **rotarlas**
+7. Repositorios de GitHub: agregar a la persona como colaborador
+
+**Conocimiento**
+8. Leer este documento + `RAYUELA-BACKLOG.md` + `RAYUELA-REGLAS.md`
+9. Leer `SERVIDOR-DESPLIEGUE-Y-TUNEL.md` (netbook y túnel)
+10. Recorrer el runbook (§6) una vez con Jorge al lado
+
+**Verificación final**
+11. Correr las pruebas (§9)
+12. Hacer un deploy de prueba en `prueba.` y uno real en producción
+13. Restaurar un respaldo en un entorno aislado (probar que funciona)
+14. Rotar todas las credenciales
+15. Registrar en este documento quién quedó a cargo y desde qué fecha
+
+---
+
+## 13. Glosario
+
+| Término | Significado |
+|---|---|
+| **VPS** | Servidor virtual privado (la máquina en DonWeb) |
+| **nginx** | Servidor web que recibe el tráfico y lo deriva a la app |
+| **systemd** | Sistema que arranca y vigila los servicios del servidor |
+| **Let's Encrypt / certbot** | Certificados HTTPS gratis y su herramienta de renovación |
+| **DNS / nameserver** | Sistema que traduce el nombre del dominio a la IP |
+| **Cloudflare** | Proveedor de DNS (y opcionalmente proxy) |
+| **Delegación** | Acción en NIC.ar de indicar qué nameservers administran el dominio |
+| **Bridge** | Sistema de gestión de la librería (dueño de precios y stock) |
+| **SQLite** | Base de datos en un solo archivo |
+| **fail2ban** | Banea IPs que fallan repetidamente |
+| **ufw** | Firewall del servidor |
+| **staging / ambiente de prueba** | Copia aislada para probar sin riesgo |
+| **snapshot** | Foto completa del servidor en un momento dado |
+| **RPO / RTO** | Cuánta información puedo perder / cuánto tarda volver a andar |
+| **PWA** | App web instalable en el celular (icono en pantalla de inicio) |
+| **voucher** | Tarjeta/vale de pago que hoy se usa en el local y Bridge no contempla |
+
+---
+
+## Historial del documento
+
+| Fecha | Cambio |
+|---|---|
+| 03/11/2026 | Primera versión completa, con inventario verificado en el servidor |

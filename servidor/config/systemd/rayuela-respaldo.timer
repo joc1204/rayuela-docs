@@ -1,0 +1,10 @@
+[Unit]
+Description=Respaldo diario de Rayuela a las 03:10
+
+[Timer]
+OnCalendar=*-*-* 03:10:00
+Persistent=true
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target
