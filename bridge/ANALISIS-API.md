@@ -178,3 +178,30 @@ Luis la URL real (host y puerto) y confirmar que el token `api__…` es para ese
    para la primera carga.
 5. ¿Hay endpoints de **ventas** o solo de **reservas**?
 6. ¿Qué significan los valores de **`estado`** y qué identifica a un artículo "activo"?
+---
+
+## Corrección (03/11/2026): la v1 no está publicada en el servidor de Rayuela
+
+Prueba de puertos y protocolos sobre `rayuela1.serveftp.net`:
+
+| Puerto | Estado | Protocolo | Resultado de `/BSGestion/api/productos` |
+|---|---|---|---|
+| 80 | cerrado | — | — |
+| 443 | abierto | **HTTP plano** (no TLS: "wrong version number") | HTTP 404 |
+| 9090 | abierto | HTTP | HTTP 404 (v0 sí responde en `/rest/webservice/...`) |
+| 8080, 8081, 8443, 9000, 9091, 9092, 9443 | cerrados | — | — |
+
+**Conclusión:** la v1 (`https://[servidor]/BSGestion/api`) **no está instalada en la
+instalación de Rayuela**. Coincide con lo que dijo Luis: "cuando se actualice la versión
+del BS te va a pedir el mismo token" → la v1 viene con la versión nueva del sistema, que
+todavía no está puesta acá o está en un servidor de Bridge.
+
+**Falta:** que Luis pase la **URL real** (host y puerto) del entorno donde la v1 está
+publicada, y si ese servidor es de Bridge o de Rayuela.
+
+## Decisión de diseño (para no quedarse esperando)
+
+Construir la integración contra la **v0 documentada** (que funciona hoy y tiene: precio,
+stock, tapa, sinopsis, propiedades de libro e incrementales), con una **capa de
+adaptador** que permita enchufar la v1 cuando esté disponible (para códigos de barras,
+`ventaDiscontinua`, nombres de clasificación y precios con IVA).
