@@ -1,0 +1,220 @@
+Índice
+[TABLA]
+Información del Artículo / Listado de Artículos / Listado de Artículos Nuevos / Listado de Bancos / Listado de Cuentas Bancarias / Listado de Categorías de Contribuyente / Listado de Tipo de Identificación de cliente / Listado de Formas de Pago / Listado de Formas de Pago / Listado de Lista de Precios / Listado de Rubros / Listado de Categorías / Listado de Marcas / Listado de Tasas / Listado de Unidades / Listado de Empresas / Listado de Productos / Realizar Reserva | 
+ | 
+ | 
+ | 
+[/TABLA]
+Información de Artículo
+1 - Descripción: Retorna información de un artículo especifico
+Pedido GET
+http://{ip}:{puerto}/{sistema}/rest/webservice/articulo/{codigoArticulo}
+Parámetros
+CódigoArticulo
+Respuesta
+Código, Descripción, Detalle, Imagen, Marca, Moneda, Precio Lista, propiedades{propiedad,valor}, stockVenta.
+Nota: el campo propiedades es  opcional. Las propiedades q pueden ser pasadas como parámetros son las propiedades dinámicas definidas para los artículos. Las mismas se pasan separadas por coma. Consultar dichas propiedades para cada instalación particular.
+Ej: http://localhost:8080/BSGestion/rest/webservice/articulo/134
+Respuesta: {"codigo":"IC0414644Y06","descripcion":" AUTOESTEREO NOBLEX NXC1039BT ","detalle":" AUTOESTEREO NOBLEX NXC1039BT ","imagen":"","marca":"NOBLEX","moneda":"$","precioLista":1668.6,"propiedades":null,"stockVenta":1.0}
+2 - Descripcion: Retorna información particular del artículo enviado como parametro., las opciones pueden ser:
+precio|stock|imagen|propiedades|atributos
+Pedido GET
+http:// {ip}:{puerto}/{sistema}/rest/webservice/ articulo/{codigo}/ {precio|stock|imagen|propiedades|atributos}
+ejemplo:
+http:// {ip}:{puerto}/{sistema}//rest/webservice/articulo/9789874201355/precio
+Respuesta:  {"codigo":"9789874201355","moneda":"$","precioLista":12500.0}
+Listado de Artículos
+Descripcion: Retorna un listado con alguna de las propiedades de aquellos artículos q tuvieron una modificación posterior a la fecha y hora indicados. Las propiedades disponibles son precio, stock e imagen.
+Pedido GET
+http:// {ip}:{puerto}/{sistema}/rest/webservice/articulos/{precio|stock|imagen|propiedades|atributos}/{anio}/{mes}/
+{dia}/{HHmm} /{pagina}
+Parámetros
+Tipo de dato a obtener: precio, stock, imagen, propiedades, atributos
+Anio, mes, dia, HHmm: fecha a partir de la que se realiza la consulta
+Respuesta
+Tipo de dato = precio -> código de artículo, moneda, precio lista
+Tipo de dato = stock -> código de artículo, stock venta
+Tipo de dato = imagen -> código de artículo, imagen
+Tipo de dato = propiedades -> retorna todas las propiedades del articulo
+Tipo de dato = atributos -> retorna solo los atributos adicionales del articulo
+Nota: Cantidad máxima 100 registros
+Ej: http://localhost:8080/BSGestion/rest/webservice/articulos/precio/2018/03/29/0000/1
+Respuesta:
+[{"codigo":"885911386609","moneda":"$","precioLista":3307.3},{"codigo":"885911106771","moneda":"$","precioLista":2092.38},{"codigo":"885911106627","moneda":"$","precioLista":4389.64},{"codigo":"885911217132","moneda":"$","precioLista":9840.67},{"codigo":"885911144100","moneda":"$","precioLista":3417.22}]
+Listado de Artículos Nuevos
+Descripcion: Retorna un listado con los artículos nuevos posteriores a la fecha pasada como parámetros
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/webservice/articulos/nuevos/{anio}/{mes}/{dia}/{HHmm}/{pagina}/{propiedades}
+Parámetros
+Anio, mes, dia, HHmm: fecha a partir de la que se realiza la consulta
+Pagina: numero de pagina
+Opcional: propiedades dinámicas del articulo
+Respuesta
+Código, Descripción, Detalle, Marca, Moneda, Precio Lista, Propiedades, Stock Venta, Imagen
+Ejemplo:
+Nota: Cantidad máxima 100 registros
+Listado de Bancos
+Descripcion:  Devuelve listado de bancos
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/webservice/bancos
+Parámetros
+No recibe parametros
+Respuesta
+id, codigo, descripcion
+Nota: Cantidad máxima 100 registros
+Ejemplo: http://localhost:8080/BSGestionTest/rest/webservice/bancos
+Listado de Cuentas Bancarias
+Descripcion:  Devuelve listado de cuentas bancarias
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/webservice/ cuentasbancarias
+Parámetros
+No recibe parametros
+Respuesta
+Id, numero, cbu, empresa, banco,
+Nota: Cantidad máxima 100 registros
+Ejemplo:  http:// localhost:8080/BSGestionTest/rest/webservice/cuentasbancarias
+{"datos":[{"id":7242,"numero":"050516/1","cbu":"0140032801503305051614","empresa":1,"banco":"BANCO DE LA PROVI. DE BUENOS AI."},{"id":7109,"numero":"0075-196118136","cbu":"","empresa":1,"banco":"CITIBANK N.A."},{"id":7290,"numero":"006612/7","cbu":"0720019921000000661273","empresa":1,"banco":"SANTANDER RIO"},{"id":17,"numero":"006006/8","cbu":"07200199 20000000600686","empresa":1,"banco":"SANTANDER RIO"}]}
+Listado de Categorías de Contribuyente
+Descripcion: Devuelve listado de categorias de contribuyente
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/webservice/ categoriascontribuyente
+Parámetros
+No recibe parametros
+Respuesta
+Id, name,
+Nota: Cantidad máxima 100 registros
+Ejemplo: http:// localhost:8080/BSGestionTest/rest/webservice/categoriascontribuyente
+[{"id":4,"name":"Consumidor final"},{"id":6,"name":"Exento"},{"id":1,"name":"Monotributista"},{"id":2,"name":"Responsable inscripto"},{"id":3,"name":"Responsable no inscripto"},{"id":5,"name":"Responsables Factura M"}]
+Listado de Tipo de Identificación de cliente
+Descripcion: Devuelve listado de tipos de identificación
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/webservice/ tipoidentificacioncliente
+Parámetros
+No recibe parametros
+Respuesta
+Id, type,
+Nota: Cantidad máxima 100 registros
+Ejemplo: : http:// localhost:8080/BSGestionTest/rest/webservice/ tipoidentificacioncliente
+[{"id":5,"type":"CE"},{"id":2,"type":"CUIL"},{"id":3,"type":"CUIT"},{"id":1,"type":"DNI"},{"id":4,"type":"LE"},{"id":6,"type":"OTROS"}]
+Listado de Formas de Pago
+Descripcion: Devuelve listado de formas de pago
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/webservice/ formaspago
+Parámetros
+No recibe parametros
+Respuesta
+Id, codigo, cbu, descripcion, empresa,tipo,
+Nota: Cantidad máxima 100 registros
+Ejemplo:  http:// localhost:8080/BSGestionTest/rest/webservice/ formaspago
+Listado de Formas de Pago
+Descripcion: Devuelve listado de centro de  costo
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/ centroscosto/{empresa}/{vendedor}
+Parámetros 
+empresa, vendedor
+Respuesta 
+Id, numero, descripcion, empresa,
+Nota: Cantidad máxima 100 registros
+Ejemplo: http://localhost:8080/BSGestionTest/rest/webservice/centroscosto/1/1001
+Listado de Lista de Precios
+Descripcion: Devuelve listado de lista de precios
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/ listaprecios
+Parámetros
+No recibe parametros
+Respuesta 
+Id, denominación,
+Nota: Cantidad máxima 100 registros
+Ejemplo:  http:// localhost:8080/BSGestionTest/rest/webservice/ listaprecios
+Listado de Rubros
+Descripcion: Devuelve listado de rubros
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/ rubros
+Parámetros
+No recibe parametros
+Respuesta 
+Id, codigoAuto,nombre,
+Nota: Cantidad máxima 100 registros
+Ejemplo:  http:// localhost:8080/BSGestionTest/rest/webservice/ rubros
+Listado de Categorías
+Descripcion: Devuelve listado de categorías
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/ categorias
+Parámetros
+No recibe parametros
+Respuesta 
+Id, nombre, codigoAuto, idRubro,
+Nota: Cantidad máxima 100 registros
+Ejemplo:  http:// localhost:8080/BSGestionTest/rest/webservice/ categorias
+Listado de Marcas
+Descripcion: Devuelve listado de marcas
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/ marcas
+Parámetros
+No recibe parametros
+Respuesta 
+Id, nombre, codigoAuto
+Nota: Cantidad máxima 100 registros
+Ejemplo:  http:// localhost:8080/BSGestionTest/rest/webservice/ marcas
+Listado de Tasas
+Descripcion: Devuelve listado de alícuotas
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/ tasas
+Parámetros
+No recibe parametros
+Respuesta 
+Id, descripcion, porcentaje
+Nota: Cantidad máxima 100 registros
+Ejemplo:  http:// localhost:8080/BSGestionTest/rest/webservice/ tasas
+[{"descripcion":"ALICUOTA DE IVA","id":1,"porcentaje":21.0},{"descripcion":"SERVICIO","id":2,"porcentaje":27.0},{"descripcion":"EXENTO","id":3,"porcentaje":0.0},{"descripcion":"R.P.F.","id":4,"porcentaje":5.0},{"descripcion":"ALICUOTA DE IVA","id":5,"porcentaje":10.5},{"descripcion":"ALICUOTA DE IVA","id":6,"porcentaje":19.0},{"descripcion":"C.N.G. (Impuestos)","id":7,"porcentaje":0.0},{"descripcion":"REDONDEO","id":8,"porcentaje":0.0},{"descripcion":"IIBB 0.5%","id":9,"porcentaje":0.005},{"descripcion":"IIBB 5,0","id":10,"porcentaje":5.0},{"descripcion":"IIBB 0,0","id":11,"porcentaje":0.0}]
+Listado de Unidades
+Descripcion: Devuelve listado de unidades
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/ unidades
+Parámetros
+No recibe parametros
+Respuesta 
+Id, nombre, abreviatura
+Nota: Cantidad máxima 100 registros
+Ejemplo:  http:// localhost:8080/BSGestionTest/rest/webservice/ unidades
+[{"abreviatura":"Kg","id":1,"nombre":"Kilogramos"},{"abreviatura":"Mts.","id":3,"nombre":"Metros"},{"abreviatura":"UN","id":4,"nombre":"UNIDADES"},{"abreviatura":"lts.","id":5,"nombre":"Litros"},{"abreviatura":"Cj.","id":8,"nombre":"Caja"}]
+Listado de Empresas
+Descripcion: Devuelve listado de empresas
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/ empresas
+Parámetros
+No recibe parametros
+Respuesta 
+Id, razonSocial, nombreFantasia
+Nota: Cantidad máxima 100 registros
+Ejemplo:  http:// localhost:8080/BSGestionTest/rest/webservice/ empresas
+[{"id":1,"nombreFantasia":"Rayuela","razonSocial":"GRUPO LIBRERIA RAYUELA DE LA PLATA S.A"}]
+Listado de Productos
+Descripcion: Devuelve listado de productos
+Pedido GET
+http://{ip}:{puerto}/{sistema} /rest/productos/{vendedor}/{modulo}/{fechaUltimaActualizacion}
+Parámetros
+Vendedor,modulo, fechaUltimaActualizacion
+Respuesta 
+id,codigo, descripción, detalle, precioVenta, precioLista,stock, empresa, unidadPrimaria,rubro,categoría,marca,tasa,listas (arreglo { lista, precioLista, precioVenta})
+Nota: Cantidad máxima 100 registros
+Realizar Reserva
+Pedido POST
+http://{ip}:{puerto}/{sistema}/rest/webservice/comprobante/reserva
+Parámetros
+Listado de Comprobantes: [comprobantes] Listado con reservas a agregar al sistema
+Empresa: [empresa] Codigo de empresa
+Código de Reserva ver
+Listado de Pedidos: : [pedidos] Lista con los aticulos solicitados
+Código de Artículo : [codigo] código del articulo, Cantidad Solicitada : [cantidad]
+Ejemplo
+{"comprobantes":[{"empresa":"1","pedidos":[{"codigo":"9789505115952","cantidad":"1"},{"codigo":"9783852721286","cantidad":"1"},{"codigo":"9509216461","cantidad":"1"}]}]}
+Respuesta
+Código Operación
+Mensaje Operación
+Posibles Códigos Operación
+0x0001 -> Operación realizada con éxito
+0x0002 -> Lista de pedidos vacía
+0x0003 -> Código/s de producto invalido/s: “323”,”432”
+0x0004 -> No se pudo realizar la reserva, motivos internos BSGestion
+0x0005 -> Cliente/Usuario invalido
