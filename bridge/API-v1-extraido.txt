@@ -1,0 +1,249 @@
+===== PAGINA 1 =====
+BSGestion — API REST Externa v1
+Interfaz de integración para sistemas externos · Septiembre 2026
+Base URL: https://[servidor]/BSGestion/api
+Contenido
+1. Autenticación
+2. Endpoints
+3. Campos disponibles
+4. Ejemplos de uso
+5. Códigos de error
+1. Autenticación
+Todas las solicitudes deben incluir un Bearer Token estático en el encabezado HTTP. Cada sistema externo recibe un token
+único asignado por el administrador de BSGestion.
+Encabezado requerido
+Nombre Valor
+Authorization Bearer <token>
+Ejemplo
+GET /api/productos Authorization: Bearer a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4
+Respuesta con token inválido — HTTP 401
+{ "error": "Token inválido o expirado" }
+2. Endpoints
+23/9/26, 13:52 BSGestion — API REST v1 — Documentación
+file:///C:/Desarrollo/Workspace/bsgestion/api-docs.html 1/8
+===== PAGINA 2 =====
+GET /api/productos— Lista paginada de productos
+Devuelve una lista paginada de productos. El contenido de cada registro se controla con el parámetro campos.
+Parámetro Ubicación Tipo Requerido Descripción
+campos query String No Campos a incluir, separados por coma. Por defecto: id,
+codigo, descripcion.
+pagina query Integer No Número de página (base 0). Por defecto: 0. Cada página
+devuelve hasta 50 registros.
+busqueda query String No Texto libre para filtrar por descripción del producto (búsqueda
+parcial).
+{
+"resultado": "ok",
+"pagina": 0,
+"cantidad": 50,
+"datos": [ { .// }, { .// } ]
+}
+GET /api/productos/{codigo}— Producto individual
+Devuelve los datos de un único producto identificado por su código interno.
+Parámetro Ubicación Tipo Requerido Descripción
+codigo path String Sí Código del producto tal como está registrado en el sistema.
+campos query String No Campos a incluir, separados por coma. Por defecto: id, codigo,
+descripcion.
+HTTP 200 — Encontrado
+{
+"resultado": "ok",
+"datos": {
+"id": 1,
+"codigo": "001.001.0001",
+.//
+}
+}
+HTTP 404 — No encontrado
+{
+"resultado": "not_found",
+"mensaje": "Producto no
+encontrado: CODIGO"
+}
+Campos siempre presentes
+id y codigo se incluyen en toda respuesta independientemente de lo especificado en el parámetro campos. El
+Content-Type de todas las respuestas es application/json; charset=utf-8.
+23/9/26, 13:52 BSGestion — API REST v1 — Documentación
+file:///C:/Desarrollo/Workspace/bsgestion/api-docs.html 2/8
+===== PAGINA 3 =====
+3. Campos disponibles
+El parámetro campos acepta cualquier combinación de los nombres listados a continuación, separados por coma. Los
+nombres son case-sensitive.
+Ejemplo: campos=codigo,descripcion,precioVenta,moneda,stock,marca,categoria
+Identificación
+Campo Tipo Descripción
+id Long Identificador interno del producto
+codigo String Código alfanumérico interno
+descripcion String Nombre / descripción del producto
+detalle String Descripción ampliada
+codigoBarras String Código de barras unitario (cantidad = 1)
+codigosBarras Array Lista completa de códigos de barras con cantidad asociada
+codigoArba String Código ARBA / nomenclador fiscal
+fichaTecnica String Ficha técnica del producto
+Precios
+Campo Tipo Descripción
+precioLista Double Precio de lista sin IVA
+precioVenta Double Precio de venta con IVA
+precioVentaSIVA Double Precio de venta sin IVA con descuento habitual aplicado
+precioCompra Double Precio de compra
+precioListaCompra Double Precio de lista de compra
+precioCosto Double Precio de costo
+precioCostoConIVA Double Precio de costo con IVA incluido
+moneda String Símbolo de la moneda (ej: $, USD)
+Impuestos y descuentos
+23/9/26, 13:52 BSGestion — API REST v1 — Documentación
+file:///C:/Desarrollo/Workspace/bsgestion/api-docs.html 3/8
+===== PAGINA 4 =====
+Campo Tipo Descripción
+alicuotaIva Double Alícuota de IVA en porcentaje (ej: 21.0)
+descuentoHabitual Float Descuento habitual en porcentaje
+descuentoMaximo Double Descuento máximo permitido en porcentaje
+markup Float Porcentaje de markup sobre el precio de costo
+Clasificación
+Campo Tipo Descripción
+rubro String Nombre del rubro
+idRubro Long ID del rubro
+categoria String Nombre de la categoría
+idCategoria Long ID de la categoría
+marca String Nombre de la marca
+idMarca Long ID de la marca
+familia String Nombre de la familia de productos
+idFamilia Long ID de la familia
+Unidades de medida
+Campo Tipo Descripción
+unidad String Abreviatura de la unidad primaria (ej: un, kg, m)
+idUnidad Long ID de la unidad primaria
+unidadSecundaria String Abreviatura de la unidad secundaria
+idUnidadSecundaria Long ID de la unidad secundaria
+factorConversionUnidades Double Factor de conversión entre unidad primaria y secundaria
+cantidadMinimaVenta Double Cantidad mínima requerida para venta
+cantidadMinimaCompra Double Cantidad mínima requerida para compra
+fraccionamiento Double Fracción mínima de movimiento del artículo
+Stock
+23/9/26, 13:52 BSGestion — API REST v1 — Documentación
+file:///C:/Desarrollo/Workspace/bsgestion/api-docs.html 4/8
+===== PAGINA 5 =====
+Campo Tipo Descripción
+stock Double Stock disponible total (suma de todos los depósitos activos)
+stockMinimo Double Stock mínimo configurado
+stockMaximo Double Stock máximo configurado
+stockOptimo Double Stock óptimo de reposición configurado
+Consideración de rendimiento — campo stock
+Incluir stock genera una consulta adicional a la base de datos por cada producto de la lista. Para consultas
+masivas de catálogo donde el stock no es necesario, se recomienda omitirlo y consultarlo individualmente cuando
+sea preciso.
+Datos físicos
+Campo Tipo Descripción
+pesoNeto Double Peso neto en kg
+tara Double Tara en kg
+volumen Double Volumen en cm³
+Estado y flags
+Campo Tipo Descripción
+estado String Código de estado del artículo
+compraDiscontinua Boolean Artículo discontinuado en compras
+ventaDiscontinua Boolean Artículo discontinuado en ventas
+esEnvase Boolean El artículo es un envase
+poseeEnvase Boolean El artículo viene con envase
+permiteModificarPrecio Boolean Permite modificar el precio unitario en comprobantes
+bienDeUso Boolean Es un activo fijo / bien de uso
+Fechas
+Campo Tipo Descripción
+fechaCreacion String Fecha de alta del producto (dd/MM/yyyy)
+fechaUltimaActualizacion String Fecha de última actualización de precios de venta
+fechaUltimaActualizacionCosto String Fecha de última actualización del precio de costo
+23/9/26, 13:52 BSGestion — API REST v1 — Documentación
+file:///C:/Desarrollo/Workspace/bsgestion/api-docs.html 5/8
+===== PAGINA 6 =====
+4. Ejemplos de uso
+Ejemplo 1 — Catálogo básico (campos por defecto)
+Cuando se omite el parámetro campos, se devuelven id, codigo y descripcion.
+GET https://[servidor]/BSGestion/api/productos Authorization: Bearer <token>
+{
+"resultado": "ok",
+"pagina": 0,
+"cantidad": 2,
+"datos": [
+{ "id": 1, "codigo": "001.001.0001", "descripcion": "Tornillo 6x30" },
+{ "id": 2, "codigo": "001.001.0002", "descripcion": "Tornillo 8x50" }
+]
+}
+Ejemplo 2 — Precios para e-commerce
+Solo los campos necesarios para actualizar precios en una tienda online.
+GET https://[servidor]/BSGestion/api/productos?campos=codigo,descripcion,precioVenta,moned
+a,alicuotaIva,ventaDiscontinua &pagina=0 Authorization: Bearer <token>
+{
+"resultado": "ok", "pagina": 0, "cantidad": 50,
+"datos": [{
+"id": 1,
+"codigo": "001.001.0001",
+"descripcion": "Tornillo 6x30",
+"precioVenta": 150.00,
+"moneda": "$",
+"alicuotaIva": 21.0,
+"ventaDiscontinua": false
+}, .//]
+}
+Ejemplo 3 — Stock para sistema de logística
+GET https://[servidor]/BSGestion/api/productos/001.001.0001?campos=codigo,descripcion,stoc
+k,unidad,cantidadMinimaVenta Authorization: Bearer <token>
+23/9/26, 13:52 BSGestion — API REST v1 — Documentación
+file:///C:/Desarrollo/Workspace/bsgestion/api-docs.html 6/8
+===== PAGINA 7 =====
+{
+"resultado": "ok",
+"datos": {
+"id": 1,
+"codigo": "001.001.0001",
+"descripcion": "Tornillo 6x30",
+"stock": 1250.0,
+"unidad": "un",
+"cantidadMinimaVenta": 100.0
+}
+}
+Ejemplo 4 — Catálogo con clasificación y búsqueda paginada
+GET https://[servidor]/BSGestion/api/productos?campos=codigo,descripcion,precioLista,moned
+a,marca,categoria,rubro &busqueda=tornillo&pagina=1 Authorization: Bearer <token>
+Ejemplo 5 — Ficha completa de un producto
+GET https://[servidor]/BSGestion/api/productos/001.001.0001?campos=codigo,descripcion,detal
+le,precioVenta,precioLista,moneda,alicuotaIva, marca,categoria,rubro,unidad,codigoBarras,st
+ock,pesoNeto,estado, fechaUltimaActualizacion Authorization: Bearer <token>
+{
+"resultado": "ok",
+"datos": {
+"id": 1,
+"codigo": "001.001.0001",
+"descripcion": "Tornillo 6x30",
+"detalle": "Tornillo cabeza hexagonal zincado",
+"precioVenta": 150.00,
+"precioLista": 123.97,
+"moneda": "$",
+"alicuotaIva": 21.0,
+"marca": "Herrametal",
+"categoria": "Tornillería",
+"rubro": "Ferretería",
+"unidad": "un",
+"codigoBarras": "7790001234567",
+"stock": 1250.0,
+"pesoNeto": 0.005,
+"estado": "V",
+"fechaUltimaActualizacion": "23/09/2026"
+}
+}
+23/9/26, 13:52 BSGestion — API REST v1 — Documentación
+file:///C:/Desarrollo/Workspace/bsgestion/api-docs.html 7/8
+===== PAGINA 8 =====
+5. Códigos de error
+La API utiliza códigos de estado HTTP estándar. En caso de error, la respuesta siempre incluye los campos resultado y
+mensaje.
+Código Estado Descripción
+200 OK Solicitud procesada correctamente.
+400 Bad Request Parámetro inválido o malformado. Revisar los valores enviados.
+401 Unauthorized Token ausente, inválido o expirado. Verificar el header Authorization.
+404 Not Found El producto especificado no existe en el sistema.
+500 Internal Server Error Error interno del servidor.
+Estructura de respuesta de error
+{
+"resultado": "error" | "not_found",
+"mensaje": "Descripción detallada del problema"
+}
+BSGestion — API REST v1  ·  Septiembre 2026  · 
+23/9/26, 13:52 BSGestion — API REST v1 — Documentación
+file:///C:/Desarrollo/Workspace/bsgestion/api-docs.html 8/8

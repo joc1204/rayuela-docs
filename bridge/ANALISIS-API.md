@@ -115,3 +115,66 @@ Consecuencia: **no se puede "bajar todo" de una vez**. El diseño tiene que ser 
 
 ¿Existe una **exportación masiva** (dump/CSV) del catálogo? Si existe, la primera carga
 se resuelve en una descarga en vez de miles de consultas paginadas.
+---
+
+# API REST v1 (la nueva, septiembre 2026)
+
+Documentación leída completa (8 páginas). **Lo que cambia respecto de la vieja:**
+
+| | v0 (vieja, documentada) | v1 (nueva) |
+|---|---|---|
+| Transporte | HTTP | **HTTPS** |
+| Autenticación | sin token (hoy) | **Bearer token** estático por sistema |
+| Listado | artículos modificados **desde fecha/hora** (100/pág) | catálogo paginado (50/pág, base 0) — **sin filtro por fecha** |
+| Campos | ficha fija + `propiedades[]` | **`campos=` seleccionable** (36 campos) |
+| Búsqueda | no | `busqueda=` por descripción |
+| Código de barras | no | **`codigoBarras` + `codigosBarras[]`** |
+| Estado/discontinuado | `estado` | `estado` + `ventaDiscontinua` / `compraDiscontinua` |
+| Clasificación | ids de rubro/categoría/marca | **nombres + ids** de rubro, categoría, marca, familia |
+| Precios | `precioLista` | `precioVenta`, `precioLista`, `precioVentaSIVA`, costos, alícuota, descuentos, markup |
+| Stock | `stockVenta` | `stock`, `stockMinimo/Maximo/Optimo` |
+| **Tapa (imagen)** | **sí (base64)** | **no** |
+| **Propiedades de libro** (AUTOR, COLECCION, TEMA1-3, PAGINAS…) | **sí** | **no** |
+| Reservas / ventas | reserva (POST) | no documentado |
+
+**Conclusión: las dos se complementan.** v1 para enumerar el catálogo, precios de venta,
+estado y códigos de barras; v0 para tapas, sinopsis, propiedades de libro y cambios
+incrementales.
+
+## Estado real hoy (probado)
+
+- `http://rayuela1.serveftp.net:9090/BSGestion/rest/...` (v0) → **funciona**
+- `.../BSGestion/api/productos` (v1) → **404** en ese servidor
+- HTTPS en 9090 / 443 / 8443 → no responde
+
+→ **La v1 todavía no está publicada en la instalación de Rayuela.** Hay que pedirle a
+Luis la URL real (host y puerto) y confirmar que el token `api__…` es para ese entorno.
+
+## Cómo se resuelve "todos los títulos" (bot 24/7 y web)
+
+1. **Enumeración completa (v1)**: `productos?campos=codigo,descripcion,precioVenta,
+   moneda,estado,ventaDiscontinua,categoria,marca,codigoBarras&pagina=N` — 50 por página.
+   Con un catálogo de ~200.000 son ~4.000 pedidos: una carga inicial de 1-2 horas y
+   luego una pasada diaria o semanal.
+2. **Cambios frecuentes (v0 incremental)**: `articulos/precio` y `articulos/stock` desde
+   la última marca de agua, cada 15-30 minutos (liviano).
+3. **Ficha rica (v0)**: `articulo/{isbn}` bajo demanda y cacheada: tapa, sinopsis,
+   AUTOR/COLECCION/TEMAS. Se pide solo para los libros que se muestran.
+4. **Filtro de "títulos disponibles"** (decidido por nosotros, no por Bridge):
+   - `ventaDiscontinua = false`
+   - `estado` válido (a definir con Luis qué códigos significan "activo")
+   - `codigo` o `codigoBarras` con forma de ISBN (13 dígitos que empiezan en 978/979)
+   - `descripcion` no vacía y `precioVenta > 0`
+   - **sin stock NO se descarta**: el título queda publicado como "sin stock / a pedido"
+
+## Preguntas para Luis
+
+1. **URL y puerto reales de la v1** para Rayuela, y si el token recibido es de ese entorno.
+2. ¿La v1 puede devolver **`imagen`** y las **propiedades de libro** (autor, colección,
+   temas)? Si no, seguimos usando la v0 para eso.
+3. ¿Hay en la v1 un endpoint de **modificados desde fecha** (como la v0) o hay que
+   reenumerar el catálogo completo cada vez?
+4. ¿**Frecuencia máxima** de consultas y si existe una **exportación masiva** (CSV/dump)
+   para la primera carga.
+5. ¿Hay endpoints de **ventas** o solo de **reservas**?
+6. ¿Qué significan los valores de **`estado`** y qué identifica a un artículo "activo"?
