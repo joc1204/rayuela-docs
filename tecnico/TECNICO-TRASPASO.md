@@ -69,8 +69,11 @@ Rayuela tiene dos grupos de sistemas:
         └── Tailscale Funnel: net-casa.tailfb7a36.ts.net
 ```
 
-**Datos comerciales**: los precios que muestra el lector se consultan en vivo a
-**Bridge** (`http://rayuela1.serveftp.net:9090/BSGestion/...`, solo lectura, por ISBN).
+**Datos comerciales**: los precios que muestra el lector se consultan en vivo a **Bridge**,
+por un endpoint **NO documentado** (`/BSGestion/BuscadorProductosAction.do`, solo lectura,
+por ISBN, sin stock), descubierto a partir de los puestos de autoconsulta del salón.
+No tiene soporte oficial: puede cambiar sin aviso. La API documentada de Bridge (versión
+vieja y nueva) es el camino correcto para el futuro; ver §11.
 La app de ferias guarda sus propios datos (stock de feria, ventas de feria) en SQLite.
 
 ---
@@ -585,6 +588,7 @@ panel en módulos, correo con Brevo.
 | 3 | El DNS de `rayuelalaplata.com.ar` está en una cuenta personal de Jorge | Medio | Respaldo: NIC.ar (titular Rayuela). Se puede migrar a una cuenta de Rayuela en 10 min |
 | 4 | El bot de novedades manda desde un Gmail personal | Medio | Se resuelve con Brevo (en curso) |
 | 5 | El lector depende del Bridge en vivo para precios | Medio | Con la réplica local (pendiente, ver backlog) deja de depender |
+| 5b | El endpoint que usa el lector **no está documentado** (se descubrió probando los puestos de autoconsulta; sin soporte ni garantía de permanencia) | **Alto** | Migrar el lector a la API documentada y a la réplica local. Mientras tanto, es lo que hay: funciona y es de solo lectura |
 | 6 | ~~Puerto 22 abierto en sshd~~ | Bajo | **RESUELTO 03/11/2026**: solo escucha 5186 |
 | 7 | Nombre temporal `sslip.io` todavía activo | Bajo | Retirar cuando se confirme el uso en celulares |
 | 8 | Netbook con hardware viejo (32 bits) y servicios de Jorge mezclados con Novedades | Bajo | Documentado; separación futura |
