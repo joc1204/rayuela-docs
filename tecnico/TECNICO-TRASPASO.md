@@ -120,7 +120,8 @@ La app de ferias guarda sus propios datos (stock de feria, ventas de feria) en S
 | Acceso de emergencia | **Consola VNC** del panel de DonWeb (contraseña de root) |
 
 **Servicios activos**: `ferias` (5050), `ferias-prueba` (5051), `nginx`, `fail2ban`,
-`unattended-upgrades`, `rayuela-respaldo.timer` (respaldo diario 03:10, ver §8). Los dos servicios de la app escuchan **solo en 127.0.0.1**: no
+`unattended-upgrades`, `rayuela-respaldo.timer` (respaldo diario 03:10, ver §8) y
+`rayuela-salud.timer` (monitoreo cada 30 minutos, ver §6.10). Los dos servicios de la app escuchan **solo en 127.0.0.1**: no
 son accesibles desde internet sin pasar por nginx.
 
 ### 3.2 nginx
@@ -435,8 +436,33 @@ curl -s https://ferias.rayuelalaplata.com.ar/salud
 
 ---
 
----
+### 6.10 Monitoreo automático (`rayuela-salud`)
 
+Cada 30 minutos, `/usr/local/bin/rayuela-salud.sh` verifica:
+
+| Qué | Falla si… |
+|---|---|
+| Servicios | `ferias`, `ferias-prueba`, `nginx` o `fail2ban` no están activos |
+| HTTPS público | `ferias.`, `lector.` o `prueba.` no responden `{"ok":true}` |
+| Novedades | no responde por el túnel |
+| Disco / memoria | disco ≥ 85 % o menos de 100 MB de RAM libre |
+| Respaldo del día | falta, pesa menos de 2 KB o tiene más de 30 h |
+| Certificados | a alguno le quedan menos de 14 días |
+
+**Avisa solo cuando hay problemas** (máximo un aviso cada 6 h para no spamear) y
+manda un mail de "todo normalizado" cuando se resuelve. Credenciales en
+`/etc/rayuela/alerta.env` (permisos 600, solo root).
+
+```bash
+# correrlo a mano
+/usr/local/bin/rayuela-salud.sh
+
+# ver cuándo corrió y qué dijo
+systemctl list-timers rayuela-salud.timer
+journalctl -u rayuela-salud.service -n 30 --no-pager
+```
+
+---
 ## 7. Seguridad
 
 ### 7.1 Qué está aplicado
