@@ -910,3 +910,35 @@ despacho a transporte) o por forma de pago, y se muestran aparte, nunca sumados 
 - Indices nuevos: `ix_prod_autor`, `ix_prod_coleccion`.
 - La editorial no se usa todavia como señal porque `productos.marca`/`editorial` están vacías: la
   editorial sólo viene en la ficha completa (`articulos/{codigo}`) y se guarda en el cache de fichas.
+
+### 15.12 · Incidente del 03/11 a la hora del cierre y salvaguardas nuevas
+
+**Qué pasó.** El 03/11, entre las 18:58 y las 19:40 (justo en el cierre de caja de la librería),
+el VPS hizo un pico de pedidos a Bridge:
+
+| Trabajo | Ritmo medido | Nota |
+|---|---|---|
+| Tapas de Bridge | **37 pedidos por segundo** | Se había subido a 9 hilos a las 19:02 para acelerar la carga |
+| Stock de publicados | **12,5 pedidos por segundo** | Pasada cada 5 minutos en ese momento |
+| Fichas (sinopsis) | ~2,5 por segundo | 4 hilos pidiendo la ficha completa |
+| Metadatos | 1 página cada ~6 minutos | pero cada página costaba 10-30 s del lado de Bridge |
+
+Total: del orden de **45-50 pedidos por segundo sostenidos**, sin coordinación entre trabajos.
+Eso explica la lentitud de los procesos de cierre. **La causa fue nuestra.**
+
+**Qué se hizo.**
+
+1. **Limitador global de ritmo** (`demo_tienda/limite.py`): una única cuota de **3 pedidos por
+   segundo** compartida entre todos los procesos, con un archivo y `flock`
+   (`/var/lock/rayuela-bridge-ritmo`, dueño `rayuela`). Probado con dos procesos en paralelo:
+   12 turnos en 3,7 s → 3,3 por segundo combinados.
+2. **Un solo trabajo contra Bridge a la vez**: todas las unidades tienen
+   `flock -n /run/rayuela-bridge.lock`, así no se apilan dos cargas.
+3. **Tapas**: de 9 hilos a **2 hilos con 0,4 s de pausa** (tope teórico ~4/s, recortado a 3 por el
+   limitador).
+4. **Stock**: pausa de 0,5 s y sólo de noche.
+5. **Nada de Bridge en horario comercial** salvo lo imprescindible.
+
+**Regla operativa para no repetirlo:** los trabajos masivos van de noche, con el limitador puesto,
+y nunca se suben hilos para "ir más rápido". Si hay que acelerar algo, se amplía la ventana
+horaria, no el paralelismo.
