@@ -853,3 +853,50 @@ Guarda nueva de las fichas de día: antes de arrancar mide `articulo/{isbn}/stoc
 **Si tarda más de 1 segundo, aborta la tanda** y espera a la próxima. De noche el techo es 3 s.
 
 Así el catálogo sigue avanzando unas 15.000 fichas y 12.000 stocks por día sin que el mostrador lo note.
+
+### 15.9 · Subir lista con lectura de PDF y foto (OCR) (04/11/2026)
+
+La pantalla "Subir lista" pasó a **dos pasos**:
+
+1. **Leer**: se pega el texto, se sube un `.txt`/`.csv`, un **PDF** o una **foto**.
+2. **Revisar y corregir**: se muestra lo leído en un cuadro editable con el conteo de renglones.
+   Después "Buscar en el catálogo".
+
+En el resultado **cada línea es editable**: si el OCR leyó mal, se corrige ahí mismo y se vuelve a
+buscar esa línea (botón o Enter) contra `/api/lista/linea`, sin recargar la página. También se
+puede sacar una línea. Arriba se ve el resumen: disponibles · a pedido · no encontrados.
+
+Dependencias instaladas en el VPS:
+
+| Paquete | Para qué |
+|---|---|
+| `tesseract-ocr` + `tesseract-ocr-spa` | OCR en español de las fotos |
+| `poppler-utils` (`pdftoppm`) | pasar a imagen los PDF escaneados |
+| `pypdf` (en el venv de la demo) | leer el texto de los PDF |
+
+Módulo: `demo_tienda/leer_lista.py`. Reglas y límites:
+
+- PDF con texto → lectura directa (lo más preciso). PDF escaneado → se detecta y va a OCR
+- Foto → se agranda a 1400 px de ancho, escala de grises y OCR (`--psm 6`)
+- **Letra manuscrita no se promete**: se avisa en pantalla
+- Hasta 200 renglones por envío y 15 páginas de PDF
+- Se limpian numeraciones ("1)", "12-"), separadores de tabla y renglones basura
+
+Probado con una imagen de prueba: leyó `EL ALEPH`, `MARTIN FIERRO`, `LA INVENCIÓN DE MOREL` y el
+ISBN correctamente.
+
+### 15.10 · Identidad visual: logo, favicon y vista previa al compartir
+
+- **Logo**: `static/logo-rayuela.png` (228x80), extraído del sitio real; se usa en la cabecera
+- **Favicon**: `static/favicon.svg` es el **mismo que declara rayuelalibros.com.ar** (cuadrado
+  oscuro con la R), más `favicon-32.png` y `apple-touch-icon.png` generados desde el logo
+- **Vista previa al compartir**: etiquetas `og:title`, `og:description`, `og:image` en todas las
+  páginas; en la ficha del libro la imagen es **la tapa del libro** y el título incluye autor y
+  precio. `static/og-rayuela.png` (1200x630) es la tarjeta genérica para la portada
+- **Datos reales del local** cargados en `ajustes`: WhatsApp `5492215672000` y las dos sucursales
+  (Plaza Italia 187 en La Plata, La Merced 423 en Ensenada). **Falta**: horario y medios de pago
+  (los tiene que decir Verónica)
+
+Nota de negocio (aclaración de Jorge, 04/11): **el libro tiene un precio único** (el de tapa).
+No corresponde hablar de "sin recargo": los adicionales que existan son por servicios (envío,
+despacho a transporte) o por forma de pago, y se muestran aparte, nunca sumados al precio del libro.
