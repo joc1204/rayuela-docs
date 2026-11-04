@@ -999,3 +999,17 @@ sinopsis, hasta que Jorge autorice reanudar.
 **Importante:** al reanudar las sincronizaciones hay que volver a correr
 `/opt/rayuela/ferias/venv/bin/python /opt/rayuela/demo/indexar_busqueda.py` para que el indice
 incluya los cambios (tarda 3 segundos).
+
+### 15.16 · Diseño: esqueletos, estados vacíos y página institucional (04/11)
+
+- **Esqueletos**: mientras la búsqueda instantánea consulta, se muestran tres barras con brillo y el
+  texto "Buscando “x”…" en lugar de una caja vacía. Las tapas entran con un fundido de 0,35 s
+  (`.tapa img` arranca en opacidad 0 y se marca `cargada` al terminar de cargar).
+- **Botones con espera**: los formularios marcados con `data-espera` (consulta de la ficha y subir
+  lista) bloquean el botón y muestran "Un segundo…" hasta que termina el envío.
+- **Estados vacíos** con salida concreta: carrito ("Buscar un libro" / "Subir una lista"),
+  búsqueda sin resultados (WhatsApp + subir lista) y resultado de lista sin ningún disponible
+  (consultar por WhatsApp / probar otra lista).
+- **Página institucional** `/nosotros`: sucursales (Plaza Italia 187 y La Merced 423), cómo comprar
+  en tres pasos, qué se encuentra en la tienda y consultas. Linkeada desde el pie de todas las
+  páginas. **No inventa horarios ni formas de pago**: eso falta que lo diga Verónica.
