@@ -785,3 +785,17 @@ extremo a extremo).
    en el scraper: `tapas.comprimir()`), cuando Verónica delegue la tarea.
 3. Tapas de los títulos sin stock: no se hacen por ahora (cobertura 14,6 %).
 4. Roles por persona en el panel (vendedor / repositor / admin) en lugar de una clave única.
+
+### 15.6 · Cómo se suben los repos a GitHub (04/11/2026)
+
+El entorno del asistente **no puede lanzar ssh desde git** (el sandbox del escritorio bloquea la
+creación de tuberías: `sh.exe: couldn't create signal pipe`). Por eso el push se hace desde el VPS:
+
+1. En la PC: `git bundle create <repo>.bundle --all`
+2. `scp` del bundle al VPS
+3. En el VPS: `git clone <repo>.bundle` y `git push origin --all` usando la deploy key
+   `/root/.ssh/github_rayuela` (permisos 600, configurada como host `github-rayuela`)
+
+La deploy key es **por repositorio** y necesita **"Allow write access"** en GitHub. Sin eso,
+`git ls-remote` funciona pero `git push` responde "Please make sure you have the correct access
+rights". Los repos locales quedan apuntando a HTTPS; el push se hace desde el VPS.
