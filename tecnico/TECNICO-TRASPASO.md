@@ -942,3 +942,29 @@ Eso explica la lentitud de los procesos de cierre. **La causa fue nuestra.**
 **Regla operativa para no repetirlo:** los trabajos masivos van de noche, con el limitador puesto,
 y nunca se suben hilos para "ir más rápido". Si hay que acelerar algo, se amplía la ventana
 horaria, no el paralelismo.
+
+### 15.13 · Corte total de los trabajos automáticos (04/11, 11:20)
+
+**Decisión de Jorge:** ningún proceso automático debe consultar Bridge. Lo único permitido es la
+consulta puntual de la app de ferias, que la dispara una persona (el equivalente a la autoconsulta
+en el local).
+
+**Cómo quedó implementado (tres capas):**
+
+1. **Las unidades ya no existen en systemd.** Los 8 servicios y 4 timers de carga se movieron a
+   `/etc/rayuela/unidades-off/`. `systemctl start` responde *"Unit not found"*: no se pueden
+   arrancar ni por error ni al reiniciar el servidor.
+2. **Bandera de corte en el código.** Todos los scripts (`sincronizar.py`, `metadatos.py`,
+   `stock_publicados.py`, `tapas_publicadas.py`, `fichas_publicadas.py`, `fichas_nocturnas.py`,
+   `sincronizar_rapido.py`, `carga_stock.py`) chequean `/etc/rayuela/pausa-bridge` al arrancar y
+   salen con el mensaje `CORTE: ... no se consulta Bridge.` Aunque alguien los ejecute a mano,
+   no hacen nada.
+3. **Pausa en la web.** `/opt/rayuela/demo/PAUSA_BRIDGE` impide que la tienda pida fichas.
+
+**Qué sigue funcionando:** la tienda demo (con los datos ya descargados), la app de ferias y su
+ambiente de prueba, y Novedades. **Qué no se actualiza:** precios, stock, títulos nuevos, tapas y
+sinopsis, hasta que Jorge autorice reanudar.
+
+**Para reanudar** (cuando Rayuela confirme que el servidor está normal): mover los archivos de
+`/etc/rayuela/unidades-off` de vuelta a `/etc/systemd/system`, `systemctl daemon-reload`, borrar
+`/etc/rayuela/pausa-bridge` y `/opt/rayuela/demo/PAUSA_BRIDGE`, y arrancar de a un trabajo por vez.
