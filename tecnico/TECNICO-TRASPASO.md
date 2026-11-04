@@ -1013,3 +1013,17 @@ incluya los cambios (tarda 3 segundos).
 - **Página institucional** `/nosotros`: sucursales (Plaza Italia 187 y La Merced 423), cómo comprar
   en tres pasos, qué se encuentra en la tienda y consultas. Linkeada desde el pie de todas las
   páginas. **No inventa horarios ni formas de pago**: eso falta que lo diga Verónica.
+
+### 15.17 · Panel: aviso del estado del catálogo (04/11)
+
+El panel (`/admin`) muestra arriba de todo:
+
+> **Estado del catálogo** · Datos del sistema al **04/11/2026 10:25** · **actualización pausada**
+> (a pedido de la librería) · Precios y stock pueden haber cambiado después de esa fecha.
+
+La fecha sale de `max(productos.actualizado)`, que la base guarda en **UTC**; se muestra convertida
+a hora de Argentina (UTC-3) para no confundir a quien la lea. El aviso de "actualización pausada"
+aparece sólo si existe la bandera `PAUSA_BRIDGE`.
+
+También se corrigió la tabla del resultado de listas: en celular se desplaza horizontalmente en vez
+de desbordar la pantalla.

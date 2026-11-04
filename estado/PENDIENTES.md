@@ -1,6 +1,6 @@
 # Pendientes del proyecto Rayuela
 
-**Actualizado:** 04/11/2026 15:25
+**Actualizado:** 04/11/2026 15:35
 **Regla:** cada vez que se cierra un pendiente, se marca acá el mismo día. Lo que no está acá no existe.
 
 Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a alguien)
@@ -17,10 +17,10 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | D4 | **Esqueletos de carga** (búsqueda y tapas) | ✅ | esqueleto al tipear y fundido de tapas |
 | D5 | **Estados vacíos con salida** (búsqueda, lista, carrito) | ✅ | con CTA a WhatsApp y subir lista |
 | D6 | **Página institucional** dentro de la demo | ✅ | `/nosotros`, con sucursales y cómo comprar |
-| D7 | Revisión completa en celular de cada pantalla | ⬜ | la va a mirar Verónica desde el teléfono |
+| D7 | Revisión completa en celular de cada pantalla | ⬜ | tablas ya desplazables; falta que la miren en un teléfono real |
 | D8 | Ficha: bloque de retiro y horarios | ⛔ | faltan los horarios (Verónica) |
 | D9 | Carteles: probar impresión A7 y doble faz | ⬜ | imprime en el local |
-| D10 | Aviso en el admin de la fecha de los datos | ⬜ | "catálogo al 04/11 10:25" |
+| D10 | Aviso en el admin de la fecha de los datos | ✅ | muestra "datos al 04/11/2026 10:25 · actualización pausada" |
 | D11 | Apex `rayuelalaplata.com.ar` (redirección o página) | ⛔ | decisión de Jorge + DNS en Cloudflare |
 
 ## 2 · Datos y contenido
