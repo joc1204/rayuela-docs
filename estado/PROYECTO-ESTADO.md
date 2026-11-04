@@ -140,6 +140,7 @@ Nada el viernes 6/11 (evento en Rayuela hasta las 23:30/24:00).
 | Completar editorial/sinopsis/páginas de los que no tienen ficha | scraping con `rayuela_scrapping` (no toca Bridge) |
 | Definir cuál motor de scraping va primero | medición con el scraper real del proyecto |
 | Horario y medios de pago del local | Verónica |
+| Reindexar la busqueda (`indexar_busqueda.py`) al reanudar sincronizaciones | 3 segundos, sin Bridge |
 | Fichas incompletas (editorial, temas) | personal de Rayuela |
 | Portada del libro en el panel de Bridge | pedido a Luis |
 | Reservas y ventas por API | Luis |

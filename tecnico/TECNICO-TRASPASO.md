@@ -978,3 +978,24 @@ sinopsis, hasta que Jorge autorice reanudar.
   tarjeta 150 px en escritorio y 132 px en celular, con barra de desplazamiento fina.
 - Se pueden hacer cambios de diseño y de datos locales **sin consultar Bridge**: la tienda usa la
   base del catálogo y los archivos de `tapas/` y `fichas/` que ya están en el VPS.
+
+### 15.15 · Busqueda con filtros e indice de texto (04/11)
+
+**Filtros** en `/buscar`:
+- **Editorial** (usa `productos.marca`, ya completada para 41.455 titulos) y **temas** (de `temas`),
+  con las cantidades al lado.
+- **Solo con stock**, **orden** por relevancia / menor precio / mayor precio / titulo / ultimos
+  ingresados, y chips de los filtros activos para quitarlos uno por uno.
+- Las facetas se calculan solo cuando la busqueda devuelve mas de 20 resultados (si no, son ruido).
+- Resultado completo cacheado 5 minutos (los datos estan congelados: no cambian).
+
+**Indice de texto (FTS5)** para que la busqueda no recorra las 428 mil filas con `LIKE %texto%`:
+- `indexar_busqueda.py` crea `buscar_fts` (titulos publicables: descripcion + autor + marca + temas),
+  con `remove_diacritics 2` para que "anos" encuentre "AÑOS" y al reves.
+- La busqueda principal y la instantanea (`/api/buscar`, la que corre al tipear) usan el indice.
+- **Si el indice no existe o falla, cae automaticamente al `LIKE` de antes**: nada se rompe.
+- Medido: `/buscar` 0,06-0,26 s (antes 0,63-0,77 s) · `/api/buscar` 0,04-0,06 s (antes ~0,3 s).
+
+**Importante:** al reanudar las sincronizaciones hay que volver a correr
+`/opt/rayuela/ferias/venv/bin/python /opt/rayuela/demo/indexar_busqueda.py` para que el indice
+incluya los cambios (tarda 3 segundos).
