@@ -656,6 +656,7 @@ Si Jorge deja de mantener esto, en este orden:
 ---
 
 ## 14 · Demo de tienda y canal de consulta (03/11/2026)
+- [15 · Novedades en el VPS, sync rápida y tapas externas](#15--novedades-en-el-vps-sync-rápida-y-tapas-externas-04112026)
 
 ### 14.1 Demo de tienda (`demo.rayuelalaplata.com.ar`)
 
@@ -697,3 +698,90 @@ buscado exactamente aparece igual, marcado "a pedido".
 Uso: el asistente manda avisos y preguntas con botones; lee las respuestas entre tarea y
 tarea. **No se usa para secretos** (Telegram guarda los mensajes en la nube; no es cifrado
 extremo a extremo).
+
+---
+
+## 15 · Novedades en el VPS, sync rápida y tapas externas (04/11/2026)
+
+### 15.1 · Novedades ya no vive en la netbook
+
+| Antes | Ahora |
+|---|---|
+| Netbook de casa + Tailscale Funnel (`net-casa.tailfb7a36.ts.net/novedades`) | **VPS** con dominio propio |
+| Dependía de que la netbook estuviera encendida | No depende de ninguna PC del hogar |
+| `/novedades` dentro del túnel | `https://novedades.rayuelalaplata.com.ar/` (certificado Let's Encrypt) |
+
+- Código: `/opt/rayuela/novedades` (paquete `novedades/` + `venv` con Flask, bs4, openpyxl, Pillow, requests)
+- Servicio: `rayuela-novedades.service` (usuario `rayuela`, puerto 5060)
+- Entorno: `/etc/rayuela/novedades.env` (600 root). `NOVEDADES_PREFIJO` **vacío** (ya no hay prefijo)
+- Datos migrados: `datos/novedades.db` (trabajos, cache, destinatarios), `datos/trabajos/`, `salida/`
+- nginx: sitio `novedades` (proxy a 5060). La ruta vieja `ferias.rayuelalaplata.com.ar/novedades/`
+  hace **301** al dominio nuevo
+- **No hay cron ni timer**: los escaneos se lanzan a mano desde el panel (se verificó que tampoco
+  había cron en la netbook ni reglas en Node-RED)
+- La netbook quedó con el servicio **disabled** y una copia fría de los datos
+- QR nuevo: `demo_tienda/Novedades-QR.png` y `Novedades-QR-hoja-A4.pdf` (el QR anterior apuntaba
+  a la URL del túnel y quedó muerto)
+
+### 15.2 · Sincronización rápida (producción no puede esperar al día siguiente)
+
+`rayuela-demo-rapido.service` → `sincronizar_rapido.py --intervalo 1800` (cada 30 minutos).
+
+- Estado: `sync_estado.rapido_desde` (formato `YYYY/MM/DD/HHMM`), con 2 minutos de margen
+- Pide **sólo lo modificado desde esa marca**:
+  - `articulos/precio/<desde>/<pag>` → `guardar_precios`
+  - `articulos/atributos/<desde>/<pag>` → `guardar_atributos` (título/autor)
+  - `articulos/stock/<desde>/<pag>` → `guardar_stock` (ventas, reservas, reposiciones)
+  - `articulo/<codigo>/stock` para los códigos tocados (hasta 300 por vuelta)
+- Tope de 200 páginas por listado y por vuelta, para no quedar colgado en un aluvión
+- Ciclo medido: **7,8 s** con cambios normales (2 precios, 2 fichas, 238 stocks)
+- **Botón "Traer cambios ahora"** en `/admin` → `POST /admin/sincronizar`, que lanza
+  `sincronizar_rapido.py --una` con `subprocess.Popen` (no bloquea la página), escribe
+  `/opt/rayuela/demo/sync_manual.log` y guarda `ajustes.sync_manual_pedida`
+- El escaneo histórico de `metadatos.py` sigue con `--desde 1900/01/01/0000`: es un barrido, no
+  compite con la vía rápida. **Pendiente**: darle modo incremental con marca horaria propia.
+
+### 15.3 · Tapas externas (scraper de distribuidores)
+
+- Entorno: `/opt/rayuela/tapas_externas/venv` (requests, beautifulsoup4, lxml, Pillow)
+- Scraper: copia del paquete `novedades` (`sitios.py` con motores **zivals**, **yenny**, **sbs**)
+- Script: `/opt/rayuela/demo/tapas_externas.py`
+  - Candidatos: `publicable = 1 and stock > 0` sin tapa de Bridge ni externa, con reintento a los 30 días
+  - Orden de sitios: SBS → Zivals → Yenny
+  - **Valida el título** (≥60 % de las palabras del título de la base presentes en el del sitio);
+    si no coincide, **descarta** la tapa (`resultado = titulo_distinto`)
+  - Guarda `tapas/<isbn>.jpg` (redimensionada a 600 px, JPEG q85) y `meta/<isbn>.json`
+    (sitio, título devuelto, fecha, bytes)
+  - Estado: `estado.json`; registro: `registro.csv`
+- Resultado de la medición (2.000 títulos sin tapa, 29 min):
+  **51,8 % de cobertura en los que tienen stock**, 14,6 % en los que no.
+  14 % de las tapas traídas se descartaron por título distinto. ~47 KB por tapa.
+- Decisión: correr **sólo sobre los publicados con stock**. Los sin stock no se scrapean.
+- La web resuelve `tapa_src()`: Bridge primero, externa después, nada al final.
+  nginx sirve `/tapas/` y `/tapas-externas/` como estáticos con caché de 30 días.
+
+### 15.4 · Otros cambios del 04/11
+
+- **Curaduría**: `/admin/publicacion` permite ocultar títulos (`productos.oculto`) y marcarlos con ☆
+  como recomendados del librero (`destacados`), que reemplazan a los aleatorios de la portada
+- **Consultas**: formulario en la ficha → tabla `consultas` → aviso por Telegram
+  (`rayuela-demo-consultas.timer`, cada 5 min) → `/admin/consultas`
+- **Datos del local**: WhatsApp, dirección, horario y medios de pago desde el panel; se usan en el
+  carrito ("cómo comprar") y en el pie
+- **Subir lista** (`/lista`): resuelve listas de colegios/reposición comparando **sin acentos, por
+  palabras en cualquier orden** y eligiendo el título más parecido; índice en memoria renovado
+  cada 10 minutos; hasta 200 líneas por envío
+- **Salud**: el chequeo ahora también controla la demo y Novedades, y valida el respaldo más
+  reciente con menos de 30 h (antes pedía el archivo del día y daba falso positivo antes de las 03:10)
+- **Bridge y concurrencia**: bajo carga devuelve respuestas vacías ("imagen": [""]) en vez de
+  error. Todo trabajo que lo consulte debe tratar el vacío como "no hay dato" y, si importa,
+  reintentar de a uno. Lección medida dos veces.
+
+### 15.5 · Pendientes técnicos anotados
+
+1. `metadatos.py` en modo incremental (marca horaria propia) para que los títulos nuevos no
+   dependan del avance del barrido histórico.
+2. Generar el ZIP de tapas de los más vendidos para cargar en Bridge (la herramienta ya existe
+   en el scraper: `tapas.comprimir()`), cuando Verónica delegue la tarea.
+3. Tapas de los títulos sin stock: no se hacen por ahora (cobertura 14,6 %).
+4. Roles por persona en el panel (vendedor / repositor / admin) en lugar de una clave única.

@@ -104,3 +104,35 @@ Decisiones tomadas con Jorge. Lo que está acá está **aprobado**; lo que no, e
 - Repo de documentos (manuales, guía de novedades, documento del servidor, QRs)
 - `salud.sh`: revisa servicios, disco, HTTPS y backups; avisa por mail si algo falla
 - Limpiar `_deploy_ferias` (scaffolding de despliegue) del workspace
+
+## Actualización 04/11/2026 · qué quedó pendiente
+
+### Hecho en esta tanda
+
+- Demo con catálogo completo, búsqueda con sugerencias, subir lista de colegio, carteles
+  (A5/A6/A7 con QR), consultas por título, curaduría y recomendados del librero
+- Sincronización rápida desde Bridge (precio, título y stock por marca horaria) cada 30 min,
+  más botón "traer cambios ahora" en el panel
+- Tapas externas de Zivals/SBS/Yenny para los publicados con stock (cobertura medida: 51,8 %)
+- Novedades migrado al VPS con dominio propio y QR nuevo; la netbook quedó sin nada de Rayuela
+- Chequeo de salud ampliado (demo + Novedades + respaldo real) y respaldo con dump del catálogo
+
+### Pendiente de decisión
+
+1. **Personalización**: Fase 0 ("seguí mirando") y Fase 1 (registro de eventos) — ver
+   `plan/DEMO-2026-11-04.md`
+2. **Tapas de los más vendidos a Bridge**: generar el ZIP y que los vendedores lo carguen
+   (Verónica delega la tarea)
+3. **Roles por persona** en el panel (vendedor / repositor / admin) en vez de clave única
+4. **Metadatos incremental**: hoy `metadatos.py` barre desde 1900; con marca horaria propia
+   los títulos nuevos entrarían solos sin depender del barrido
+5. **Ventas para "los que más salen"**: si Luis expone el endpoint de ventas o un export,
+   se puede mostrar el ranking real y alimentar recomendaciones colaborativas
+6. **Pago online y envíos**: sigue sin definirse (para la tienda real, no para la demo)
+7. **DMARC** opcional en el dominio de novedades
+
+### Riesgos anotados
+
+- Bridge no tolera bien la concurrencia: devuelve vacío en lugar de error (nos pasó dos veces)
+- La máquina del local donde corre Bridge tiene que quedar encendida para que la tienda
+  se actualice; la tienda funciona igual con los últimos datos
