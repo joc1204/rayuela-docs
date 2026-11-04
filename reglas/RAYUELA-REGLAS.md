@@ -140,3 +140,17 @@ Detalles que se consultan seguido:
 6. Dejar campos de formulario con teclado o ancho equivocados (PIN numérico, cantidad sin
    ancho fijo) por no probar en el dispositivo.
 7. Olvidar dependencias (`flask` fuera de `requirements.txt`).
+
+## Reglas de horario y de consulta al sistema de la librería (04/11/2026)
+
+1. **Ninguna consulta de actualización fuera del horario nocturno (21 a 8)**, salvo indicación
+   expresa de Jorge. Ni precios, ni stock, ni metadatos, ni fichas.
+2. **La única consulta permitida en horario comercial** es la de la app de ferias, que la dispara
+   una persona (equivalente a la autoconsulta en el local).
+3. **No hay actualización automática de precios** de la app de ferias mientras no haya una feria
+   **abierta** (`ajustes.precios_activo = 0` y, aunque estuviera en 1, el sincronizador sólo recorre
+   ferias en estado "abierta").
+4. **Viernes 6/11:** hay evento en Rayuela hasta las 23:30/24:00. **No se toca nada ese día**;
+   el trabajo se reanuda el **sábado 7/11 a partir de la 1:00**.
+5. Para acelerar una carga **se amplía la ventana horaria, no el paralelismo** (lección del
+   incidente del 03/11: 37 pedidos por segundo durante el cierre de caja).

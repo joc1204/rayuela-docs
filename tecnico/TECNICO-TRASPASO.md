@@ -968,3 +968,13 @@ sinopsis, hasta que Jorge autorice reanudar.
 **Para reanudar** (cuando Rayuela confirme que el servidor está normal): mover los archivos de
 `/etc/rayuela/unidades-off` de vuelta a `/etc/systemd/system`, `systemctl daemon-reload`, borrar
 `/etc/rayuela/pausa-bridge` y `/opt/rayuela/demo/PAUSA_BRIDGE`, y arrancar de a un trabajo por vez.
+
+### 15.14 · Ajustes de diseño del 04/11 (sin tocar Bridge)
+
+- "También te puede interesar" estaba mal ubicado: por un reemplazo de plantilla había quedado
+  dentro del bloque de `<title>` y de las etiquetas `og:`, así que se dibujaba **arriba** de la
+  ficha. Se reescribió `libro.html` y ahora cierra la página, después de la consulta.
+- La sección pasó a **carrusel horizontal** (scroll con snap, sin flechas): 12 recomendados, cada
+  tarjeta 150 px en escritorio y 132 px en celular, con barra de desplazamiento fina.
+- Se pueden hacer cambios de diseño y de datos locales **sin consultar Bridge**: la tienda usa la
+  base del catálogo y los archivos de `tapas/` y `fichas/` que ya están en el VPS.
