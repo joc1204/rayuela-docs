@@ -163,3 +163,12 @@ eficiencia), el inventario de lo que ya existe, lo que está apagado y por qué,
 y los errores cometidos con la regla que los previene.
 
 Se lee **antes** de proponer o ejecutar cualquier cosa en este proyecto.
+
+## Doble llave para Bridge (04/11/2026)
+
+**Ningún proceso del VPS consulta Bridge sin autorización escrita de Jorge.** El permiso es un
+archivo: `/etc/rayuela/autorizacion-bridge`. Sin ese archivo, todos los scripts se niegan a correr
+y la web no pide fichas. El corte inmediato es `/etc/rayuela/pausa-bridge`.
+
+Flujo: Jorge indica qué y cuándo → se crea el archivo con la fecha → se ejecuta **un solo** trabajo
+→ se borra el archivo. Fuera de indicación, cero consultas.
