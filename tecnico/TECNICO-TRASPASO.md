@@ -815,8 +815,8 @@ Cómo quedó repartido:
 | Trabajo | Horario | Ritmo |
 |---|---|---|
 | Sync rápida (precio, título, stock por fecha) | cada 30 min | 1 pasada corta (~8-35 s) |
-| Stock completo de los publicados | **sólo de noche** (9-19 no corre) | pausa 0,25 s entre consultas |
-| Fichas (sinopsis) | **sólo de noche**, timer 22:00 | 4 hilos, pausa 0,3 s, **tope 3.000 por noche** y 240 min |
+| Stock completo de los publicados | **sólo de noche** (8-21 no corre) | pausa 0,25 s entre consultas |
+| Fichas (sinopsis) | **sólo de noche**, ventana 21-8, timer 21:00 | 4 hilos, pausa 0,3 s, **tope 3.000 por noche** y 240 min |
 | Metadatos históricos | corrida única | ya completada |
 | Tapas de Bridge | cada 6 h | consultas livianas |
 | Tapas externas | 03:40 | contra sitios de terceros, no Bridge |
@@ -826,7 +826,7 @@ Cómo quedó repartido:
 
 Protecciones en el trabajo de fichas (`fichas_nocturnas.py`):
 
-- **guarda de horario**: fuera de 22-6 no hace nada
+- **guarda de horario**: fuera de 21-8 no hace nada
 - **guarda de latencia**: mide Bridge antes de arrancar; si está lento espera 10 min y reintenta,
   y a la tercera aborta
 - **topes**: 3.000 títulos y 240 minutos por corrida
