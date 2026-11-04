@@ -154,3 +154,12 @@ Detalles que se consultan seguido:
    el trabajo se reanuda el **sábado 7/11 a partir de la 1:00**.
 5. Para acelerar una carga **se amplía la ventana horaria, no el paralelismo** (lección del
    incidente del 03/11: 37 pedidos por segundo durante el cierre de caja).
+
+## Documento de control del proyecto (leer antes de actuar)
+
+**`rayuela-docs/estado/PROYECTO-ESTADO.md`** concentra: el protocolo de evaluación de riesgo de cada
+solicitud (tiempo, tokens, infraestructura de Rayuela, VPS, terceros, reputación, eficacia y
+eficiencia), el inventario de lo que ya existe, lo que está apagado y por qué, las decisiones tomadas
+y los errores cometidos con la regla que los previene.
+
+Se lee **antes** de proponer o ejecutar cualquier cosa en este proyecto.
