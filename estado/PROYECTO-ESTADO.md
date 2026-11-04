@@ -116,6 +116,25 @@ Nada el viernes 6/11 (evento en Rayuela hasta las 23:30/24:00).
 
 ---
 
+
+### 4.1 · Doble llave: nada sale hacia Rayuela sin autorización de Jorge (04/11, 19:20)
+
+Todo script que consulta Bridge verifica **dos archivos** antes de arrancar:
+
+1. Debe existir `/etc/rayuela/autorizacion-bridge` (permiso explícito de Jorge, se crea sólo cuando
+   él lo indica y dice hasta cuándo vale).
+2. No debe existir `/etc/rayuela/pausa-bridge` (corte inmediato).
+
+Si falta la autorización, el script sale con:
+`SIN AUTORIZACION: falta /etc/rayuela/autorizacion-bridge. No se consulta Bridge sin indicacion de Jorge.`
+
+Además: `sincronizar.traer()` (la función por la que salen todos los pedidos) vuelve a chequear lo
+mismo, así que aunque alguien reutilice el código por otro camino, se niega. Y la web de la demo
+tampoco pide fichas sin autorización.
+
+Para habilitar algo: Jorge pide, se crea el archivo con la fecha, se corre **un solo** trabajo, y se
+borra. Para cortar todo: se borra el archivo.
+
 ## 5 · Decisiones tomadas (no volver a preguntar)
 
 | Fecha | Decisión |
