@@ -833,3 +833,23 @@ Protecciones en el trabajo de fichas (`fichas_nocturnas.py`):
 - Prioriza **títulos con stock**, que son los que se muestran primero en la tienda
 
 Si algún día hay que acelerar la carga, la palanca es el horario, no los hilos.
+
+### 15.8 · Actualización progresiva también de día (04/11/2026)
+
+**Instrucción de Jorge:** que no se corte la actualización durante el día, pero que avance despacio
+para no ralentizar Bridge.
+
+Cómo avanza cada cosa:
+
+| Trabajo | De día (8-21) | De noche (21-8) |
+|---|---|---|
+| Sync rápida (precio, título, stock por fecha) | cada 30 min | cada 30 min |
+| Stock de los publicados | **250 por pasada** cada 30 min, 1,5 s entre consultas | pasada completa, 0,25 s |
+| Fichas / sinopsis | **150 por tanda** cada 2 h (9-19), 1 hilo, 2 s de pausa | 3.000 por noche, 21:00 |
+| Tapas de Bridge | cada 6 h | cada 6 h |
+| Tapas externas | — | 03:40 |
+
+Guarda nueva de las fichas de día: antes de arrancar mide `articulo/{isbn}/stock` (normal ~50 ms).
+**Si tarda más de 1 segundo, aborta la tanda** y espera a la próxima. De noche el techo es 3 s.
+
+Así el catálogo sigue avanzando unas 15.000 fichas y 12.000 stocks por día sin que el mostrador lo note.
