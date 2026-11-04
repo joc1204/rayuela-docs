@@ -1,6 +1,6 @@
 # Pendientes del proyecto Rayuela
 
-**Actualizado:** 04/11/2026 15:35
+**Actualizado:** 04/11/2026 17:50
 **Regla:** cada vez que se cierra un pendiente, se marca acá el mismo día. Lo que no está acá no existe.
 
 Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a alguien)
@@ -23,7 +23,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | D10 | Aviso en el admin de la fecha de los datos | ✅ | muestra "datos al 04/11/2026 10:25 · actualización pausada" |
 | D11 | Carrito: demostración sin cierre de compra | ✅ | carga, suma, quita y total; sin WhatsApp y sin pago |
 | D12 | Lista: opción de foto | ⬜ | retirada hasta probarla con listas reales |
-| D14 | Búsqueda tolerante a errores de tipeo | ⬜ | hoy "borgs" da 0 resultados; proponer "quisiste decir" |
+| D14 | Búsqueda tolerante a errores de tipeo | ✅ | "¿Quisiste decir?": 'borgs'→borges (395), 'alehp'→aleph (10), 'pachora'→pachorra (3) |
 | D13 | Apex `rayuelalaplata.com.ar` (redirección o página) | ⛔ | decisión de Jorge + DNS en Cloudflare |
 
 ## 2 · Datos y contenido
@@ -45,7 +45,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | B1 | Todos los trabajos de Bridge apagados y fuera de systemd | ✅ | 12 unidades en `/etc/rayuela/unidades-off/` |
 | B2 | Limitador global 3 pedidos/s + candado entre trabajos | ✅ | probado con dos procesos en paralelo |
 | B3 | Reanudar trabajos (sábado 7/11 desde la 1:00, de a uno) | ⛔ | espera OK de Jorge y de Rayuela |
-| B4 | Reindexar la búsqueda al reanudar la sincronización | ⬜ | 3 segundos, sin Bridge |
+| B4 | Reindexar la búsqueda al reanudar la sincronización | ⬜ | correr `indexar_busqueda.py` (3 s) y `indexar_palabras.py` (4 s) |
 | B5 | Escribir informe con la cronología para soporte de Bridge | ✅ | `Informe-técnico-carga-Bridge.docx` |
 | B6 | Revisar si conviene otro horario/frecuencia de sync | ⛔ | después del incidente y de hablar con Luis |
 | B7 | Copia de respaldo de la base antes de cada tanda grande | ⬜ | hay respaldo diario 03:10 |

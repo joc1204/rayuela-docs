@@ -1027,3 +1027,23 @@ aparece sólo si existe la bandera `PAUSA_BRIDGE`.
 
 También se corrigió la tabla del resultado de listas: en celular se desplaza horizontalmente en vez
 de desbordar la pantalla.
+
+### 15.18 · Búsqueda tolerante a errores de tipeo (04/11)
+
+Cuando la búsqueda no encuentra nada, el sistema corrige las palabras contra el **vocabulario del
+catálogo** y muestra: *"No encontramos nada para «borgs». ¿Quisiste decir **borges**?"*, con los
+resultados de la palabra corregida.
+
+- `indexar_palabras.py` arma la tabla `palabras` (65.478 palabras con 2 o más apariciones) a partir
+  del índice de texto. Tarda 4 segundos.
+- La corrección usa `difflib.get_close_matches` sobre las palabras del catálogo que empiezan con la
+  misma letra y tienen un largo parecido (tope 6.000 candidatas). Detecta letras cambiadas,
+  faltantes, sobrantes y **transposiciones en el medio** ("alehp" → "aleph").
+- Se aplica sólo cuando la búsqueda exacta da cero resultados, así que no afecta las búsquedas que
+  ya funcionan (verificado: "borges" sigue dando 395 y no muestra aviso).
+- Funciona en la página de resultados y en la búsqueda al tipear.
+- **Al reanudar la sincronización hay que correr `indexar_busqueda.py` y después
+  `indexar_palabras.py`.**
+
+Medición: 10 errores de tipeo reales, 9 resueltos con la palabra correcta. "coratza" propuso
+"corteza" en lugar de "cortazar" (limitación del umbral de similitud).
