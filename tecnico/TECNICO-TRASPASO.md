@@ -799,3 +799,37 @@ creación de tuberías: `sh.exe: couldn't create signal pipe`). Por eso el push 
 La deploy key es **por repositorio** y necesita **"Allow write access"** en GitHub. Sin eso,
 `git ls-remote` funciona pero `git push` responde "Please make sure you have the correct access
 rights". Los repos locales quedan apuntando a HTTPS; el push se hace desde el VPS.
+
+### 15.7 · Regla: priorizar que Bridge no se ralentice (04/11/2026)
+
+**Instrucción de Jorge:** nunca hacerle perder velocidad al sistema que usa la librería en el
+mostrador. Bridge comparte servidor con el POS, así que nuestros trabajos van en horario de
+comercio cerrado y con pausas.
+
+Medido el 04/11 a las 9 h (con varias cargas nuestras encima):
+`articulos/atributos` pasó de 9,7 s a **28-30 s por página** y `articulos/precio` de 0,05 s a
+0,8 s. Con los trabajos throttled el stock volvió a 55 ms.
+
+Cómo quedó repartido:
+
+| Trabajo | Horario | Ritmo |
+|---|---|---|
+| Sync rápida (precio, título, stock por fecha) | cada 30 min | 1 pasada corta (~8-35 s) |
+| Stock completo de los publicados | **sólo de noche** (9-19 no corre) | pausa 0,25 s entre consultas |
+| Fichas (sinopsis) | **sólo de noche**, timer 22:00 | 4 hilos, pausa 0,3 s, **tope 3.000 por noche** y 240 min |
+| Metadatos históricos | corrida única | ya completada |
+| Tapas de Bridge | cada 6 h | consultas livianas |
+| Tapas externas | 03:40 | contra sitios de terceros, no Bridge |
+| Consultas de clientes | cada 5 min | sólo SQLite |
+| Salud | cada 30 min | 3 pedidos HTTP |
+| Respaldo | 03:10 | local |
+
+Protecciones en el trabajo de fichas (`fichas_nocturnas.py`):
+
+- **guarda de horario**: fuera de 22-6 no hace nada
+- **guarda de latencia**: mide Bridge antes de arrancar; si está lento espera 10 min y reintenta,
+  y a la tercera aborta
+- **topes**: 3.000 títulos y 240 minutos por corrida
+- Prioriza **títulos con stock**, que son los que se muestran primero en la tienda
+
+Si algún día hay que acelerar la carga, la palanca es el horario, no los hilos.
