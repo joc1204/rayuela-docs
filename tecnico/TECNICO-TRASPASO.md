@@ -900,3 +900,13 @@ ISBN correctamente.
 Nota de negocio (aclaración de Jorge, 04/11): **el libro tiene un precio único** (el de tapa).
 No corresponde hablar de "sin recargo": los adicionales que existan son por servicios (envío,
 despacho a transporte) o por forma de pago, y se muestran aparte, nunca sumados al precio del libro.
+
+### 15.11 · Recomendaciones por contenido (Fase 2)
+
+- `recomendados(codigo)`: mismo autor (5 puntos), mismos temas (3 por tema), misma coleccion (2),
+  +1 si tiene stock. Tope 6, cacheado 10 minutos por libro.
+- `recomendados_de_la_visita()`: toma los ultimos libros vistos por la sesion (tabla `eventos`) y
+  arma "Segun lo que miraste" en la portada.
+- Indices nuevos: `ix_prod_autor`, `ix_prod_coleccion`.
+- La editorial no se usa todavia como señal porque `productos.marca`/`editorial` están vacías: la
+  editorial sólo viene en la ficha completa (`articulos/{codigo}`) y se guarda en el cache de fichas.
