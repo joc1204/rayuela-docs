@@ -23,6 +23,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | D10 | Aviso en el admin de la fecha de los datos | ✅ | muestra "datos al 04/11/2026 10:25 · actualización pausada" |
 | D11 | Carrito: demostración sin cierre de compra | ✅ | carga, suma, quita y total; sin WhatsApp y sin pago |
 | D12 | Lista: opción de foto | ⬜ | retirada hasta probarla con listas reales |
+| D14 | Búsqueda tolerante a errores de tipeo | ⬜ | hoy "borgs" da 0 resultados; proponer "quisiste decir" |
 | D13 | Apex `rayuelalaplata.com.ar` (redirección o página) | ⛔ | decisión de Jorge + DNS en Cloudflare |
 
 ## 2 · Datos y contenido
