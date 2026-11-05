@@ -19,7 +19,7 @@ ferias (chicas, ya respaldadas aparte).
 |---|---|---|
 | Original en el VPS | `/var/backups/rayuela/externo/rayuela-2026-11-05.tar.gz.gpg` | ✅ |
 | Copia en la PC | `default-workspace/_respaldos/rayuela-2026-11-05.tar.gz.gpg` | ✅ |
-| Copia en Drive | cuenta **joc1204.developer@gmail.com** → `Rayuela/Respaldos/` | ✅ subida el 05/11 |
+| Copia en Drive | cuenta **joc1204.developer@gmail.com** → carpeta **`Rayuela-respaldo`** | ✅ automática desde el 05/11 |
 
 Integridad del archivo del 05/11:
 
@@ -61,13 +61,25 @@ mkdir restaurado && tar xzf paquete.tar.gz -C restaurado
 
 ## Cadencia
 
-- **Hoy**: manual. Se genera con `bash /usr/local/bin/respaldo-externo.sh` y se sube a mano.
-  La copia del 05/11 ya está en Drive (cuenta de desarrollo) y en la PC.
-- **Pendiente**: automatizar con rclone (cron nocturno) y mantener 3 generaciones en Drive.
+- **Automático**: `respaldo-nube.timer` corre todos los días a las **03:40** (con hasta 10 min de
+  dispersión). Genera el paquete cifrado y lo sube a `drive:Rayuela-respaldo`. Mantiene las últimas
+  **3 generaciones** en Drive y **5** en el VPS.
+- **Manual, cuando se quiera**: `bash /usr/local/bin/subir-respaldo-drive.sh`.
+- Log: `/var/backups/rayuela/externo/respaldo-nube.log`.
 - **Regla**: la cuenta de Drive no se comparte. La passphrase va en el gestor de contraseñas, con la
   ubicación anotada al lado.
 
 ## Rotación
 
-La passphrase la generó el agente y se mostró una vez en el chat. Recomendación: cuando se suba el
-paquete a Drive, generar una nueva passphrase, volver a cifrar y guardar la nueva en el gestor.
+La passphrase la generó el agente y se mostró una vez en el chat. Recomendación: rotarla cuando se
+pueda (generar una nueva, volver a cifrar y actualizar el gestor).
+
+## Acceso a Drive desde el VPS
+
+El VPS usa **rclone** con un token OAuth de la cuenta `joc1204.developer@gmail.com`
+(`/root/.config/rclone/rclone.conf`, permisos 600). El token permite crear y borrar archivos en el
+marco de esa cuenta. Para revocarlo: cuenta de Google → Seguridad → Aplicaciones de terceros →
+quitar el acceso de "rclone". Después hay que volver a autorizar.
+
+El **sha256 cambia cada vez** que se regenera el paquete (gpg agrega sal), así que no conviene
+anotarlo como dato fijo: sirve sólo para verificar una copia puntual.

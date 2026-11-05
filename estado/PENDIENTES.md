@@ -83,7 +83,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | T18 | Subir commits de ferias y novedades a GitHub | ✅ | 05/11: ferias `4da5122` · novedades `0d1cd6f` |
 | T19 | Comparar código desplegado en el VPS vs repos | ⬜ | ferias y novedades no tienen git en el servidor |
 | B1 | **Respaldo externo** (cifrado) | ✅ | 05/11: paquete de 58 MB en Drive (cuenta de desarrollo) y en la PC |
-| B1b | Automatizar el respaldo externo a Drive (rclone + cron) | ⬜ | requiere autorizar rclone una vez |
+| B1b | Automatizar el respaldo externo a Drive (rclone + timer) | ✅ | 05/11: diario 03:40, 3 generaciones en Drive |
 | B1c | Rotar la passphrase y guardarla en el gestor | ⬜ | la actual se mostró una vez en el chat |
 | B2 | Secretos al gestor de contraseñas | ⬜ | lo hace Jorge; la lista está en `SECRETOS.md` y la passphrase del respaldo va ahí |
 | B3 | Probar una restauración completa | ⬜ | después de B1 |

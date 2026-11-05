@@ -18,6 +18,7 @@ Este documento dice qué existe, para qué sirve y cómo se regenera.
 | Claves SSH de GitHub (`github_rayuela`, `github_rayuela_docs`, …) | `/root/.ssh/` | empujar repos a GitHub | se regeneran y se vuelven a cargar como deploy keys |
 | Clave SSH del VPS (`ferias_ed25519`) | en la PC de Jorge | entrar al VPS | se regenera desde el panel de DonWeb (consola) |
 | Acceso a Cloudflare / DNS del dominio | cuenta de Jorge | subdominios y certificados | proveedor |
+| Token OAuth de Google Drive (rclone) | `/root/.config/rclone/rclone.conf` (600) | subir el respaldo cifrado | se revoca desde la cuenta de Google y se vuelve a autorizar |
 | Acceso al panel de DonWeb | cuenta de Jorge | recrear el VPS | proveedor |
 
 ## Cómo se guardan hoy (verificado el 05/11)
