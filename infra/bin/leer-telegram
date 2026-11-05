@@ -1,0 +1,173 @@
+#!/usr/bin/env python3
+"""Lee los mensajes nuevos del bot de Telegram y los deja en una cola.
+
+Uso:
+    leer-telegram                 # lee y muestra lo nuevo (avanza el puntero)
+    leer-telegram --sin-marcar    # muestra sin avanzar el puntero (releer)
+    leer-telegram --cola          # muestra la cola guardada de las ultimas 48 horas
+
+Guarda en /var/lib/rayuela-telegram/:
+    mensajes.jsonl   un renglon por mensaje (fecha, tipo, texto, archivo)
+    audios/          audios y documentos descargados
+    offset           hasta que update_id se leyo
+"""
+import json
+import os
+import sys
+import time
+import urllib.parse
+import urllib.request
+
+ENTORNO = '/etc/rayuela/telegram.env'
+BASE = '/var/lib/rayuela-telegram'
+COLA = os.path.join(BASE, 'mensajes.jsonl')
+AUDIOS = os.path.join(BASE, 'audios')
+OFFSET = os.path.join(BASE, 'offset')
+
+
+def leer_entorno():
+    datos = {}
+    with open(ENTORNO, encoding='utf-8') as f:
+        for linea in f:
+            linea = linea.strip()
+            if linea and not linea.startswith('#') and '=' in linea:
+                clave, valor = linea.split('=', 1)
+                datos[clave.strip()] = valor.strip().strip('"').strip("'")
+    return datos
+
+
+def pedir(url, datos=None, tiempo=25):
+    if datos:
+        cuerpo = urllib.parse.urlencode(datos).encode()
+        pedido = urllib.request.Request(url, data=cuerpo)
+    else:
+        pedido = urllib.request.Request(url)
+    with urllib.request.urlopen(pedido, timeout=tiempo) as r:
+        return json.loads(r.read().decode('utf-8', 'ignore'))
+
+
+def bajar_archivo(token, file_id, destino):
+    info = pedir('https://api.telegram.org/bot%s/getFile?file_id=%s' % (token, file_id))
+    ruta = (info.get('result') or {}).get('file_path')
+    if not ruta:
+        return None
+    os.makedirs(os.path.dirname(destino), exist_ok=True)
+    with urllib.request.urlopen('https://api.telegram.org/file/bot%s/%s' % (token, ruta),
+                                timeout=60) as r:
+        with open(destino, 'wb') as f:
+            f.write(r.read())
+    return destino
+
+
+def main():
+    sin_marcar = '--sin-marcar' in sys.argv
+    modo_cola = '--cola' in sys.argv
+    entorno = leer_entorno()
+    token = entorno.get('TELEGRAM_TOKEN')
+    autorizado = str(entorno.get('TELEGRAM_CHAT') or '')
+    if not token:
+        print('falta TELEGRAM_TOKEN en %s' % ENTORNO)
+        return 1
+
+    os.makedirs(BASE, exist_ok=True)
+
+    if modo_cola:
+        if not os.path.exists(COLA):
+            print('la cola esta vacia')
+            return 0
+        limite = time.time() - 48 * 3600
+        for linea in open(COLA, encoding='utf-8'):
+            try:
+                m = json.loads(linea)
+            except Exception:
+                continue
+            try:
+                cuando = time.mktime(time.strptime(m.get('fecha', ''), '%Y-%m-%d %H:%M:%S'))
+            except Exception:
+                cuando = 0
+            if cuando < limite:
+                continue
+            detalle = m.get('texto') or ('[%s %ss] %s' % (m.get('tipo'), m.get('duracion', '?'),
+                                                          m.get('archivo', '')))
+            print('[%s] %s: %s' % (m.get('fecha'), m.get('tipo'), detalle))
+        return 0
+
+    offset = ''
+    if os.path.exists(OFFSET):
+        offset = open(OFFSET).read().strip()
+
+    datos = {'timeout': '0'}
+    if offset:
+        datos['offset'] = offset
+    try:
+        respuesta = pedir('https://api.telegram.org/bot%s/getUpdates' % token, datos)
+    except Exception as error:
+        print('no pude consultar Telegram: %s' % type(error).__name__)
+        return 1
+
+    nuevos = 0
+    ultimo = offset
+    for actualizacion in respuesta.get('result', []):
+        uid = actualizacion.get('update_id')
+        ultimo = str(uid + 1)
+        mensaje = actualizacion.get('message') or {}
+        chat = str((mensaje.get('chat') or {}).get('id') or '')
+        if chat != autorizado:
+            if chat:
+                print('IGNORADO (chat no autorizado %s)' % chat)
+            continue
+
+        fecha = time.strftime('%Y-%m-%d %H:%M:%S',
+                              time.localtime(mensaje.get('date') or time.time()))
+        registro = {'fecha': fecha, 'tipo': 'texto', 'texto': '', 'archivo': '',
+                    'duracion': '', 'de': (mensaje.get('from') or {}).get('first_name', '')}
+
+        texto = mensaje.get('text') or mensaje.get('caption') or ''
+        audio = mensaje.get('voice') or mensaje.get('audio') or mensaje.get('video_note')
+        documento = mensaje.get('document') or mensaje.get('photo')
+
+        if audio:
+            duracion = audio.get('duration', '?')
+            destino = os.path.join(AUDIOS, '%s.ogg' % uid)
+            bajado = None
+            try:
+                bajado = bajar_archivo(token, audio.get('file_id'), destino)
+            except Exception as error:
+                bajado = 'error: %s' % type(error).__name__
+            registro.update({'tipo': 'audio', 'duracion': duracion,
+                             'archivo': bajado or '', 'texto': texto})
+            print('MSG [audio %ss] %s' % (duracion, 'guardado en %s' % bajado if bajado else 'no se pudo bajar'))
+        elif documento:
+            if isinstance(documento, list):        # una foto llega como lista de tamaños
+                documento = documento[-1]
+                nombre = 'foto-%s.jpg' % uid
+            else:
+                nombre = documento.get('file_name') or ('archivo-%s' % uid)
+            destino = os.path.join(AUDIOS, nombre)
+            bajado = None
+            try:
+                bajado = bajar_archivo(token, documento.get('file_id'), destino)
+            except Exception as error:
+                bajado = 'error: %s' % type(error).__name__
+            registro.update({'tipo': 'archivo', 'archivo': bajado or '', 'texto': texto})
+            print('MSG [archivo] %s %s' % (nombre, 'guardado' if bajado else 'no se pudo bajar'))
+        else:
+            print('MSG [texto] %s' % (texto or '(vacio)'))
+            registro['tipo'] = 'texto'
+            registro['texto'] = texto
+
+        with open(COLA, 'a', encoding='utf-8') as f:
+            f.write(json.dumps(registro, ensure_ascii=False) + '\n')
+        nuevos += 1
+
+    if not sin_marcar and ultimo != offset and ultimo:
+        with open(OFFSET, 'w') as f:
+            f.write(str(ultimo))
+
+    if not nuevos:
+        print('sin mensajes nuevos')
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

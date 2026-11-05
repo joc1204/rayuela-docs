@@ -1,0 +1,25 @@
+#!/bin/bash
+# Sube a GitHub un repo que vino como bundle desde la PC.
+#   subir-repo rayuela-docs /root/docs.bundle
+set -e
+REPO="$1"
+BUNDLE="$2"
+if [ -z "$REPO" ] || [ -z "$BUNDLE" ]; then
+  echo "uso: subir-repo <rayuela-demo|rayuela-docs> <archivo.bundle>"
+  exit 1
+fi
+DESTINO="/opt/rayuela/repos/$REPO"
+if [ ! -d "$DESTINO/.git" ]; then
+  git clone --quiet "$BUNDLE" "$DESTINO"
+  cd "$DESTINO"
+  if [ "$REPO" = "rayuela-demo" ]; then
+    git remote set-url origin github-rayuela:joc1204/$REPO.git
+  else
+    git remote set-url origin github-rayuela-docs:joc1204/$REPO.git
+  fi
+else
+  cd "$DESTINO"
+fi
+git fetch "$BUNDLE" 'refs/heads/main:refs/remotes/bundle/main'
+git push origin refs/remotes/bundle/main:main
+echo "  $REPO -> $(git ls-remote origin HEAD | cut -c1-7) Â· $(git log -1 --format=%s origin/main)"

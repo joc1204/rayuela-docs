@@ -1,0 +1,10 @@
+[Unit]
+Description=Tapas externas todos los dias a las 03:40
+
+[Timer]
+OnCalendar=03:40
+Persistent=true
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target

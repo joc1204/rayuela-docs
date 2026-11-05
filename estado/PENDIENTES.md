@@ -76,7 +76,15 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | T11 | **Inventario de UI** (`INVENTARIO-UI.md` + humo) | ✅ | 05/11 |
 | T12 | Unificar el scraper duplicado (Novedades ↔ tapas externas) | ⬜ | cambio cruzado: probar los dos consumidores |
 | T13 | Limpiar dato basura: código `0000000000000` existe como producto | ⬜ | decidir con Rayuela |
-| T14 | Probar la puerta de humo con un cambio que rompa a propósito | ⬜ | ya se probó por accidente: 2 rechazos con rollback |
+| T14 | Probar la puerta de humo con un cambio que rompa a propósito | ✅ | 05/11: rechazó 2 publicaciones y restauró sola |
+| T15 | Infraestructura versionada (`infra/`: units, nginx, bin, env de ejemplo) | ✅ | 05/11 |
+| T16 | Inventario de secretos (`SECRETOS.md`) | ✅ | 05/11, sin valores |
+| T17 | Cargar las 2 claves de deploy en GitHub (ferias y novedades) | ⛔ | lo hace Jorge; después se corren los bundles |
+| T18 | Subir commits de ferias y novedades a GitHub | ⬜ | depende de T17 |
+| T19 | Comparar código desplegado en el VPS vs repos | ⬜ | ferias y novedades no tienen git en el servidor |
+| B1 | **Respaldo externo** (cifrado, fuera del VPS) | ⬜ | pendiente decidir destino: netbook o Drive |
+| B2 | Secretos al gestor de contraseñas | ⬜ | lo hace Jorge; la lista está en `SECRETOS.md` |
+| B3 | Probar una restauración completa | ⬜ | después de B1 |
 | T4 | Leer audios de Telegram | ⬜ | hoy se guardan, no se transcriben (habría que instalar Whisper) |
 | T5 | Revisar que las consultas se avisen bien (verificación HTTP) | ✅ | ahora verifica y reintenta |
 | T6 | Limpiar consultas de prueba del panel | ⬜ | 3 registros de Jorge |

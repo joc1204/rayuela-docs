@@ -1,0 +1,19 @@
+[Unit]
+Description=Rayuela - Novedades (escaneo de ISBN + mail)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=rayuela
+Group=rayuela
+WorkingDirectory=/opt/rayuela/novedades
+EnvironmentFile=/etc/rayuela/novedades.env
+ExecStart=/opt/rayuela/novedades/venv/bin/python -m novedades.web
+Restart=always
+RestartSec=5
+NoNewPrivileges=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

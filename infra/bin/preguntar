@@ -1,0 +1,18 @@
+#!/bin/bash
+# Uso: preguntar "texto de la pregunta" "opcion1" "opcion2" ...
+set -u
+. /etc/rayuela/telegram.env
+[ -z "${TELEGRAM_CHAT}" ] && { echo "falta TELEGRAM_CHAT"; exit 1; }
+TEXTO="$1"; shift
+case "$1" in -*) echo "falta el texto de la pregunta"; exit 1;; esac
+BOTONES="["
+n=0
+for opcion in "$@"; do
+  n=$((n+1))
+  BOTONES="$BOTONES{\"text\":\"$opcion\",\"callback_data\":\"op$n\"},"
+done
+BOTONES="${BOTONES%,}]"
+curl -s --max-time 20 -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
+     -d "chat_id=${TELEGRAM_CHAT}" --data-urlencode "text=${TEXTO}" \
+     -d "reply_markup={\"inline_keyboard\":[$BOTONES]}" \
+     -o /dev/null -w "  telegram: HTTP %{http_code}\n"

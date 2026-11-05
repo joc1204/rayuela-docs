@@ -1,0 +1,9 @@
+[Unit]
+Description=Fichas de la demo de dia: cada 2 horas entre 9 y 19
+
+[Timer]
+OnCalendar=9,11,13,15,17,19:40
+Persistent=false
+
+[Install]
+WantedBy=timers.target

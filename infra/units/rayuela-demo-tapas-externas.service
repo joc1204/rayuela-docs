@@ -1,0 +1,10 @@
+[Unit]
+Description=Rayuela demo - tapas externas de los publicados con stock (saltea las que ya estan)
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/opt/rayuela/tapas_externas
+ExecStart=/usr/bin/flock -n /run/rayuela-bridge.lock /opt/rayuela/tapas_externas/venv/bin/python /opt/rayuela/demo/tapas_externas.py
+Nice=10

@@ -1,0 +1,9 @@
+[Unit]
+Description=Respaldo diario de Rayuela (base + configuraciones)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/rayuela-respaldo.sh
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7

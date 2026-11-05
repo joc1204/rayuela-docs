@@ -1,0 +1,16 @@
+[Unit]
+Description=Rayuela demo - sincronizacion rapida desde Bridge (precios, titulos y stock nuevos)
+After=network-online.target
+
+[Service]
+Type=simple
+User=rayuela
+Group=rayuela
+WorkingDirectory=/opt/rayuela/demo
+ExecStart=/usr/bin/flock -n /run/rayuela-bridge.lock /opt/rayuela/ferias/venv/bin/python sincronizar_rapido.py --intervalo 1800
+Restart=always
+RestartSec=15
+Nice=5
+
+[Install]
+WantedBy=multi-user.target

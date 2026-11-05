@@ -1,0 +1,99 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name ferias.rayuelalaplata.com.ar lector.rayuelalaplata.com.ar;
+
+
+location /.well-known/acme-challenge/ {
+        root /var/www/html;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name ferias.rayuelalaplata.com.ar;
+
+    ssl_certificate /etc/letsencrypt/live/rayuela-apps/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/rayuela-apps/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    client_max_body_size 12m;
+    client_body_timeout 15s;
+    client_header_timeout 15s;
+    send_timeout 20s;
+    keepalive_timeout 30s;
+
+    limit_conn rayuela_conn 20;
+    limit_req zone=rayuela_general burst=40 nodelay;
+
+    if ($rayuela_basura) { return 444; }
+
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    add_header X-Frame-Options "DENY" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "same-origin" always;
+    add_header Permissions-Policy "camera=(self), microphone=(), geolocation=()" always;
+    add_header X-Robots-Tag "noindex, nofollow" always;
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" always;
+
+    location = /ingresar {
+        limit_req zone=rayuela_login burst=10 nodelay;
+        include /etc/nginx/proxy_rayuela.conf;
+        proxy_pass http://127.0.0.1:5050;
+    }
+
+    # Novedades se mudo a su propio dominio: la ruta vieja redirige
+    location /novedades/ {
+        rewrite ^/novedades/(.*)$ https://novedades.rayuelalaplata.com.ar/$1 permanent;
+    }
+
+    location / {
+        include /etc/nginx/proxy_rayuela.conf;
+        proxy_pass http://127.0.0.1:5050;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name lector.rayuelalaplata.com.ar;
+
+    ssl_certificate /etc/letsencrypt/live/rayuela-apps/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/rayuela-apps/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    client_max_body_size 4m;
+    client_body_timeout 15s;
+    client_header_timeout 15s;
+    send_timeout 20s;
+
+    limit_conn rayuela_conn 20;
+    limit_req zone=rayuela_general burst=40 nodelay;
+
+    if ($rayuela_basura) { return 444; }
+
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    add_header X-Frame-Options "DENY" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "same-origin" always;
+    add_header Permissions-Policy "camera=(self), microphone=(), geolocation=()" always;
+    add_header X-Robots-Tag "noindex, nofollow" always;
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" always;
+
+    location = / {
+        include /etc/nginx/proxy_rayuela.conf;
+        proxy_pass http://127.0.0.1:5050/rayuela;
+    }
+
+    location / {
+        include /etc/nginx/proxy_rayuela.conf;
+        proxy_pass http://127.0.0.1:5050;
+    }
+}

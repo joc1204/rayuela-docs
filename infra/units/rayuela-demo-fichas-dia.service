@@ -1,0 +1,11 @@
+[Unit]
+Description=Rayuela demo - fichas de dia (tanda chica, sin molestar Bridge)
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=rayuela
+Group=rayuela
+WorkingDirectory=/opt/rayuela/demo
+ExecStart=/usr/bin/flock -n /run/rayuela-bridge.lock /opt/rayuela/ferias/venv/bin/python fichas_nocturnas.py --modo dia --limite 150 --hilos 1 --pausa 2.0
+Nice=15

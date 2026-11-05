@@ -1,0 +1,23 @@
+[Unit]
+Description=Rayuela Ferias (ambiente de prueba)
+After=network.target
+
+[Service]
+User=rayuela
+Group=rayuela
+WorkingDirectory=/opt/rayuela/prueba
+Environment=FERIAS_PUERTO=5051
+Environment=FERIAS_DB=/opt/rayuela/prueba/ferias.db
+Environment=FERIAS_PREFIJO=
+Environment=FERIAS_SECURE=1
+Environment=FERIAS_SECRETO=56048bc2e70bf94dd83bfdbdc4a1ab3755b095f0bd5fed7d51859185a12ca73a
+ExecStart=/opt/rayuela/ferias/venv/bin/python app.py
+Restart=always
+RestartSec=3
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ReadWritePaths=/opt/rayuela/prueba
+
+[Install]
+WantedBy=multi-user.target

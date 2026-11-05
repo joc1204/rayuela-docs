@@ -1,0 +1,8 @@
+[Unit]
+Description=Rayuela demo - avisar consultas de clientes por Telegram
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/bin/python3 /opt/rayuela/demo/avisar_consultas.py

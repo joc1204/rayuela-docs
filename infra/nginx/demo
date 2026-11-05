@@ -1,0 +1,65 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name demo.rayuelalaplata.com.ar;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name demo.rayuelalaplata.com.ar;
+
+    ssl_certificate /etc/letsencrypt/live/demo.rayuelalaplata.com.ar/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/demo.rayuelalaplata.com.ar/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    client_max_body_size 4m;
+    client_body_timeout 15s;
+    client_header_timeout 15s;
+    send_timeout 30s;
+
+    limit_conn rayuela_conn 20;
+    limit_req zone=rayuela_general burst=40 nodelay;
+
+    if ($rayuela_basura) { return 444; }
+
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "same-origin" always;
+    add_header X-Robots-Tag "noindex, nofollow" always;
+
+    # tapas servidas directo por nginx (rápido y cacheable)
+    # tapas traidas de los sitios de distribuidores (solo si Bridge no tiene la foto)
+    location /tapas-externas/ {
+        alias /opt/rayuela/tapas_externas/tapas/;
+        access_log off;
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000, immutable";
+        try_files $uri =404;
+    }
+
+    location /tapas/ {
+        alias /opt/rayuela/demo/tapas/;
+        access_log off;
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000, immutable";
+        try_files $uri =404;
+    }
+
+    location / {
+        include /etc/nginx/proxy_rayuela.conf;
+        # las paginas cambian seguido: que el navegador no guarde HTML viejo
+        add_header Cache-Control "no-store" always;
+        proxy_pass http://127.0.0.1:5052;
+    }
+}

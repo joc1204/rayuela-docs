@@ -1,0 +1,11 @@
+[Unit]
+Description=Rayuela demo - fichas (sinopsis) de los que tienen stock, solo de noche
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=rayuela
+Group=rayuela
+WorkingDirectory=/opt/rayuela/demo
+ExecStart=/usr/bin/flock -n /run/rayuela-bridge.lock /opt/rayuela/ferias/venv/bin/python fichas_nocturnas.py --limite 3000 --hilos 4 --pausa 0.3
+Nice=10

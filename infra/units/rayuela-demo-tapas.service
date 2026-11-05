@@ -1,0 +1,11 @@
+[Unit]
+Description=Rayuela demo - completar tapas de los titulos publicados (rapido, saltea las que ya estan)
+After=network.target
+
+[Service]
+Type=oneshot
+User=rayuela
+Group=rayuela
+WorkingDirectory=/opt/rayuela/demo
+ExecStart=/usr/bin/flock -n /run/rayuela-bridge.lock /opt/rayuela/ferias/venv/bin/python tapas_publicadas.py --hilos 2 --pausa 0.4
+Nice=10

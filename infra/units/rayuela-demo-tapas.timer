@@ -1,0 +1,11 @@
+[Unit]
+Description=Tapas de la demo cada 6 horas
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=6h
+Persistent=true
+RandomizedDelaySec=600
+
+[Install]
+WantedBy=timers.target

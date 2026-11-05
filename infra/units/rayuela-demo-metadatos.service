@@ -1,0 +1,17 @@
+[Unit]
+Description=Rayuela demo - carga de metadatos del catalogo (lento, de noche)
+After=network.target
+
+[Service]
+Type=simple
+User=rayuela
+Group=rayuela
+WorkingDirectory=/opt/rayuela/demo
+ExecStart=/usr/bin/flock -n /run/rayuela-bridge.lock /opt/rayuela/ferias/venv/bin/python metadatos.py
+Restart=on-failure
+RestartSec=30
+NoNewPrivileges=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

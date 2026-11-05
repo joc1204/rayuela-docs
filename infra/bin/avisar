@@ -1,0 +1,11 @@
+#!/bin/bash
+# Uso: avisar "mensaje"
+# Manda el texto tal cual (sin Markdown, para que nunca falle por caracteres especiales).
+set -u
+. /etc/rayuela/telegram.env
+[ -z "${TELEGRAM_CHAT}" ] && { echo "falta TELEGRAM_CHAT en /etc/rayuela/telegram.env"; exit 1; }
+respuesta=$(curl -s --max-time 20 -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
+     -d "chat_id=${TELEGRAM_CHAT}" --data-urlencode "text=$*" \
+     -o /dev/null -w "%{http_code}")
+echo "telegram: HTTP ${respuesta}"
+[ "${respuesta}" = "200" ] || exit 1

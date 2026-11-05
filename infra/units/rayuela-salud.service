@@ -1,0 +1,6 @@
+[Unit]
+Description=Verificacion de salud de Rayuela
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/rayuela-salud.sh

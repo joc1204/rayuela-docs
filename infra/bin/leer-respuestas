@@ -1,0 +1,33 @@
+#!/bin/bash
+# Muestra solo los mensajes del chat autorizado (TELEGRAM_CHAT).
+set -u
+. /etc/rayuela/telegram.env
+[ -z "${TELEGRAM_CHAT}" ] && { echo "falta TELEGRAM_CHAT en /etc/rayuela/telegram.env"; exit 1; }
+OFFSET=""
+[ -f /var/lib/rayuela-telegram.offset ] && OFFSET=$(cat /var/lib/rayuela-telegram.offset)
+curl -s --max-time 20 "https://api.telegram.org/bot${TELEGRAM_TOKEN}/getUpdates?offset=${OFFSET}" \
+  | AUTORIZADO="$TELEGRAM_CHAT" python3 -c '
+import json, os, sys
+autorizado = os.environ.get("AUTORIZADO", "")
+d = json.loads(sys.stdin.read() or "{}")
+vistos = 0
+for u in d.get("result", []):
+    uid = u.get("update_id")
+    m = u.get("message") or {}
+    c = u.get("callback_query") or {}
+    chat = (m.get("chat") or c.get("message", {}).get("chat") or {}).get("id")
+    if str(chat) != str(autorizado):
+        print("IGNORADO chat no autorizado: %s" % chat)
+    elif m:
+        texto = m.get("text") or m.get("caption") or ""
+        print("MSG: %s" % texto)
+        vistos += 1
+    elif c:
+        print("BOTON: %s" % c.get("data", ""))
+        vistos += 1
+    if uid:
+        open("/var/lib/rayuela-telegram.offset", "w").write(str(uid + 1))
+if not vistos:
+    print("(sin mensajes nuevos)")
+'
+echo FIN
