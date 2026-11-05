@@ -82,6 +82,10 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | T17 | Cargar las 2 claves de deploy en GitHub (ferias y novedades) | ✅ | 05/11, cargadas por Jorge |
 | T18 | Subir commits de ferias y novedades a GitHub | ✅ | 05/11: ferias `4da5122` · novedades `0d1cd6f` |
 | T19 | Comparar código desplegado en el VPS vs repos | ⬜ | ferias y novedades no tienen git en el servidor |
+| H1 | **`appctl` en la netbook**: apagar/encender un proyecto sin afectar los demás | ⬜ | comando + marca de apagado intencional + despublicar del túnel + bot de Telegram |
+| H2 | Verificar el estado de la netbook (4 datos) | ⬜ | qué corre, cómo publica el túnel, qué hace `funnel-check`, Node-RED bajo pm2 |
+| H3 | Repo `host-netbook` (units, manifiestos, humo-host, publicar-host) | ⬜ | propuesta escrita en `HOST-NETBOOK.md` |
+| A1 | Activar el trabajo con agentes especializados | ⬜ | el método y las puertas están listos; los agentes se crean por demanda |
 | B1 | **Respaldo externo** (cifrado) | ✅ | 05/11: paquete de 58 MB en Drive (cuenta de desarrollo) y en la PC |
 | B1b | Automatizar el respaldo externo a Drive (rclone + timer) | ✅ | 05/11: diario 03:40, 3 generaciones en Drive |
 | B1c | Rotar la passphrase y guardarla en el gestor | ⬜ | la actual se mostró una vez en el chat |
