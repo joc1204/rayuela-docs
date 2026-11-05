@@ -45,3 +45,28 @@ ruta) y quedó corregido.
 
 La decisión depende de **medir el tiempo por página y por producto** con el token real, igual que se
 hizo con la v0. No se elige por intuición.
+
+## Prueba del token recibido (04/11, 22:20)
+
+Se probo el token entregado contra todos los destinos posibles. Resultado:
+
+| Destino | Con token | Sin token |
+|---|---|---|
+| `http://rayuela1.serveftp.net:9090/BSGestion/api/productos` | 401 **Token invalido** | 401 Token no provisto |
+| `http://rayuela1.serveftp.net:9090/BSGestion/api` | 401 **Token invalido** | — |
+| `http://rayuela1.serveftp.net:443/BSGestion/api/productos` | 401 **Token invalido** | 401 Token no provisto |
+| `http://rayuela1.serveftp.net:9090/BSGestion/rest/webservice/articulo/{isbn}/stock` | 401 **Token invalido** | 401 Token no provisto |
+
+Datos del entorno descubiertos en la prueba:
+
+- El **puerto 443 no tiene TLS**: es HTTP plano con **Apache Tomcat 8.5.82** (responde la pagina
+  por defecto de Tomcat en `/`). La documentacion dice `https://`, pero ahi no hay certificado.
+- El **puerto 9090 tampoco tiene TLS** (`curl https` da "wrong version number").
+- Las rutas de la v1 (`/BSGestion/api`) y de la v0 (`/BSGestion/rest/webservice`) **ahora comparten
+  la misma autenticacion**: ambas responden con el formato de error de la v1.
+
+**Conclusion:** el token no sirve para esta instalacion (no es un problema de URL ni de puerto: el
+header llega y el servidor lo evalua, pero lo rechaza). Hay que confirmar con Bridge si es el token
+asignado a Rayuela o a otro sistema/entorno, y si roto con la actualizacion del 04/11.
+
+Total de pedidos de esta verificacion: 10, todos rechazados con 401.
