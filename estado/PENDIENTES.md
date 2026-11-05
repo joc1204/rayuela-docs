@@ -85,6 +85,9 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L1 | Limpieza del catalogo fase 1 (precio < 15.000 y sin stock) | ✅ | 05/11: 173.379 ocultos, revisable con `--revertir` |
 | L2 | Limpieza fase 2 (stock pero precio irrisorio) | ✅ | 05/11: 874 ocultos · CSV `Precios-a-corregir.csv` |
 | L6 | **Panel de limpieza por criterios** (`/admin/limpieza`) | ✅ | 05/11: filtro por precio/stock, ocultar y volver a mostrar, por selección o por lote entero |
+| L7 | Modo de limpieza: **manual** (decidido por Jorge el 05/11) | ✅ | la librería ya usa la demo; control absoluto de quien administra |
+| L8 | Guía corta para quien administra la limpieza | ✅ | `Guia-para-administrar-la-limpieza.docx` |
+| L9 | Modo automático por stock mínimo | ❌ descartado | se evaluó y se prefirió manual |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |

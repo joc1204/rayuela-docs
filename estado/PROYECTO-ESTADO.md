@@ -194,3 +194,14 @@ ls /etc/rayuela/pausa-bridge             # debe existir
 ```
 
 Si alguna de las tres falla, **no se declara "cortado"** hasta resolverla.
+
+## Decisiones del 05/11/2026: limpieza del catálogo
+
+| Tema | Decisión |
+|---|---|
+| Filtro de precio | ocultar los menores a $15.000 **sin stock**; los que tienen stock se respetan (salvo precio irrisorio) |
+| Precio irrisorio | los que tienen stock con precio menor a $1.000 se ocultan como error de carga (874) |
+| Stock | se filtra **por cantidad** (desde/hasta) porque el conteo no es fiel; se usa como margen de seguridad |
+| Modo | **manual**: la librería decide qué ocultar desde el panel, no el sistema |
+| Por qué manual | la demo ya está en uso por la librería y prefieren control absoluto para evaluar |
+| Reversibilidad | todo se marca (`filtro = 1`), nunca se borra; se puede revertir por lote o desde el panel |
