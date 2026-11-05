@@ -1079,3 +1079,24 @@ endpoints respondian sin credencial (API v0).
 
 Mientras tanto: corte total restablecido (`/etc/rayuela/pausa-bridge` presente, sin autorizacion),
 0 conexiones establecidas y ningun proceso de actualizacion.
+
+**Precision sobre el token (04/11, 21:35)**
+
+En la documentacion recibida de Bridge hay **un token mencionado pero truncado**: `api__…`
+(`ANALISIS-API.md`, linea 151). Ese token es de la **API v1** (`https://[servidor]/BSGestion/api`,
+autenticacion `Authorization: Bearer <token>`), que **no estaba instalada** en Rayuela en ese
+momento. La v0 que usamos no pedia token. La misma documentacion registra lo que dijo Luis: "la
+version vieja va a pedir el mismo token cuando se actualice el BS".
+
+**Ventana exacta del cambio**
+
+- 18:23:44: la app de ferias obtuvo datos del sistema (consultas con respuesta valida).
+- 21:26: todos los endpoints responden "Token no provisto".
+
+Es decir: el requerimiento de token aparecio **entre las 18:23 y las 21:26 del 04/11**. Coincide con
+una actualizacion del sistema de Bridge. Si los demas clientes de la libreria no estan configurados
+con el token, eso explicaria las fallas que reportaron como "servidor caido".
+
+**Lo que falta:** el valor completo del token y la forma de enviarlo. No esta en el proyecto ni en
+los archivos de configuracion del VPS (busqueda hecha). Hay que pedirlo a Luis o recuperarlo del
+mail/mensaje original donde lo paso.
