@@ -88,6 +88,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L7 | Modo de limpieza: **manual** (decidido por Jorge el 05/11) | ✅ | la librería ya usa la demo; control absoluto de quien administra |
 | L8 | Guía corta para quien administra la limpieza | ✅ | `Guia-para-administrar-la-limpieza.docx` |
 | L9 | Modo automático por stock mínimo | ❌ descartado | se evaluó y se prefirió manual |
+| L10 | Panel de limpieza: filtro por editorial y exportación a CSV | ✅ | 05/11 |
+| L11 | Recordar a la librería que las correcciones se hacen en Bridge | ⬜ | el panel sólo oculta en la vitrina; Bridge es la fuente de la verdad |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |

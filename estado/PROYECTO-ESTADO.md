@@ -205,3 +205,9 @@ Si alguna de las tres falla, **no se declara "cortado"** hasta resolverla.
 | Modo | **manual**: la librería decide qué ocultar desde el panel, no el sistema |
 | Por qué manual | la demo ya está en uso por la librería y prefieren control absoluto para evaluar |
 | Reversibilidad | todo se marca (`filtro = 1`), nunca se borra; se puede revertir por lote o desde el panel |
+
+### Fuente de la verdad (05/11/2026)
+
+Las correcciones de datos (precios, stock, altas y bajas) **se hacen en Bridge**. El panel de la demo
+sólo decide qué se muestra en la vitrina: ocultar un título ahí no corrige el sistema ni reemplaza el
+trabajo en Bridge. El panel lo dice en pantalla, para que nadie confunda las dos cosas.
