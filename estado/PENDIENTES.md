@@ -84,6 +84,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | T19 | Comparar código desplegado en el VPS vs repos | ⬜ | ferias y novedades no tienen git en el servidor |
 | L1 | Limpieza del catalogo fase 1 (precio < 15.000 y sin stock) | ✅ | 05/11: 173.379 ocultos, revisable con `--revertir` |
 | L2 | Limpieza fase 2 (stock pero precio irrisorio) | ✅ | 05/11: 874 ocultos · CSV `Precios-a-corregir.csv` |
+| L6 | **Panel de limpieza por criterios** (`/admin/limpieza`) | ✅ | 05/11: filtro por precio/stock, ocultar y volver a mostrar, por selección o por lote entero |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
