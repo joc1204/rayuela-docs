@@ -230,3 +230,40 @@ Si un cambio toca código compartido (`rayuela.consultar`, `sitios.py`, base `ca
 - `PENDIENTES.md` actualizado.
 - Si cambió una pantalla, `INVENTARIO-UI.md` + `humo.py` actualizados.
 - Si tocó un endpoint, `DEPENDENCIAS.md` con archivo:línea.
+
+## Modo de trabajo por defecto: agentes por demanda (05/11/2026)
+
+El agente decide solo cuándo sumar agentes. Jorge **no tiene que pedirlo ni acordarse**. La regla
+es: **si sumar un agente mejora la calidad o aísla riesgo, se usa; si sólo agrega coordinación, no.**
+
+### Cuándo SÍ
+
+| Situación | Qué se hace |
+|---|---|
+| El pedido tiene dos frentes independientes (pantallas + datos; demo + ferias) | dos especialistas con alcances de escritura separados, coordinados por el Lead |
+| El cambio toca datos, dinero, producción o más de un proyecto | se suma un **revisor independiente** con contexto limpio, que audita el diff y corre las pruebas antes de publicar |
+| Hay que medir o investigar mucho (endpoints, fuentes, cobertura) | se manda a un subagente: investiga en su propio contexto y devuelve conclusiones |
+
+### Cuándo NO
+
+- Cambio chico, de un archivo, textos o ajuste puntual: lo hace el Lead directamente.
+- Tareas donde el costo de coordinación supera el beneficio.
+
+### Reglas que no cambian
+
+1. **La puerta de humo se corre siempre**, con agente o sin agente.
+2. El **Lead es el único que publica** en el VPS.
+3. Cada especialista escribe sólo en su alcance; los cruces requieren tarea "cruzada" con pruebas de
+   todos los consumidores.
+4. El reporte a Jorge dice en **una línea** si se usó un agente y qué encontró. No se pide permiso
+   para usarlo.
+
+### Costo esperado
+
+| Tarea | Costo adicional |
+|---|---|
+| chica (un archivo) | 0 % |
+| con revisor independiente | +30-50 % |
+| dos frentes en paralelo | +80-120 % |
+
+Se paga sólo donde el error sería caro. Jorge puede desactivarlo con una indicación.
