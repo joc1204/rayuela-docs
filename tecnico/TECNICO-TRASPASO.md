@@ -1047,3 +1047,35 @@ resultados de la palabra corregida.
 
 Medición: 10 errores de tipeo reales, 9 resueltos con la palabra correcta. "coratza" propuso
 "corteza" en lugar de "cortazar" (limitación del umbral de similitud).
+
+### 15.19 · Bridge paso a exigir token (04/11, 21:26)
+
+Al retomar las actualizaciones la noche del 04/11, **todos los endpoints** de la API respondieron
+HTTP 200 con:
+
+```json
+{"resultado":"error","mensaje":"Token no provisto"}
+```
+
+Verificado con `/articulo/{isbn}`, `/articulo/{isbn}/precio`, `/articulo/{isbn}/stock`,
+`/articulo/{isbn}/imagen` y `/articulos/precio/{fecha}/1`. Hasta el 04/11 a las 10:25 esos mismos
+endpoints respondian sin credencial (API v0).
+
+**Consecuencias**
+
+- Ninguna actualizacion es posible hasta obtener el token: precios, stock, fichas, tapas y
+  metadatos quedan bloqueados. La demo sigue funcionando con los datos del 04/11 10:25.
+- El servidor **no esta caido**: responde, pero rechaza los pedidos por falta de credencial. Si el
+  token se activo sin actualizar a todos los clientes, eso explicaria fallas del lado de la libreria.
+- Evidencia guardada en el VPS: `/root/evidencia-token-bridge.txt`.
+
+**Que preguntar a Bridge**
+
+1. Confirmar el cambio y si es permanente.
+2. Como se envia el token: cabecera (`Authorization`, `X-Api-Token`), parametro de consulta, o
+   usuario/clave basica.
+3. Si hay ambiente de prueba y que limites de ritmo consideran seguros.
+4. Si el cambio de autenticacion coincide con la incidencia reportada como "servidor caido".
+
+Mientras tanto: corte total restablecido (`/etc/rayuela/pausa-bridge` presente, sin autorizacion),
+0 conexiones establecidas y ningun proceso de actualizacion.
