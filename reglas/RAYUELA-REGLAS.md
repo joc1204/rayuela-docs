@@ -172,3 +172,15 @@ y la web no pide fichas. El corte inmediato es `/etc/rayuela/pausa-bridge`.
 
 Flujo: Jorge indica qué y cuándo → se crea el archivo con la fecha → se ejecuta **un solo** trabajo
 → se borra el archivo. Fuera de indicación, cero consultas.
+
+## Dependencias: se leen del codigo, no de memoria (04/11/2026)
+
+Mapa verificado en `estado/DEPENDENCIAS.md`, con archivo y linea por cada dependencia.
+
+- **App de ferias y autoconsulta del lector** → `BuscadorProductosAction.do` (sin token). No usa la
+  API REST. No se ve afectada cuando la REST exige credencial.
+- **La demo** → API REST v0 (`/rest/webservice/...`): fichas, stock, tapas y listados.
+- **Novedades y tapas externas** → sitios de terceros, no tocan Bridge.
+
+Regla: antes de afirmar que algo "depende de la API", se busca en el codigo y se cita
+`archivo:linea`. Sin esa evidencia no se afirma.
