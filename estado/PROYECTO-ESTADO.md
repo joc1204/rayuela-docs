@@ -211,3 +211,18 @@ Si alguna de las tres falla, **no se declara "cortado"** hasta resolverla.
 Las correcciones de datos (precios, stock, altas y bajas) **se hacen en Bridge**. El panel de la demo
 sólo decide qué se muestra en la vitrina: ocultar un título ahí no corrige el sistema ni reemplaza el
 trabajo en Bridge. El panel lo dice en pantalla, para que nadie confunda las dos cosas.
+
+### Los libros ocultos son persistentes (05/11/2026)
+
+Una actualización desde Bridge **no vuelve a mostrar** lo que se ocultó:
+
+1. Los sincronizadores usan `INSERT ... ON CONFLICT DO UPDATE` y sólo tocan precio, stock,
+   descripción, autor, etc. Nunca reescriben la fila, así que `filtro` y `oculto` se mantienen.
+2. Además hay un trigger (`trg_proteger_ocultos`): si un libro se vuelve a insertar (por ejemplo al
+   reconstruir la base), recupera el estado de filtrado u oculto desde las tablas `limpieza` y
+   `ocultos`.
+3. La puerta de publicación corre `verificar_ocultos` dentro del humo: si un libro oculto reaparece,
+   **la publicación se frena**.
+
+Herramientas: `proteger_ocultos.py` (crea la tabla y el trigger), `verificar_ocultos.py` (control).
+Al reconstruir la base desde cero hay que correr `proteger_ocultos.py`.

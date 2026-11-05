@@ -64,6 +64,8 @@ env-ejemplos/  plantillas de los archivos de /etc/rayuela (sin valores)
 6. **Secretos:** recrear `/etc/rayuela/*.env` desde el gestor de contraseñas (ver `SECRETOS.md`).
 7. **Datos:** restaurar `catalogo-*.db.gz` en `/opt/rayuela/demo/catalogo.db`; opcionalmente fichas
    y tapas (hoy sin respaldo: se regeneran desde Bridge o desde scraping).
+   Si la base se arma desde cero, correr `proteger_ocultos.py` para recrear la tabla `ocultos`
+   y el trigger que mantiene ocultos los libros ya ocultados.
 8. **TLS:** `certbot --nginx -d demo.rayuelalaplata.com.ar -d ferias...` (los 5 subdominios).
 9. **Verificar:** `bash /opt/rayuela/demo/publicar.sh` (humo de la demo),
    `python3 /opt/rayuela/ferias/humo.py`, `python3 /opt/rayuela/novedades/humo.py`.
