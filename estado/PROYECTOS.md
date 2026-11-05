@@ -82,3 +82,19 @@ python3 /opt/rayuela/demo/verificar_hechos.py
 # puerta de publicación de la demo (reinicia, mide y revierte si falla)
 bash /opt/rayuela/demo/publicar.sh
 ```
+
+## Repositorios y respaldo del código (05/11)
+
+| Proyecto | Repo en GitHub | Último commit subido |
+|---|---|---|
+| Demo | `joc1204/rayuela-demo` | al día |
+| Documentación + infra | `joc1204/rayuela-docs` | al día |
+| Ferias + Lector | `joc1204/rayuela-ferias` | `4da5122` |
+| Novedades + Scraping | `joc1204/rayuela-novedades` | `0d1cd6f` |
+
+Cada repo tiene su propia **deploy key** en el VPS (GitHub no permite reutilizar una clave entre
+repos). El push se hace desde el VPS con `subir-repo` (demo/docs) o `subir-repo2` (ferias/novedades)
+a partir de un *bundle* generado en la PC.
+
+**Pendiente:** el código que corre en el VPS de ferias y novedades no está en un repo git local del
+servidor; antes de tocar producción conviene comparar desplegado vs repo (T19).

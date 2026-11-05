@@ -79,8 +79,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | T14 | Probar la puerta de humo con un cambio que rompa a propósito | ✅ | 05/11: rechazó 2 publicaciones y restauró sola |
 | T15 | Infraestructura versionada (`infra/`: units, nginx, bin, env de ejemplo) | ✅ | 05/11 |
 | T16 | Inventario de secretos (`SECRETOS.md`) | ✅ | 05/11, sin valores |
-| T17 | Cargar las 2 claves de deploy en GitHub (ferias y novedades) | ⛔ | lo hace Jorge; después se corren los bundles |
-| T18 | Subir commits de ferias y novedades a GitHub | ⬜ | depende de T17 |
+| T17 | Cargar las 2 claves de deploy en GitHub (ferias y novedades) | ✅ | 05/11, cargadas por Jorge |
+| T18 | Subir commits de ferias y novedades a GitHub | ✅ | 05/11: ferias `4da5122` · novedades `0d1cd6f` |
 | T19 | Comparar código desplegado en el VPS vs repos | ⬜ | ferias y novedades no tienen git en el servidor |
 | B1 | **Respaldo externo** (cifrado, fuera del VPS) | ⬜ | pendiente decidir destino: netbook o Drive |
 | B2 | Secretos al gestor de contraseñas | ⬜ | lo hace Jorge; la lista está en `SECRETOS.md` |
