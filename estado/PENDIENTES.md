@@ -82,6 +82,11 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | T17 | Cargar las 2 claves de deploy en GitHub (ferias y novedades) | ✅ | 05/11, cargadas por Jorge |
 | T18 | Subir commits de ferias y novedades a GitHub | ✅ | 05/11: ferias `4da5122` · novedades `0d1cd6f` |
 | T19 | Comparar código desplegado en el VPS vs repos | ⬜ | ferias y novedades no tienen git en el servidor |
+| L1 | Limpieza del catalogo fase 1 (precio < 15.000 y sin stock) | ✅ | 05/11: 173.379 ocultos, revisable con `--revertir` |
+| L2 | Limpieza fase 2 (stock pero precio irrisorio) | ✅ | 05/11: 874 ocultos · CSV `Precios-a-corregir.csv` |
+| L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
+| L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
+| L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
 | H1 | **`appctl` en la netbook**: apagar/encender un proyecto sin afectar los demás | ⬜ | comando + marca de apagado intencional + despublicar del túnel + bot de Telegram |
 | H2 | Verificar el estado de la netbook (4 datos) | ⬜ | qué corre, cómo publica el túnel, qué hace `funnel-check`, Node-RED bajo pm2 |
 | H3 | Repo `host-netbook` (units, manifiestos, humo-host, publicar-host) | ⬜ | propuesta escrita en `HOST-NETBOOK.md` |
