@@ -82,8 +82,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | T17 | Cargar las 2 claves de deploy en GitHub (ferias y novedades) | ✅ | 05/11, cargadas por Jorge |
 | T18 | Subir commits de ferias y novedades a GitHub | ✅ | 05/11: ferias `4da5122` · novedades `0d1cd6f` |
 | T19 | Comparar código desplegado en el VPS vs repos | ⬜ | ferias y novedades no tienen git en el servidor |
-| B1 | **Respaldo externo** (cifrado) | 🔄 | 05/11: primer paquete de 59 MB generado y copiado a la PC. **Falta subirlo a Drive** |
-| B1b | Automatizar el respaldo externo a Drive (rclone + cron) | ⬜ | después de validar el manual |
+| B1 | **Respaldo externo** (cifrado) | ✅ | 05/11: paquete de 58 MB en Drive (cuenta de desarrollo) y en la PC |
+| B1b | Automatizar el respaldo externo a Drive (rclone + cron) | ⬜ | requiere autorizar rclone una vez |
 | B1c | Rotar la passphrase y guardarla en el gestor | ⬜ | la actual se mostró una vez en el chat |
 | B2 | Secretos al gestor de contraseñas | ⬜ | lo hace Jorge; la lista está en `SECRETOS.md` y la passphrase del respaldo va ahí |
 | B3 | Probar una restauración completa | ⬜ | después de B1 |

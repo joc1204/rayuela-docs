@@ -19,7 +19,7 @@ ferias (chicas, ya respaldadas aparte).
 |---|---|---|
 | Original en el VPS | `/var/backups/rayuela/externo/rayuela-2026-11-05.tar.gz.gpg` | ✅ |
 | Copia en la PC | `default-workspace/_respaldos/rayuela-2026-11-05.tar.gz.gpg` | ✅ |
-| Copia en Drive | carpeta `Rayuela/Respaldos/` | ⬜ subir a mano |
+| Copia en Drive | cuenta **joc1204.developer@gmail.com** → `Rayuela/Respaldos/` | ✅ subida el 05/11 |
 
 Integridad del archivo del 05/11:
 
@@ -61,10 +61,11 @@ mkdir restaurado && tar xzf paquete.tar.gz -C restaurado
 
 ## Cadencia
 
-- **Hoy**: manual. El paquete se genera con `bash /usr/local/bin/respaldo-externo.sh` y después se
-  sube a Drive a mano.
-- **Pendiente**: automatizar (cron nocturno que genere el paquete y lo suba con rclone), y que Drive
-  tenga al menos 2 generaciones.
+- **Hoy**: manual. Se genera con `bash /usr/local/bin/respaldo-externo.sh` y se sube a mano.
+  La copia del 05/11 ya está en Drive (cuenta de desarrollo) y en la PC.
+- **Pendiente**: automatizar con rclone (cron nocturno) y mantener 3 generaciones en Drive.
+- **Regla**: la cuenta de Drive no se comparte. La passphrase va en el gestor de contraseñas, con la
+  ubicación anotada al lado.
 
 ## Rotación
 
