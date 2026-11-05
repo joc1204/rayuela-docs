@@ -29,3 +29,16 @@ Cada fila tiene el archivo y la línea que lo respalda.
 Antes de decir "X depende de Y", en este proyecto se busca en el código y se cita **archivo:línea**.
 Si no está verificado, no se afirma. La frase "depende de las APIs" sin esa comprobación no se usa
 nunca más.
+
+## Verificación del 04/11, 22:20 — todo lo que usa la autoconsulta funciona
+
+| Componente | Prueba | Resultado |
+|---|---|---|
+| **Lector clientes/vendedores** | `POST /api/rayuela-consulta` con 3 ISBN | OK: autor, precio, colección, "agotado"; ISBN inexistente devuelve error claro |
+| **Lector público (HTTPS)** | `https://lector.rayuelalaplata.com.ar/rayuela` | HTTP 200 y consulta con datos reales |
+| **App de ferias** | `/salud` 200; usa el mismo `rayuela.consultar` que el lector | Operativa (no se probó el alta porque requiere usuario del local) |
+| **Novedades (scraping)** | motores zivals / yenny / sbs con 4 ISBN | OK con datos: ALEPH (9789875666481) en los tres; AGUA SALADA en yenny y sbs (editorial Pequeño Editor) |
+| **Demo** | portada, búsqueda, ficha, carrito, institucional | HTTP 200 con datos del 04/11 10:25 |
+| Actualización REST (stock, fichas, tapas) | — | **Bloqueada por token** |
+
+Conclusión: la librería no perdió ninguna función. Lo único bloqueado es la actualización de la demo.
