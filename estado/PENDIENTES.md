@@ -44,7 +44,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 |---|---|---|---|
 | B1 | Todos los trabajos de Bridge apagados y fuera de systemd | ✅ | 12 unidades en `/etc/rayuela/unidades-off/` |
 | B2 | Limitador global 3 pedidos/s + candado entre trabajos | ✅ | probado con dos procesos en paralelo |
-| B3 | Reanudar trabajos | ⛔ | **Bloqueado: Bridge ahora exige token** (04/11 21:26). Sin credencial no hay actualización |
+| B3 | Reanudar trabajos | ⛔ | Bloqueado: Bridge exige token; el token recibido da 401. Vero trata con Luis (04/11 22:00) |
 | B8 | Obtener token de Bridge y forma de enviarlo | ⛔ | pedido a Luis; ver §15.19 del técnico |
 | B4 | Reindexar la búsqueda al reanudar la sincronización | ⬜ | correr `indexar_busqueda.py` (3 s) y `indexar_palabras.py` (4 s) |
 | B5 | Escribir informe con la cronología para soporte de Bridge | ✅ | `Informe-técnico-carga-Bridge.docx` |

@@ -135,6 +135,24 @@ tampoco pide fichas sin autorización.
 Para habilitar algo: Jorge pide, se crea el archivo con la fecha, se corre **un solo** trabajo, y se
 borra. Para cortar todo: se borra el archivo.
 
+
+### 4.2 · Decisión del 04/11, 22:00: se deja todo detenido
+
+Jorge comunica la situación a Verónica y **ella trata con Luis** (Bridge). Hasta que haya respuesta:
+
+- Todos los trabajos de actualización **detenidos** (0 procesos, 0 conexiones establecidas).
+- `pausa-bridge` presente y **sin autorización**.
+- `PAUSA_BRIDGE` en la web: la demo no pide fichas.
+- Unidades de carga fuera de systemd.
+
+**Motivo**: Bridge activó el requerimiento de token (entre las 18:23 y las 21:26 del 04/11) sin avisar a la
+librería, y el token que tiene Jorge devuelve **401 "Token inválido"**. Sin credencial válida no se
+puede actualizar stock, fichas ni tapas.
+
+**Cuando Bridge entregue el token válido y la URL exacta de la v1** (o confirme que la v0 sigue),
+el trabajo pendiente es de minutos: cargar el token en `/etc/rayuela/bridge.env`, crear la
+autorización, correr un pase acotado y verificar.
+
 ## 5 · Decisiones tomadas (no volver a preguntar)
 
 | Fecha | Decisión |
