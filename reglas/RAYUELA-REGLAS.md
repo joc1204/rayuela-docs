@@ -184,3 +184,49 @@ Mapa verificado en `estado/DEPENDENCIAS.md`, con archivo y linea por cada depend
 
 Regla: antes de afirmar que algo "depende de la API", se busca en el codigo y se cita
 `archivo:linea`. Sin esa evidencia no se afirma.
+
+## Metodo de trabajo con agentes y puertas (05/11/2026)
+
+### Orden de lectura obligatorio al empezar
+
+1. `reglas/RAYUELA-REGLAS.md` (este documento)
+2. `estado/PROYECTO-ESTADO.md` (cortes, decisiones, errores cometidos)
+3. `estado/PROYECTOS.md` (qué proyecto es qué y qué comparte)
+4. `estado/DEPENDENCIAS.md` (endpoints verificados, con archivo:línea)
+5. `estado/PENDIENTES.md` (qué falta y quién destraba)
+6. `estado/INVENTARIO-UI.md` (qué no puede faltar en cada pantalla)
+
+**Si algo no está en estos documentos y no se puede verificar en el código, no se afirma: se pregunta.**
+
+### Roles
+
+- **Lead (orquestador)**: lee el estado, define criterios de aceptación y riesgo, crea tareas con
+  alcance de archivos, revisa, publica y actualiza documentos. **No escribe código de producto.**
+- **Especialistas por proyecto** (Demo / Ferias+Lector / Novedades+Scraping): escriben código sólo
+  dentro de su alcance. Pueden correr comandos, no publican.
+- **QA**: dueño de `humo.py` y de las pruebas. Corre la puerta y reporta. No arregla.
+
+### Puerta de publicación (obligatoria para la demo)
+
+1. Se suben los archivos.
+2. Se corre `bash /opt/rayuela/demo/publicar.sh`.
+3. El script reinicia, corre el humo E2E, y **si falla restaura la versión anterior y corta**.
+4. Sólo si el humo da verde, el cambio queda.
+
+Ninguna publicación de la demo se hace por fuera de ese script.
+
+### Cambios cruzados
+
+Si un cambio toca código compartido (`rayuela.consultar`, `sitios.py`, base `catalogo.db`,
+`avisar`), la tarea debe:
+
+1. Nombrar todos los consumidores.
+2. Correr el humo o las pruebas de cada consumidor.
+3. Actualizar `estado/PROYECTOS.md`.
+
+### Definición de "terminado"
+
+- Humo en verde (o prueba equivalente del proyecto).
+- `PENDIENTES.md` actualizado.
+- Si cambió una pantalla, `INVENTARIO-UI.md` + `humo.py` actualizados.
+- Si tocó un endpoint, `DEPENDENCIAS.md` con archivo:línea.

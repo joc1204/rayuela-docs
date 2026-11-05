@@ -70,6 +70,13 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | T1 | Documento de control del proyecto | ✅ | `estado/PROYECTO-ESTADO.md` |
 | T2 | Protocolo de riesgo por solicitud (6 ejes) | ✅ | en el documento de control |
 | T3 | Modo calle (Telegram cada N minutos) | ⛔ | apagado hasta que Jorge lo pida |
+| T8 | **Puerta de publicación** (`publicar.sh` + `humo.py`) | ✅ | 05/11: humo 8/8; rechazo y rollback probados |
+| T9 | **Verificación de hechos** (`verificar_hechos.py`) | ✅ | 05/11, sin tocar Bridge |
+| T10 | **Registro de proyectos** (`PROYECTOS.md`) | ✅ | 05/11 |
+| T11 | **Inventario de UI** (`INVENTARIO-UI.md` + humo) | ✅ | 05/11 |
+| T12 | Unificar el scraper duplicado (Novedades ↔ tapas externas) | ⬜ | cambio cruzado: probar los dos consumidores |
+| T13 | Limpiar dato basura: código `0000000000000` existe como producto | ⬜ | decidir con Rayuela |
+| T14 | Probar la puerta de humo con un cambio que rompa a propósito | ⬜ | ya se probó por accidente: 2 rechazos con rollback |
 | T4 | Leer audios de Telegram | ⬜ | hoy se guardan, no se transcriben (habría que instalar Whisper) |
 | T5 | Revisar que las consultas se avisen bien (verificación HTTP) | ✅ | ahora verifica y reintenta |
 | T6 | Limpiar consultas de prueba del panel | ⬜ | 3 registros de Jorge |
