@@ -104,6 +104,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L23 | Auditor verifica WhatsApp, paginacion, tablas con estilo y pantallas con filtro | OK | tambien detecta formularios anidados |
 | L24 | Pendiente de la revision: cabecera/pie de tienda en el panel y menu de seccion | pendiente | jerarquia, no error |
 | L25 | Prueba en telefono real (CSS ya no oculta columnas) | pendiente | se junta con D7 |
+| L26 | Regla global de stock eliminada del panel (duplicaba el filtro del catalogo) | OK | 05/11: ajuste, codigo y textos fuera; auditor la prohibe |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
