@@ -100,6 +100,10 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L19 | Critico: "oculto" nombraba dos estados distintos | ✅ | estado de la tienda cuenta `filtro`; un solo rotulo en pantalla y CSV |
 | L20 | Importantes del informe (numeros, criterio "Ver: ocultos", textos, pausa, consultas) | ✅ | 9 de 9 corregidos |
 | L21 | Menores del informe (nombres de portada, Carteles duplicado, ejemplos) | ✅ | corregidos en la misma tanda |
+| L22 | Segunda revision independiente: 1 critico (WhatsApp) + 14 hallazgos | OK | 05/11: informe en revision/2026-11-05-admin-ux-2.md |
+| L23 | Auditor verifica WhatsApp, paginacion, tablas con estilo y pantallas con filtro | OK | tambien detecta formularios anidados |
+| L24 | Pendiente de la revision: cabecera/pie de tienda en el panel y menu de seccion | pendiente | jerarquia, no error |
+| L25 | Prueba en telefono real (CSS ya no oculta columnas) | pendiente | se junta con D7 |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
