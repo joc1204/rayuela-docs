@@ -21,6 +21,14 @@ def centavos(valor):
     return round(float(valor or 0), 2)
 
 
+def _estado_cierre(feria, arqueos):
+    if feria['estado'] != 'cerrada':
+        return 'PENDIENTE: este informe es sin el cierre de caja (la feria sigue abierta)'
+    if not arqueos:
+        return 'PENDIENTE: la feria esta cerrada pero falta el arqueo de caja'
+    return 'COMPLETO: incluye el arqueo de caja'
+
+
 def escribir(salida, nombre, encabezados, filas):
     ruta = os.path.join(salida, nombre)
     with open(ruta, 'w', encoding='utf-8-sig', newline='') as archivo:
@@ -36,6 +44,7 @@ def main():
     analizador.add_argument('--salida', required=True)
     analizador.add_argument('--base', default='/opt/rayuela/ferias/ferias.db')
     args = analizador.parse_args()
+
 
     os.makedirs(args.salida, exist_ok=True)
     con = conectar(args.base)
@@ -110,6 +119,7 @@ def main():
         ['Hasta', feria['hasta'] or ''],
         ['Estado', feria['estado']],
         ['Generado', datetime.now().strftime('%d/%m/%Y %H:%M')],
+        ['Cierre de caja', _estado_cierre(feria, arqueos)],
         [],
         ['Caja inicial', caja_inicial],
         ['Efectivo cobrado', centavos(efectivo)],

@@ -540,6 +540,15 @@ def _datos_cierre(con, fid):
     return feria, ventas, items, stock, arqueos, reservas
 
 
+def estado_cierre_texto(feria, arqueos):
+    """Como se lee el cierre en los informes. Queda escrito, no depende de la pantalla."""
+    if feria['estado'] != 'cerrada':
+        return 'PENDIENTE: este informe es sin el cierre de caja (la feria sigue abierta)'
+    if not arqueos:
+        return 'PENDIENTE: la feria esta cerrada pero falta el arqueo de caja'
+    return 'COMPLETO: incluye el arqueo de caja'
+
+
 def _reporte_feria(con, fid, nombre):
     """Encabezados y filas del reporte pedido. Solo lectura."""
     feria, ventas, items, stock, arqueos, reservas = _datos_cierre(con, fid)
@@ -560,7 +569,8 @@ def _reporte_feria(con, fid, nombre):
             ['Feria', feria['nombre']], ['Lugar', feria['lugar'] or ''],
             ['Desde', feria['desde'] or ''], ['Hasta', feria['hasta'] or ''],
             ['Estado', feria['estado']],
-            ['Generado', datetime.now().strftime('%d/%m/%Y %H:%M')], [],
+            ['Generado', datetime.now().strftime('%d/%m/%Y %H:%M')],
+            ['Cierre de caja', estado_cierre_texto(feria, arqueos)], [],
             ['Caja inicial', round(caja_inicial, 2)],
             ['Efectivo cobrado', round(efectivo, 2)],
             ['Efectivo esperado en caja', round(caja_inicial + efectivo, 2)], [],
@@ -1760,7 +1770,16 @@ def registrar_rutas(app):
             feria = db.fila(con, 'SELECT * FROM ferias WHERE id = ?', (fid,))
             if not feria:
                 abort(404)
+            arqueos_n = db.valor(con, 'SELECT COUNT(*) FROM arqueos WHERE feria_id = ?',
+                                 (fid,)) or 0
+            aviso = ('Reportes de %s\n'
+                     'Generado: %s\n'
+                     '%s\n'
+                     'Los importes son los registrados hasta ese momento.\n'
+                     % (feria['nombre'], datetime.now().strftime('%d/%m/%Y %H:%M'),
+                        estado_cierre_texto(feria, arqueos_n)))
             with zipfile.ZipFile(memoria, 'w', zipfile.ZIP_DEFLATED) as paquete:
+                paquete.writestr('00-aviso.txt', aviso)
                 for clave, _titulo, _descripcion in REPORTES_FERIA:
                     try:
                         encabezados, filas = _reporte_feria(con, fid, clave)
