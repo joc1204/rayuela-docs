@@ -146,6 +146,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L65 | Aviso de cambios de precio colapsable y cierre por usuario | OK | 07/11: cada uno marca lo que vio; no afecta a los demas y vale en cualquier dispositivo |
 | L66 | Ubicacion bloqueada para copiar el link del mapa | OK | 07/11: nginx mandaba Permissions-Policy geolocation=(); ahora (self) solo en ferias/lector |
 | L67 | Mensajes de ubicacion segun el motivo (permiso, GPS apagado, demora) | OK | 07/11: antes decia siempre lo mismo |
+| L68 | Reportes de cierre de feria (8 CSV + Excel con hojas) | OK | 06/11: resumen, ventas, detalle, vendidos para Rayuela, stock final, sobreventas, reservas, caja |
+| L69 | Regenerar reportes despues del cierre real | pendiente | correr reportes_feria.py y reportes_xlsx.py con la feria cerrada |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
