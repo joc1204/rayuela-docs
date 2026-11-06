@@ -26,7 +26,7 @@
   <div class="aviso" style="background:#fdf0d5;border:1px solid #f0d9a8;color:#7a4b00;margin-top:12px">
     <b>La caja inicial esta en $0.</b>
     <div class="chico">Si la feria arranco con un fondo de caja, un administrador puede cargarlo en
-      <a href="{{ url_for('feria_detalle', fid=feria.id) }}">los datos de la feria</a>.</div>
+      <a href="{{ url_for('feria_detalle', fid=feria.id) }}#datos-feria">los datos de la feria</a>.</div>
   </div>
   {% endif %}
   {% if pendientes and pendientes.n %}

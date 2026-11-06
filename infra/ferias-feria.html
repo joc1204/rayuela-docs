@@ -100,7 +100,7 @@
 </div>
 
 {% if feria.estado == 'preparacion' and usuario.rol == 'admin' %}
-<details class="tarjeta">
+<details class="tarjeta" id="datos-feria"{% if not feria.caja_inicial %} open{% endif %}>
   <summary style="cursor:pointer;font-weight:600">Editar datos de la feria y caja inicial</summary>
   <p class="chico tenue" style="margin:6px 0 0">
     La caja inicial se suma al efectivo esperado en caja y al arqueo.
