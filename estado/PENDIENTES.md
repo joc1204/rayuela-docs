@@ -144,6 +144,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L63 | Control de stock en Ferias con filtro por titulo, autor, editorial o ISBN | OK | 07/11: muestra llevados, vendidos, reservados y disponibles |
 | L64 | Los libros de ferias no tienen editorial cargada | pendiente | 0 de 514: el filtro por editorial existe pero no devuelve nada hasta que el dato venga de Rayuela |
 | L65 | Aviso de cambios de precio colapsable y cierre por usuario | OK | 07/11: cada uno marca lo que vio; no afecta a los demas y vale en cualquier dispositivo |
+| L66 | Ubicacion bloqueada para copiar el link del mapa | OK | 07/11: nginx mandaba Permissions-Policy geolocation=(); ahora (self) solo en ferias/lector |
+| L67 | Mensajes de ubicacion segun el motivo (permiso, GPS apagado, demora) | OK | 07/11: antes decia siempre lo mismo |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
