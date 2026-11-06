@@ -226,3 +226,14 @@ Una actualización desde Bridge **no vuelve a mostrar** lo que se ocultó:
 
 Herramientas: `proteger_ocultos.py` (crea la tabla y el trigger), `verificar_ocultos.py` (control).
 Al reconstruir la base desde cero hay que correr `proteger_ocultos.py`.
+
+### Cambio del 05/11/2026 22:30: sin reglas automaticas
+
+Jorge definio que la coherencia manda: **si se muestra un filtro, se aplica; no hay excepciones
+escondidas**. Por eso se revirtieron las dos reglas automaticas que se habian aplicado a la mañana
+(precio menor a $15.000 sin stock, y precio irrisorio con stock): la tienda volvio a mostrar el
+catalogo completo.
+
+Desde ahora **el unico filtro es el que aplica el admin desde el panel**. El control total es de la
+libreria: si quieren ocultar, filtran y ocultan; si no, se ve todo. La correccion de fondo sigue
+siendo en Bridge.

@@ -82,8 +82,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | T17 | Cargar las 2 claves de deploy en GitHub (ferias y novedades) | ✅ | 05/11, cargadas por Jorge |
 | T18 | Subir commits de ferias y novedades a GitHub | ✅ | 05/11: ferias `4da5122` · novedades `0d1cd6f` |
 | T19 | Comparar código desplegado en el VPS vs repos | ⬜ | ferias y novedades no tienen git en el servidor |
-| L1 | Limpieza del catalogo fase 1 (precio < 15.000 y sin stock) | ✅ | 05/11: 173.379 ocultos, revisable con `--revertir` |
-| L2 | Limpieza fase 2 (stock pero precio irrisorio) | ✅ | 05/11: 874 ocultos · CSV `Precios-a-corregir.csv` |
+| L1 | Limpieza automatica fase 1 (precio < 15.000 y sin stock) | ↩️ revertida | 05/11 22:30: se pasó a control manual exclusivo |
+| L2 | Limpieza automatica fase 2 (precio irrisorio) | ↩️ revertida | 05/11 22:30 · el CSV de precios sigue siendo útil |
 | L6 | **Panel de limpieza por criterios** (`/admin/limpieza`) | ✅ | 05/11: filtro por precio/stock, ocultar y volver a mostrar, por selección o por lote entero |
 | L7 | Modo de limpieza: **manual** (decidido por Jorge el 05/11) | ✅ | la librería ya usa la demo; control absoluto de quien administra |
 | L8 | Guía corta para quien administra la limpieza | ✅ | `Guia-para-administrar-la-limpieza.docx` |
@@ -91,6 +91,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L10 | Panel de limpieza: filtro por editorial y exportación a CSV | ✅ | 05/11 |
 | L12 | Los ocultos sobreviven a la sincronización (trigger + control en la puerta) | ✅ | 05/11: probado actualización, recreación de fila y oculto manual |
 | L11 | Recordar a la librería que las correcciones se hacen en Bridge | ⬜ | el panel sólo oculta en la vitrina; Bridge es la fuente de la verdad |
+| L13 | Reglas automaticas de limpieza | ❌ descartadas | la coherencia manda: solo filtra el admin desde el panel |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
