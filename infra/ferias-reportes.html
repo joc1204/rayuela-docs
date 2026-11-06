@@ -11,6 +11,24 @@
 
 {% include '_tabs.html' %}
 
+{% if estado_cierre == 'abierta' %}
+  <div class="aviso" style="background:#fdf0d5;border:1px solid #f0d9a8;color:#7a4b00">
+    <b>La feria todavía no está cerrada.</b>
+    <div class="chico">Estos números son una foto del momento: van a cambiar cuando se cierre la feria
+      y se cargue el arqueo de caja.</div>
+  </div>
+{% elif estado_cierre == 'sin arqueo' %}
+  <div class="aviso" style="background:#fdf0d5;border:1px solid #f0d9a8;color:#7a4b00">
+    <b>La feria está cerrada, pero falta el arqueo de caja.</b>
+    <div class="chico">El efectivo contado y la diferencia todavía no están registrados.</div>
+  </div>
+{% else %}
+  <div class="aviso" style="background:#e9f6ec;border:1px solid #b7e0c0;color:#1f6b35">
+    <b>Cierre completo.</b>
+    <div class="chico">La feria está cerrada y el arqueo de caja ya quedó registrado.</div>
+  </div>
+{% endif %}
+
 <div class="tarjeta">
   <h3 style="margin-top:0">Compartir</h3>
   <div class="chico tenue" style="margin:-4px 0 10px">

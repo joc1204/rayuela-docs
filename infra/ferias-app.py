@@ -1715,14 +1715,26 @@ def registrar_rutas(app):
                 encabezados, filas = _reporte_feria(con, fid, clave)
                 listado.append({'clave': clave, 'titulo': titulo, 'descripcion': descripcion,
                                 'filas': len(filas)})
+            arqueos = db.valor(con, 'SELECT COUNT(*) FROM arqueos WHERE feria_id = ?',
+                               (fid,)) or 0
             texto = _resumen_para_compartir(con, fid)
+            if feria['estado'] != 'cerrada':
+                texto += '\nCierre: pendiente (la feria sigue abierta)'
+            elif not arqueos:
+                texto += '\nCierre: falta el arqueo de caja'
+        if feria['estado'] != 'cerrada':
+            estado_cierre = 'abierta'
+        elif not arqueos:
+            estado_cierre = 'sin arqueo'
+        else:
+            estado_cierre = 'completo'
         datos_compartir = [{'clave': c['clave'],
                             'archivo': 'feria-%d-%s.csv' % (fid, c['clave']),
                             'url': url_for('feria_reporte_csv', fid=fid, nombre=c['clave'])}
                            for c in listado]
         return render_template('reportes.html', feria=feria, reportes=listado,
                                texto_compartir=texto, datos_compartir=datos_compartir,
-                               tab='reportes')
+                               estado_cierre=estado_cierre, tab='reportes')
 
     @app.get('/ferias/<int:fid>/reportes/<nombre>.csv')
     @requiere_admin
