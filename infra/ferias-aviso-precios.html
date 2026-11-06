@@ -2,7 +2,9 @@
 {% if cambios %}
 <details class="aviso-precios">
   <summary class="aviso-precios-titulo">
-    {% if cambios|length == 1 %}Cambió 1 precio{% else %}Cambiaron {{ cambios|length }} precios{% endif %}
+    <span>{% if cambios|length == 1 %}Cambió 1 precio{% else %}Cambiaron {{ cambios|length }} precios{% endif %}</span>
+    <button type="button" class="aviso-precios-cerrar" data-cerrar-aviso
+            title="Marcar como visto" aria-label="Marcar como visto">×</button>
   </summary>
   <ul>
     {% for c in cambios[:8] %}

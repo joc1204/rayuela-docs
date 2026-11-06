@@ -22,7 +22,8 @@ window.Precios = (function () {
     cont.innerHTML =
       '<details class="aviso-precios">' +
         '<summary class="aviso-precios-titulo">' +
-          (cambios.length === 1 ? 'Cambió 1 precio' : 'Cambiaron ' + cambios.length + ' precios') +
+          '<span>' + (cambios.length === 1 ? 'Cambió 1 precio' : 'Cambiaron ' + cambios.length + ' precios') + '</span>' +
+          '<button type="button" class="aviso-precios-cerrar" data-cerrar-aviso title="Marcar como visto">×</button>' +
         '</summary>' +
         '<ul>' + items + '</ul>' + mas +
       '</details>';
@@ -54,6 +55,17 @@ window.Precios = (function () {
         })
         .catch(function () {});
     }
+
+    document.addEventListener('click', function (e) {
+      var boton = e.target && e.target.closest ? e.target.closest('[data-cerrar-aviso]') : null;
+      if (!boton) return;
+      e.preventDefault();
+      e.stopPropagation();
+      var caja = boton.closest('.aviso-precios');
+      if (caja && caja.parentNode) caja.parentNode.removeChild(caja);
+      fetch(BASE + 'api/ferias/' + fid + '/precios/visto',
+            { method: 'POST', credentials: 'same-origin' }).catch(function () {});
+    });
 
     setInterval(consultar, 3 * 60 * 1000);
 

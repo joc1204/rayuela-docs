@@ -365,14 +365,37 @@ def hilo_precios():
         time.sleep(60)
 
 
-def cambios_de_precio(con, feria_id, horas=24):
-    """Cambios de precio de las ultimas horas, para el aviso en pantalla."""
+def asegurar_tabla_vistos(con):
+    """Cada usuario tiene su marca de 'hasta aca vi los cambios de precio'."""
+    con.execute('''CREATE TABLE IF NOT EXISTS precios_vistos (
+                    usuario_id INTEGER NOT NULL,
+                    feria_id   INTEGER NOT NULL,
+                    hasta      TEXT    NOT NULL,
+                    PRIMARY KEY (usuario_id, feria_id))''')
+
+
+def cambios_de_precio(con, feria_id, horas=24, usuario_id=None):
+    """Cambios de precio de las ultimas horas, para el aviso en pantalla.
+
+    Si se pasa usuario_id, se muestra solo lo posterior a su marca: cada uno
+    cierra el aviso cuando lo vio y no afecta a los demas.
+    """
     desde = (datetime.now() - timedelta(hours=horas)).strftime('%Y-%m-%d %H:%M:%S')
-    filas = db.filas(con, '''SELECT m.cuando, m.detalle, l.titulo
-                               FROM movimientos m LEFT JOIN libros l ON l.id = m.libro_id
-                              WHERE m.feria_id = ? AND m.accion = 'precio'
-                                AND m.cuando >= ?
-                           ORDER BY m.id DESC''', (feria_id, desde))
+    sql = '''SELECT m.cuando, m.detalle, l.titulo
+               FROM movimientos m LEFT JOIN libros l ON l.id = m.libro_id
+              WHERE m.feria_id = ? AND m.accion = 'precio'
+                AND m.cuando >= ?'''
+    parametros = [feria_id, desde]
+    if usuario_id:
+        asegurar_tabla_vistos(con)
+        visto = db.fila(con, 'SELECT hasta FROM precios_vistos '
+                             'WHERE usuario_id = ? AND feria_id = ?',
+                        (usuario_id, feria_id))
+        if visto and visto['hasta']:
+            sql += ' AND m.cuando > ?'
+            parametros.append(visto['hasta'])
+    sql += ' ORDER BY m.id DESC'
+    filas = db.filas(con, sql, tuple(parametros))
     for f in filas:
         partes = (f['detalle'] or '').split('->')
         f['antes'] = a_decimal(partes[0]) if len(partes) == 2 else 0
@@ -646,7 +669,8 @@ def registrar_rutas(app):
                   FROM ventas v LEFT JOIN clientes c ON c.id = v.cliente_id
                  WHERE v.feria_id = ? AND v.estado = 'confirmada'
                  ORDER BY v.id DESC LIMIT 15''', (fid,))
-            cambios = cambios_de_precio(con, fid)
+            cambios = cambios_de_precio(con, fid,
+                                        usuario_id=g.usuario['id'] if g.usuario else None)
         return render_template('feria.html', feria=feria, libros=libros,
                                resumen=resumen, ventas=ventas, cambios=cambios,
                                filtro=filtro, encontrados=len(libros))
@@ -914,7 +938,8 @@ def registrar_rutas(app):
             if not feria:
                 abort(404)
             formas = formas_pago_activas(con)
-            cambios = cambios_de_precio(con, fid)
+            cambios = cambios_de_precio(con, fid,
+                                        usuario_id=g.usuario['id'] if g.usuario else None)
             rid = a_entero(request.args.get('reserva'))
             if rid:
                 reserva = db.fila(con, "SELECT * FROM reservas WHERE id = ? AND feria_id = ? "
@@ -943,6 +968,19 @@ def registrar_rutas(app):
             f['antes'] = a_decimal(partes[0]) if len(partes) == 2 else 0
             f['despues'] = a_decimal(partes[1]) if len(partes) == 2 else 0
         return jsonify(ok=True, cambios=filas, ahora=ahora)
+
+    @app.post('/api/ferias/<int:fid>/precios/visto')
+    @requiere_login
+    def api_precios_visto(fid):
+        """Marca para este usuario que ya vio los cambios hasta ahora."""
+        with db.conexion() as con:
+            asegurar_tabla_vistos(con)
+            con.execute('''INSERT INTO precios_vistos (usuario_id, feria_id, hasta)
+                           VALUES (?, ?, ?)
+                           ON CONFLICT(usuario_id, feria_id)
+                           DO UPDATE SET hasta = excluded.hasta''',
+                        (g.usuario['id'], fid, db.ahora()))
+        return jsonify(ok=True)
 
     @app.post('/api/ferias/<int:fid>/precio_actual')
     @requiere_login

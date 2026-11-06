@@ -192,8 +192,11 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 .aviso-precios-titulo { font-size:17px; font-weight:700; cursor:pointer;
   list-style:none; display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .aviso-precios-titulo::-webkit-details-marker { display:none; }
-.aviso-precios-titulo::after { content:'▾'; font-weight:400; font-size:20px; }
-.aviso-precios[open] .aviso-precios-titulo::after { content:'▴'; }
+.aviso-precios-titulo span::after { content:'▾'; font-weight:400; font-size:20px; margin-left:8px; }
+.aviso-precios[open] .aviso-precios-titulo span::after { content:'▴'; }
+.aviso-precios-cerrar { border:0; background:transparent; color:#7a4b00; cursor:pointer;
+  font-size:22px; line-height:1; padding:0 4px; margin-left:auto; }
+.aviso-precios-titulo { gap:6px; }
 .aviso-precios ul { margin:8px 0 0 18px; padding:0; }
 .aviso-precios li { font-size:15px; margin:2px 0; }
 /* --- tarjetas: separacion clara entre ellas y del fondo --- */
