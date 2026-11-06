@@ -23,3 +23,16 @@ Si cambia una pantalla, se actualiza el humo; si el humo falla, no se publica.
 3. Recién ahí implementar.
 
 Así ningún cambio futuro puede quitar algo sin que la puerta lo detecte.
+
+## Pantallas del panel (admin)
+
+| Pantalla | Obligacion | Verificado por |
+|---|---|---|
+| `/admin` | abre con la clave; boton "Catálogo: ocultar y destacar"; seccion "Cómo se muestra la tienda" | humo · bloque `panel` |
+| `/admin/catalogo` | buscador y filtros visibles; **sin criterio no lista nada**; boton volver al panel | humo · bloque `panel` |
+| `/admin/catalogo` | ocultar y volver a mostrar funcionan (ficha 404 / 200) | prueba manual + humo `filtro del catalogo` |
+| `/admin/catalogo.csv` | exporta el criterio completo | prueba manual |
+| Nombres | un solo nombre por concepto: no puede haber dos secciones o botones que digan lo mismo | humo · bloque `panel` (falla si aparece "Qué se publica") |
+
+**Regla de estilo**: antes de publicar una pantalla nueva, se revisa que no repita un concepto ya
+existente en otra pantalla. Si repite, se unifica; no se agrega.
