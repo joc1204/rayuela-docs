@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block titulo %}Reportes · {{ feria.nombre }}{% endblock %}
+{% block cuerpo %}
+<div class="fila">
+  <div class="crece">
+    <h1 style="margin-bottom:2px">{{ feria.nombre }}</h1>
+    <div class="chico tenue">Reportes del cierre</div>
+  </div>
+  <span class="etiqueta {{ feria.estado }}">{{ feria.estado }}</span>
+</div>
+
+{% include '_tabs.html' %}
+
+<div class="tarjeta">
+  <h3 style="margin-top:0">Compartir</h3>
+  <div class="chico tenue" style="margin:-4px 0 10px">
+    Comparte los archivos por WhatsApp o email. En la computadora, el botón descarga el paquete.
+  </div>
+  <div class="fila" style="gap:8px;flex-wrap:wrap">
+    <button type="button" class="grande-btn" id="btnCompartir"
+            data-zip="{{ url_for('feria_reporte_zip', fid=feria.id) }}"
+            style="flex:1;min-width:180px">Compartir reportes</button>
+    <a class="sec" style="padding:12px 14px" href="{{ url_for('feria_reporte_zip', fid=feria.id) }}">Descargar todo (ZIP)</a>
+  </div>
+  <div class="fila" style="gap:8px;margin-top:8px;flex-wrap:wrap">
+    <a class="sec" style="padding:10px 12px"
+       href="https://wa.me/?text={{ texto_compartir|urlencode }}" target="_blank" rel="noopener">Resumen por WhatsApp</a>
+    <a class="sec" style="padding:10px 12px"
+       href="mailto:?subject={{ ('Cierre ' ~ feria.nombre)|urlencode }}&body={{ texto_compartir|urlencode }}">Resumen por email</a>
+  </div>
+  <p id="estadoCompartir" class="chico" style="margin:8px 0 0"></p>
+</div>
+
+<div class="tarjeta">
+  <h3 style="margin-top:0">Archivos</h3>
+  <div class="chico tenue" style="margin:-4px 0 10px">
+    Cada archivo se abre en Excel. "Vendidos para Rayuela" es la lista para la baja de stock.
+  </div>
+  <table>
+    <thead><tr><th>Reporte</th><th>Qué trae</th><th class="num">Filas</th><th></th></tr></thead>
+    <tbody>
+    {% for r in reportes %}
+      <tr>
+        <td><b>{{ r.titulo }}</b></td>
+        <td class="chico">{{ r.descripcion }}</td>
+        <td class="num">{{ r.filas }}</td>
+        <td><a class="descarga" href="{{ url_for('feria_reporte_csv', fid=feria.id, nombre=r.clave) }}">Descargar</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script type="application/json" id="datosReportes">{{ datos_compartir|tojson }}</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='reportes.js') }}?v=1"></script>
+{% endblock %}

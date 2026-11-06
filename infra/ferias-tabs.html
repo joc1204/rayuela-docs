@@ -1,0 +1,54 @@
+{# Barra de pestanas de la feria. La activa se indica con la variable tab. #}
+<div class="tabs-caja">
+  <button type="button" class="tabs-flecha" data-dir="-1" aria-label="Ver pestañas anteriores">&#8249;</button>
+  <div class="tabs">
+    {% if feria.estado == 'abierta' and usuario.rol in ('admin', 'vendedor') %}
+      <a href="{{ url_for('vender', fid=feria.id) }}" class="{{ 'activo' if tab == 'vender' else '' }}">Vender</a>
+    {% endif %}
+    {% if usuario.rol in ('admin', 'vendedor', 'repositor') %}
+      <a href="{{ url_for('feria_detalle', fid=feria.id) }}" class="{{ 'activo' if tab == 'stock' else '' }}">Stock</a>
+    {% endif %}
+    {% if usuario.rol in ('admin', 'vendedor') %}
+      <a href="{{ url_for('feria_reservas', fid=feria.id) }}" class="{{ 'activo' if tab == 'reservas' else '' }}">Reservas{% if n_reservas %} ({{ n_reservas }}){% endif %}</a>
+      <a href="{{ url_for('feria_pendientes', fid=feria.id) }}" class="{{ 'activo' if tab == 'pendientes' else '' }}">Pendientes{% if n_pendientes %} ({{ n_pendientes }}){% endif %}</a>
+    {% endif %}
+    <a href="{{ url_for('feria_caja', fid=feria.id) }}" class="{{ 'activo' if tab == 'caja' else '' }}">Caja</a>
+    <a href="{{ url_for('ferias_ventas', fid=feria.id) }}" class="{{ 'activo' if tab == 'ventas' else '' }}">Ventas</a>
+    <a href="{{ url_for('feria_cerrar_vista', fid=feria.id) }}" class="{{ 'activo' if tab == 'cierre' else '' }}">Cierre</a>
+    {% if usuario.rol == 'admin' %}
+      <a href="{{ url_for('feria_reportes', fid=feria.id) }}" class="{{ 'activo' if tab == 'reportes' else '' }}">Reportes</a>
+    {% endif %}
+  </div>
+  <button type="button" class="tabs-flecha" data-dir="1" aria-label="Ver más pestañas">&#8250;</button>
+</div>
+<script>
+(function () {
+  var cajas = document.querySelectorAll('.tabs-caja');
+  for (var c = 0; c < cajas.length; c++) {
+    (function (caja) {
+      var tabs = caja.querySelector('.tabs');
+      var flechas = caja.querySelectorAll('.tabs-flecha');
+      if (!tabs) return;
+      function refrescar() {
+        var izq = caja.querySelector('[data-dir="-1"]');
+        var der = caja.querySelector('[data-dir="1"]');
+        var hay = tabs.scrollWidth > tabs.clientWidth + 2;
+        var alFinal = tabs.scrollLeft + tabs.clientWidth >= tabs.scrollWidth - 2;
+        if (izq) izq.classList.toggle('oculto', !hay || tabs.scrollLeft <= 2);
+        if (der) der.classList.toggle('oculto', !hay || alFinal);
+      }
+      Array.prototype.forEach.call(flechas, function (b) {
+        b.addEventListener('click', function () {
+          var paso = Math.max(120, Math.round(tabs.clientWidth * 0.6));
+          tabs.scrollBy({ left: paso * Number(b.dataset.dir), behavior: 'smooth' });
+          setTimeout(refrescar, 320);
+        });
+      });
+      tabs.addEventListener('scroll', refrescar);
+      window.addEventListener('resize', refrescar);
+      refrescar();
+      setTimeout(refrescar, 100);
+    })(cajas[c]);
+  }
+})();
+</script>
