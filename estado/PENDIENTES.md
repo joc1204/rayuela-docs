@@ -130,6 +130,10 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L49 | Si aparece un resultado raro, pedir captura de la pantalla y el texto exacto | pendiente | para reproducirlo |
 | L50 | Sugerencias de tema: palabra completa y minimo de 10 titulos | OK | 06/11: se fueron los temas basura (TAPAS de Pagina 12, TAPA DURA) |
 | L51 | El vocabulario de temas del catalogo esta sucio | pendiente | TAPAS, TAPA DURA y temas de 1 titulo: limpiar en Bridge |
+| L52 | Vigilante costo cero de ferias (servicio, salud y errores por Telegram) | OK | 06/11: cada 5 minutos, solo avisa si algo anda mal |
+| L53 | Extender el vigilante a demo, novedades y lector | pendiente | el script ya es generico: igilar-app.sh <servicio> <nombre> <puerto> |
+| L54 | Poder delegar los avisos a otra persona | pendiente | hoy es cambiar TELEGRAM_CHAT; si se quiere, bot propio y chat por app |
+| L55 | Resumen horario opcional (ventas/errores) | pendiente | solo si lo piden; hoy avisa unicamente cuando algo falla |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |

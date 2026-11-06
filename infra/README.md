@@ -69,3 +69,16 @@ env-ejemplos/  plantillas de los archivos de /etc/rayuela (sin valores)
 8. **TLS:** `certbot --nginx -d demo.rayuelalaplata.com.ar -d ferias...` (los 5 subdominios).
 9. **Verificar:** `bash /opt/rayuela/demo/publicar.sh` (humo de la demo),
    `python3 /opt/rayuela/ferias/humo.py`, `python3 /opt/rayuela/novedades/humo.py`.
+
+## Vigilante de aplicaciones (costo cero)
+
+/usr/local/bin/vigilar-app.sh <servicio> <nombre> <puerto> revisa cada 5 minutos:
+servicio activo, /salud respondiendo y errores nuevos en el journal. Avisa por Telegram
+**solo cuando algo anda mal** (no gasta tokens de agente).
+
+- Instalado para ferias: igilar-ferias.timer.
+- Apagarlo: crear /etc/rayuela/vigilante-off.
+- Probar el canal: igilar-app.sh ferias "Feria" 5050 --probar.
+- **Delegar los avisos**: cambiar TELEGRAM_CHAT en /etc/rayuela/telegram.env. Todo lo que
+  avise el vigilante va a ese chat, sin tocar código.
+- Agregar otra app: copiar el .service cambiando servicio, nombre y puerto.

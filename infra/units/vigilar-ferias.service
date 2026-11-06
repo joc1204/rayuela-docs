@@ -1,0 +1,9 @@
+[Unit]
+Description=Vigilante de la app de ferias (servicio, salud y errores)
+After=ferias.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/vigilar-app.sh ferias "Feria" 5050
+Nice=15
+IOSchedulingClass=idle
