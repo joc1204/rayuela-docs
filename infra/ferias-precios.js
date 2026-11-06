@@ -12,20 +12,17 @@ window.Precios = (function () {
   function pintarAviso(cambios) {
     var cont = document.getElementById('avisoPrecios');
     if (!cont || !cambios || !cambios.length) return;
-    var items = cambios.slice(0, 8).map(function (c) {
+    var items = cambios.map(function (c) {
       return '<li>' + esc(c.titulo || '—') + ': ' + dinero(c.antes) +
              ' → <b>' + dinero(c.despues) + '</b></li>';
     }).join('');
-    var mas = cambios.length > 8
-      ? '<div class="chico tenue" style="margin-top:4px">y ' + (cambios.length - 8) + ' más…</div>'
-      : '';
     cont.innerHTML =
       '<details class="aviso-precios">' +
         '<summary class="aviso-precios-titulo">' +
           '<span>' + (cambios.length === 1 ? 'Cambió 1 precio' : 'Cambiaron ' + cambios.length + ' precios') + '</span>' +
           '<button type="button" class="aviso-precios-cerrar" data-cerrar-aviso title="Marcar como visto">×</button>' +
         '</summary>' +
-        '<ul>' + items + '</ul>' + mas +
+        '<ul>' + items + '</ul>' +
       '</details>';
   }
 
