@@ -124,6 +124,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L43 | Busqueda por frase: las palabras tienen que estar cerca (NEAR), no sueltas | OK | 06/11: "chicos que juegan" ya no trae falsos positivos |
 | L44 | Si no aparecen juntas, ofrecer buscar palabra por palabra | OK | chips con cada palabra en la pantalla de resultados |
 | L45 | Auditor detecta plantillas sobrescritas por error | OK | 06/11: un .html con codigo Python ya no pasa la puerta |
+| L46 | Si una frase no encuentra nada, sugerir temas del catalogo | OK | 06/11: "chicos que juegan" ofrece ARTE PARA CHICOS, JUEGO, TEATRO... |
+| L47 | Revisar toda la busqueda con los vendedores de Rayuela | pendiente | ellos diran que frases reales usan |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
