@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block titulo %}Caja · {{ feria.nombre }}{% endblock %}
+{% block cuerpo %}
+<div class="fila">
+  <div class="crece"><h1 style="margin-bottom:2px">Caja</h1><div class="chico tenue">{{ feria.nombre }}</div></div>
+  <span class="etiqueta {{ feria.estado }}">{{ feria.estado }}</span>
+</div>
+{% set tab = 'caja' %}{% include '_tabs.html' %}
+
+<div class="tarjeta">
+  <h3 style="margin-top:0">Totales de la feria</h3>
+  <table>
+    <thead><tr><th>Forma de pago</th><th class="num">Operaciones</th><th class="num">Total</th></tr></thead>
+    <tbody>
+    {% for clave, datos in por_forma.items() %}
+      <tr><td>{{ nombres.get(clave, clave) }}</td><td class="num">{{ datos.operaciones }}</td><td class="num">${{ '%.2f'|format(datos.total) }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <div class="chico tenue" style="margin-top:10px;font-size:15px">
+    Ventas confirmadas: {{ ventas_ok.n }} · Anuladas: {{ anuladas }} · Con sobreventa: {{ sobreventas }}
+  </div>
+  <div class="dato-caja">Descuentos otorgados: ${{ '%.2f'|format(ventas_ok.descuento or 0) }}</div>
+  <div style="margin-top:10px"><b>Efectivo esperado en caja: ${{ '%.2f'|format(en_caja) }}</b> <span class="chico tenue">(incluye caja inicial ${{ '%.2f'|format(feria.caja_inicial) }})</span></div>
+  {% if not feria.caja_inicial %}
+  <div class="aviso" style="background:#fdf0d5;border:1px solid #f0d9a8;color:#7a4b00;margin-top:12px">
+    <b>La caja inicial esta en $0.</b>
+    <div class="chico">Si la feria arranco con un fondo de caja, un administrador puede cargarlo en
+      <a href="{{ url_for('feria_detalle', fid=feria.id) }}">los datos de la feria</a>.</div>
+  </div>
+  {% endif %}
+  {% if pendientes and pendientes.n %}
+  <div class="aviso" style="background:#fdf0d5;border:1px solid #f0d9a8;color:#7a4b00;margin-top:12px">
+    <b>{{ pendientes.n }} venta{{ 's' if pendientes.n > 1 }} pendiente{{ 's' if pendientes.n > 1 }} de pago:
+    ${{ '%.2f'|format(pendientes.total) }}</b>
+    <div class="chico">No se cuentan en la caja hasta confirmar el pago.
+      <a href="{{ url_for('feria_pendientes', fid=feria.id) }}">Ver pendientes</a></div>
+  </div>
+  {% endif %}
+</div>
+
+{% if usuario.rol == 'admin' %}
+<div class="tarjeta">
+  <h3 style="margin-top:0">Registrar arqueo (control parcial, no cierra la feria)</h3>
+  <form method="post" action="{{ url_for('feria_arqueo', fid=feria.id) }}">
+    <div class="grid">
+      <div>
+        <label>Forma de pago</label>
+        <select name="forma_pago">
+          {% for clave, nombre in formas_pago %}<option value="{{ clave }}">{{ nombre }}</option>{% endfor %}
+        </select>
+      </div>
+      <div><label>Contado</label><input name="contado" inputmode="decimal" required></div>
+    </div>
+    <label>Nota</label><input name="nota" placeholder="opcional">
+    <div style="margin-top:12px"><button type="submit">Registrar</button></div>
+  </form>
+</div>
+{% else %}
+<p class="chico tenue">El conteo y la diferencia los registra un administrador. Los totales de arriba son para tu control.</p>
+{% endif %}
+
+<div class="tarjeta">
+  <h3 style="margin-top:0">Arqueos</h3>
+  {% if not arqueos %}<p class="tenue">Sin arqueos registrados.</p>{% endif %}
+  {% for a in arqueos %}
+    <div class="item-venta">
+      <div class="fila">
+        <div class="crece"><b>{{ a.forma_pago }}</b> <span class="chico tenue">{{ a.cuando }} · {{ a.usuario_nombre or '' }}</span></div>
+        <b>${{ '%.2f'|format(a.contado) }}</b>
+      </div>
+      <div class="chico {{ 'tenue' if a.diferencia == 0 else '' }}" {% if a.diferencia != 0 %}style="color:#b3261e"{% endif %}>
+        Esperado ${{ '%.2f'|format(a.esperado) }} · diferencia ${{ '%.2f'|format(a.diferencia) }}
+        {% if a.nota %} · {{ a.nota }}{% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block titulo %}Stock · {{ feria.nombre }}{% endblock %}
+{% block cuerpo %}
+{% set tab = 'stock' %}
+<div class="fila">
+  <div class="crece">
+    <h1 style="margin-bottom:2px">{{ feria.nombre }}</h1>
+    <div class="chico tenue">
+      {% if feria.lugar %}{{ feria.lugar }} · {% endif %}
+      {% if feria.desde %}{{ feria.desde }}{% if feria.hasta and feria.hasta != feria.desde %} al {{ feria.hasta }}{% endif %}{% endif %}
+      {% if feria.organizador %} · {{ feria.organizador }}{% endif %}
+    </div>
+  </div>
+  <span class="etiqueta {{ feria.estado }}">{{ feria.estado }}</span>
+</div>
+
+{% include '_tabs.html' %}
+<div id="avisoPrecios">{% include '_aviso_precios.html' %}</div>
+
+<div class="tarjeta">
+  <div class="fila" style="gap:18px;flex-wrap:wrap">
+    <div><div class="chico tenue">Titulos</div><b>{{ resumen.titulos }}</b></div>
+    <div><div class="chico tenue">Ejemplares</div><b>{{ resumen.ejemplares }}</b></div>
+    <div><div class="chico tenue">Vendidos</div><b>{{ resumen.vendidos }}</b></div>
+    <div><div class="chico tenue">Disponibles</div><b>{{ resumen.disponibles }}</b></div>
+  </div>
+  <div class="chico" style="margin-top:10px">
+    <a class="descarga" href="{{ url_for('export_llevados', fid=feria.id) }}">CSV de libros llevados</a>
+    {% if feria.estado == 'cerrada' and usuario.rol == 'admin' %}
+      · <form method="post" action="{{ url_for('feria_reabrir', fid=feria.id) }}" style="display:inline">
+          <button type="submit" class="sec" style="padding:4px 10px;font-size:13px">Reabrir feria</button>
+        </form>
+    {% endif %}
+  </div>
+  <div class="chico tenue" style="margin-top:6px">Caja inicial: ${{ '%.2f'|format(feria.caja_inicial) }}{% if feria.observaciones %} · {{ feria.observaciones }}{% endif %}</div>
+  <div class="fila" style="margin-top:10px">
+    <button type="button" class="sec" id="btnCopiarLink" style="flex:1">🔗 Copiar link del mapa</button>
+  </div>
+</div>
+
+<div id="avisoGrande" class="toast-grande abajo oculto"></div>
+
+{% if feria.estado != 'cerrada' %}
+<div class="tarjeta">
+  <h3 style="margin-top:0">Ingresar stock</h3>
+  <div class="chico tenue" style="margin:-4px 0 10px">
+    {% if feria.estado == 'preparacion' %}
+      Suma a los ejemplares que se llevan a la feria.
+    {% else %}
+      Feria abierta: lo que ingresa cuenta como reposición.
+    {% endif %}
+  </div>
+
+  <button id="btnEscanear" type="button" class="grande-btn" style="width:100%">Escanear</button>
+  <button id="btnCancelarCam" type="button" class="sec grande-btn oculto" style="width:100%;margin-top:8px">Cancelar</button>
+
+  <div id="videoCaja" class="video-caja oculto" style="margin-top:10px">
+    <video id="video" playsinline muted autoplay></video>
+    <div class="marco"></div>
+  </div>
+
+  <div class="fila" style="margin-top:10px">
+    <input id="codigo" class="crece" placeholder="o escribi el codigo" inputmode="numeric" autocomplete="off">
+    <button id="btnBuscar" class="sec" type="button">Buscar</button>
+  </div>
+
+  <p id="estadoEscaner" class="estado-escaner"></p>
+
+  <div id="panel" class="confirmar-panel oculto">
+    <div class="panel-titulo" id="panelTitulo"></div>
+    <div class="panel-precio" id="panelPrecio"></div>
+    <div class="panel-hint" id="panelHint"></div>
+    <div class="fila" style="margin-top:14px;gap:10px;align-items:center">
+      <span class="chico tenue" style="flex:0 0 auto">Cantidad</span>
+      <div class="cant">
+        <button class="sec" type="button" id="btnMenos">-</button>
+        <input id="cantidad" type="number" min="1" value="1" inputmode="numeric">
+        <button class="sec" type="button" id="btnMas">+</button>
+      </div>
+    </div>
+    <div class="fila" style="margin-top:14px;gap:8px">
+      <button id="btnAceptar" type="button" class="grande-btn" style="flex:2">Ingresar</button>
+      <button id="btnDescartar" type="button" class="sec" style="flex:1">Descartar</button>
+    </div>
+  </div>
+
+  {% if usuario.rol == 'admin' %}
+    <form method="post" action="{{ url_for('feria_abrir', fid=feria.id) }}"
+          onsubmit="return confirm('Abrir la feria? Despues se puede vender.')">
+      <button type="submit" class="grande-btn" style="width:100%;margin-top:16px">Abrir la feria</button>
+    </form>
+    <div class="chico tenue" style="margin-top:8px">Se puede abrir aunque no haya libros cargados.</div>
+  {% endif %}
+</div>
+{% endif %}
+
+<div class="tarjeta">
+  <h3 style="margin-top:0">Libros de la feria <span id="cuenta" class="tenue"></span></h3>
+  <div id="lista"><p class="tenue">Cargando...</p></div>
+</div>
+
+{% if feria.estado == 'preparacion' and usuario.rol == 'admin' %}
+<details class="tarjeta">
+  <summary style="cursor:pointer;font-weight:600">Editar datos de la feria y caja inicial</summary>
+  <p class="chico tenue" style="margin:6px 0 0">
+    La caja inicial se suma al efectivo esperado en caja y al arqueo.
+    {% if feria.estado == 'cerrada' %}La feria ya esta cerrada: cambiarla modifica los totales historicos.{% endif %}
+  </p>
+  <form method="post" action="{{ url_for('feria_datos', fid=feria.id) }}" style="margin-top:12px">
+    <label>Nombre</label><input name="nombre" value="{{ feria.nombre }}" required>
+    <div class="grid">
+      <div><label>Lugar</label><input name="lugar" value="{{ feria.lugar }}"></div>
+      <div><label>Organizador</label><input name="organizador" value="{{ feria.organizador }}"></div>
+      <div><label>Desde</label><input name="desde" type="date" value="{{ feria.desde }}"></div>
+      <div><label>Hasta</label><input name="hasta" type="date" value="{{ feria.hasta }}"></div>
+      <div><label>Caja inicial</label><input name="caja_inicial" value="{{ feria.caja_inicial }}" inputmode="decimal"></div>
+    </div>
+    <label>Observaciones</label><textarea name="observaciones" rows="2">{{ feria.observaciones }}</textarea>
+    <div style="margin-top:12px"><button type="submit" class="sec">Guardar datos</button></div>
+  </form>
+</details>
+{% endif %}
+
+{% if ventas %}
+<div class="tarjeta">
+  <h3 style="margin-top:0">Ultimas ventas</h3>
+  <table>
+    <thead><tr><th>Venta</th><th>Forma</th><th>Cliente</th><th class="num">Total</th></tr></thead>
+    <tbody>
+    {% for v in ventas %}
+      <tr>
+        <td>{{ v.numero }}<div class="chico tenue">{{ v.cuando }}</div></td>
+        <td>{{ v.forma_pago }}</td>
+        <td class="chico">{{ v.cliente_nombre or '—' }}{% if v.pide_factura %} <span class="etiqueta">factura</span>{% endif %}</td>
+        <td class="num">${{ '%.2f'|format(v.total) }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js"></script>
+<script src="{{ url_for('static', filename='escaner.js') }}?v=30"></script>
+<script>
+window.FERIA_ID = {{ feria.id }};
+window.BASE = "{{ url_for('inicio') }}";
+</script>
+<script src="{{ url_for('static', filename='precios.js') }}?v=30"></script>
+<script src="{{ url_for('static', filename='cargar.js') }}?v=30"></script>
+{% endblock %}

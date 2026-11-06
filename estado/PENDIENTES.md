@@ -134,6 +134,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L53 | Extender el vigilante a demo, novedades y lector | pendiente | el script ya es generico: igilar-app.sh <servicio> <nombre> <puerto> |
 | L54 | Poder delegar los avisos a otra persona | pendiente | hoy es cambiar TELEGRAM_CHAT; si se quiere, bot propio y chat por app |
 | L55 | Resumen horario opcional (ventas/errores) | pendiente | solo si lo piden; hoy avisa unicamente cuando algo falla |
+| L56 | Caja inicial editable por admin en cualquier momento de la feria | OK | 06/11: antes solo en preparacion; ahora en abierta/cerrada tambien |
+| L57 | Aviso en Caja cuando la caja inicial esta en cero | OK | 06/11: con link a los datos de la feria |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
