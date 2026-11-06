@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block titulo %}Reservas{% endblock %}
+{% block cuerpo %}
+<div class="fila">
+  <div class="crece">
+    <h1 style="margin-bottom:2px">{{ feria.nombre }}</h1>
+    <div class="chico tenue">Libros apartados para alguien, con sus datos</div>
+  </div>
+</div>
+{% include '_tabs.html' %}
+
+<div class="tarjeta">
+  <h3 style="margin-top:0">Nueva reserva</h3>
+  <div class="fila" style="gap:8px;align-items:flex-end;flex-wrap:wrap">
+    <div class="crece" style="min-width:170px">
+      <label style="margin-top:0">Código o título</label>
+      <input id="resCodigo" placeholder="Escaneá el código o escribí el título" autocomplete="off">
+    </div>
+    <button type="button" class="sec" id="btnResAgregar" style="flex:0 0 auto">Agregar</button>
+    <button type="button" class="sec" id="btnResCamara" style="flex:0 0 auto">Escanear</button>
+    <button type="button" class="sec oculto" id="btnResCancelarCam" style="flex:0 0 auto">Cerrar camara</button>
+  </div>
+
+  <div id="resVideoCaja" class="video-caja oculto" style="margin-top:10px">
+    <video id="resVideo" playsinline muted autoplay></video>
+    <div class="marco"></div>
+  </div>
+  <p id="resEstadoEscaner" class="estado-escaner"></p>
+  <div class="chico tenue" id="resLista" style="margin-top:10px">Todavía no agregaste libros.</div>
+  <div id="resSugerencias" style="margin-top:8px"></div>
+  <div class="grid" style="margin-top:12px">
+    <div><label>Nombre de quien reserva *</label><input id="resNombre" autocomplete="off"></div>
+    <div><label>Teléfono *</label><input id="resTelefono" inputmode="tel" autocomplete="off"></div>
+  </div>
+  <div style="margin-top:10px">
+    <label>Nota (opcional)</label>
+    <input id="resNota" autocomplete="off" placeholder="ej: lo retira el papá el sábado">
+  </div>
+  <div style="margin-top:12px"><button type="button" id="btnResGuardar">Reservar</button></div>
+  <div id="resMsg" class="chico" style="margin-top:8px"></div>
+</div>
+
+<h3>Reservas activas ({{ activas|length }})</h3>
+{% for r in activas %}
+<div class="tarjeta">
+  <div class="fila" style="gap:8px">
+    <div class="crece">
+      <b>{{ r.nombre }}</b>
+      <span class="chico tenue">{{ r.telefono }}</span>
+      <div class="chico tenue">{{ r.creada }}{% if r.nota %} · {{ r.nota }}{% endif %}</div>
+    </div>
+    <span class="chico">${{ '%.2f'|format(r.total) }}</span>
+  </div>
+  <div style="margin-top:8px">
+    {% for it in r.libros %}
+      <div class="chico">{{ it.cantidad }} × {{ it.titulo }}</div>
+    {% endfor %}
+  </div>
+  <div class="fila" style="margin-top:10px;gap:8px">
+    <a class="boton primario" style="flex:1;text-align:center"
+       href="{{ url_for('feria_reserva_entregar', fid=feria.id, rid=r.id) }}">Entregar</a>
+    <button class="sec" type="button" style="flex:1" data-cancelar="{{ r.id }}">Cancelar</button>
+  </div>
+</div>
+{% else %}
+<p class="chico tenue">No hay reservas activas.</p>
+{% endfor %}
+
+{% if cerradas %}
+<details style="margin-top:16px">
+  <summary class="chico">Entregadas o canceladas ({{ cerradas|length }})</summary>
+  {% for r in cerradas %}
+  <div class="tarjeta" style="margin-top:8px">
+    <div class="fila">
+      <div class="crece"><b>{{ r.nombre }}</b>
+        <span class="chico tenue">{{ r.estado }} · {{ r.creada }}</span></div>
+    </div>
+    {% for it in r.libros %}<div class="chico">{{ it.cantidad }} × {{ it.titulo }}</div>{% endfor %}
+  </div>
+  {% endfor %}
+</details>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+window.FERIA_ID = {{ feria.id }};
+window.BASE = "{{ prefijo }}/";
+</script>
+<script src="https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js"></script>
+<script src="{{ url_for('static', filename='escaner.js') }}?v=31"></script>
+<script src="{{ url_for('static', filename='reservas.js') }}?v=31"></script>
+{% endblock %}
