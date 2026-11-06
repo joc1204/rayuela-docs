@@ -141,6 +141,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L60 | Vigilar que los sitios externos no bloqueen el scraping | pendiente | hoy solo se detecta por baja de aciertos |
 | L61 | Camara para escanear en la pantalla de Reservas | OK | 06/11: antes solo Vender y Stock tenian camara |
 | L62 | Reservas solo acepta libros cargados en la feria | OK (por diseno) | si no esta, hay que cargarlo en Stock primero |
+| L63 | Control de stock en Ferias con filtro por titulo, autor, editorial o ISBN | OK | 07/11: muestra llevados, vendidos, reservados y disponibles |
+| L64 | Los libros de ferias no tienen editorial cargada | pendiente | 0 de 514: el filtro por editorial existe pero no devuelve nada hasta que el dato venga de Rayuela |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |

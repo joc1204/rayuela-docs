@@ -40,6 +40,48 @@
 
 <div id="avisoGrande" class="toast-grande abajo oculto"></div>
 
+<div class="tarjeta">
+  <h3 style="margin-top:0">Control de stock</h3>
+  <form method="get" action="{{ url_for('feria_detalle', fid=feria.id) }}" class="fila" style="gap:8px;margin-top:6px">
+    <input name="q" value="{{ filtro }}" class="crece"
+           placeholder="Filtrar por título, autor, editorial o ISBN">
+    <button type="submit" class="sec" style="flex:0 0 auto">Filtrar</button>
+    {% if filtro %}<a class="sec" style="flex:0 0 auto;padding:10px" href="{{ url_for('feria_detalle', fid=feria.id) }}">Quitar filtro</a>{% endif %}
+  </form>
+  <div class="chico tenue" style="margin-top:8px">
+    {% if filtro %}{{ encontrados }} de {{ resumen.titulos }} títulos{% else %}{{ resumen.titulos }} títulos{% endif %}
+  </div>
+  {% if libros %}
+  <div style="overflow-x:auto;margin-top:8px">
+    <table>
+      <thead><tr>
+        <th>Título</th><th>Autor</th><th>Editorial</th><th>ISBN</th>
+        <th class="num">Llevados</th><th class="num">Vendidos</th>
+        <th class="num">Reservados</th><th class="num">Disponibles</th>
+      </tr></thead>
+      <tbody>
+      {% for l in libros %}
+        <tr>
+          <td>{{ l.titulo }}</td>
+          <td class="chico">{{ l.autor or '—' }}</td>
+          <td class="chico">{{ l.editorial or '—' }}</td>
+          <td class="chico">{{ l.isbn or '—' }}</td>
+          <td class="num">{{ l.llevados }}</td>
+          <td class="num">{{ l.vendidos }}</td>
+          <td class="num">{{ l.reservado }}</td>
+          <td class="num"><b>{{ l.disponible }}</b></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="aviso" style="margin-top:10px">
+    {% if filtro %}No hay títulos que coincidan con "{{ filtro }}".{% else %}Todavía no cargaste libros en esta feria.{% endif %}
+  </div>
+  {% endif %}
+</div>
+
 {% if feria.estado != 'cerrada' %}
 <div class="tarjeta">
   <h3 style="margin-top:0">Ingresar stock</h3>
