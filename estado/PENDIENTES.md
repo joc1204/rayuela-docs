@@ -116,6 +116,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L35 | Fuera la opcion de ocultar precios: una tienda siempre muestra precios | OK | 05/11: ajuste, codigo y seccion del panel eliminados; auditor lo prohibe |
 | L36 | publicar.sh avisa cuando no hay archivos nuevos (publicacion vacia) | OK | 05/11: huella de app.py, templates y css |
 | L37 | publicar.sh verifica que los archivos esten en el servidor antes de publicar | pendiente | hoy se detecta por el aviso de la firma |
+| L38 | Escrituras del scraping en tandas: el panel ya no espera al bloqueo de la base | OK | 05/11: de hasta 30 s a menos de 0,01 s |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
