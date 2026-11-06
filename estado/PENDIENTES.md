@@ -136,6 +136,9 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L55 | Resumen horario opcional (ventas/errores) | pendiente | solo si lo piden; hoy avisa unicamente cuando algo falla |
 | L56 | Caja inicial editable por admin en cualquier momento de la feria | OK | 06/11: antes solo en preparacion; ahora en abierta/cerrada tambien |
 | L57 | Aviso en Caja cuando la caja inicial esta en cero | OK | 06/11: con link a los datos de la feria |
+| L58 | Enriquecimiento en cadena (servicio propio, sin Bridge) | OK | 06/11: tanda tras tanda hasta terminar; log en /var/log/rayuela-enriquecido.log |
+| L59 | Detener el enriquecimiento a mano | OK | crear /etc/rayuela/pausa-enriquecido |
+| L60 | Vigilar que los sitios externos no bloqueen el scraping | pendiente | hoy solo se detecta por baja de aciertos |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |

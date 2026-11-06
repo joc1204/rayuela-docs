@@ -1,0 +1,18 @@
+[Unit]
+Description=Rayuela - enriquecimiento de la demo en cadena (scraping externo, sin Bridge)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=rayuela
+WorkingDirectory=/opt/rayuela/novedades
+ExecStart=/bin/bash /opt/rayuela/demo/encadenar_enriquecimiento.sh
+Restart=on-failure
+RestartSec=120
+Nice=10
+IOSchedulingClass=idle
+MemoryMax=500M
+
+[Install]
+WantedBy=multi-user.target
