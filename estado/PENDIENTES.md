@@ -121,6 +121,9 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L40 | Busqueda tolerante a recuerdos vagos: stopwords + OR + aviso "ampliamos" | OK | 06/11: de 0 resultados a 8 en frases como "chicos jugando a la pelota" |
 | L41 | Cobertura de argumento limitada por fichas faltantes | pendiente | 36.273 publicables con sinopsis; crece con el enriquecimiento |
 | L42 | Bloque aparte "por argumento" cuando el titulo no alcanza | pendiente | mejora de calidad, no urgente |
+| L43 | Busqueda por frase: las palabras tienen que estar cerca (NEAR), no sueltas | OK | 06/11: "chicos que juegan" ya no trae falsos positivos |
+| L44 | Si no aparecen juntas, ofrecer buscar palabra por palabra | OK | chips con cada palabra en la pantalla de resultados |
+| L45 | Auditor detecta plantillas sobrescritas por error | OK | 06/11: un .html con codigo Python ya no pasa la puerta |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
