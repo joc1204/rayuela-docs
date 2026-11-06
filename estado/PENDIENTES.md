@@ -93,6 +93,13 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L11 | Recordar a la librería que las correcciones se hacen en Bridge | ⬜ | el panel sólo oculta en la vitrina; Bridge es la fuente de la verdad |
 | L13 | Reglas automaticas de limpieza | ❌ descartadas | la coherencia manda: solo filtra el admin desde el panel |
 | L14 | Pantalla única del catálogo (`/admin/catalogo`) | ✅ | 05/11: unifica "qué se publica" y "limpiar por criterios"; busca por texto/ISBN, oculta, muestra y destaca |
+| L15 | Auditoria de interfaz obligatoria en la puerta (`auditar_ui.py`) | ✅ | 05/11: humo + auditoria + restauracion automatica |
+| L16 | Revision independiente de UI antes de publicar | ✅ | 05/11: informe en `_revision/` |
+| L17 | Revision independiente de UI: 2 criticos detectados | ✅ | 05/11: informe en `revision/2026-11-05-admin-ux.md` |
+| L18 | Critico: "Traer cambios ahora" no sincronizaba (formulario anidado) | ✅ | corregido con `formaction`; el auditor ahora detecta formularios anidados |
+| L19 | Critico: "oculto" nombraba dos estados distintos | ✅ | estado de la tienda cuenta `filtro`; un solo rotulo en pantalla y CSV |
+| L20 | Importantes del informe (numeros, criterio "Ver: ocultos", textos, pausa, consultas) | ✅ | 9 de 9 corregidos |
+| L21 | Menores del informe (nombres de portada, Carteles duplicado, ejemplos) | ✅ | corregidos en la misma tanda |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |

@@ -267,3 +267,26 @@ es: **si sumar un agente mejora la calidad o aísla riesgo, se usa; si sólo agr
 | dos frentes en paralelo | +80-120 % |
 
 Se paga sólo donde el error sería caro. Jorge puede desactivarlo con una indicación.
+
+## Puerta de publicacion: definicion de terminado (05/11/2026)
+
+Ningun cambio se considera terminado hasta que pasa **las dos puertas**, en este orden:
+
+1. **Humo funcional** (`humo.py`): pantallas, carrito, busqueda, ficha y panel. Si falla, se restaura
+   la version anterior sola.
+2. **Auditoria de interfaz** (`auditar_ui.py`): pantallas que responden, un solo titulo por pantalla,
+   leyendas y botones no repetidos, glosario de terminos prohibidos, rutas duplicadas, plantillas
+   huerfanas y formularios a rutas inexistentes. Si falla, tambien se restaura.
+
+Ademas, para todo cambio de **interfaz o de textos**:
+
+3. **Revision independiente**: un revisor con contexto limpio audita las pantallas afectadas y deja
+   el informe en `_revision/`. Los hallazgos se corrigen antes de publicar o se justifica por que no.
+   No se muestra un cambio de UI sin esta revision.
+
+**Regla de nombres**: un concepto = un nombre en toda la aplicacion. Si una pantalla nueva repite un
+concepto existente, se unifica; no se agrega. El glosario vive en `auditar_ui.py`
+(TERMINOS_PROHIBIDOS) y en `INVENTARIO-UI.md`.
+
+**Regla de coherencia**: si una regla no esta escrita en el codigo, no existe. Nada de "por
+definicion" que el admin no pueda ver y controlar.
