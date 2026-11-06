@@ -128,6 +128,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L47 | Revisar toda la busqueda con los vendedores de Rayuela | pendiente | ellos diran que frases reales usan |
 | L48 | Mientras se escribe no se adivinan palabras: solo prefijos | OK | 06/11: el tipeo se corrige recien al buscar |
 | L49 | Si aparece un resultado raro, pedir captura de la pantalla y el texto exacto | pendiente | para reproducirlo |
+| L50 | Sugerencias de tema: palabra completa y minimo de 10 titulos | OK | 06/11: se fueron los temas basura (TAPAS de Pagina 12, TAPA DURA) |
+| L51 | El vocabulario de temas del catalogo esta sucio | pendiente | TAPAS, TAPA DURA y temas de 1 titulo: limpiar en Bridge |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
