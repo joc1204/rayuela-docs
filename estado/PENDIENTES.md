@@ -105,6 +105,12 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L24 | Pendiente de la revision: cabecera/pie de tienda en el panel y menu de seccion | pendiente | jerarquia, no error |
 | L25 | Prueba en telefono real (CSS ya no oculta columnas) | pendiente | se junta con D7 |
 | L26 | Regla global de stock eliminada del panel (duplicaba el filtro del catalogo) | OK | 05/11: ajuste, codigo y textos fuera; auditor la prohibe |
+| L27 | Catalogo unificado en una pantalla con pestanas (Listado, Calidad, Estado) | OK | 05/11: publicada; calidad.html y estado.html absorbidas |
+| L28 | Revision independiente previa a publicar: NO publicar (doble h1, mensaje duplicado, falsos positivos del auditor) | OK | informe en revision/2026-11-05-catalogo-pestanas.md; todo corregido antes de publicar |
+| L29 | Copia de prueba en otro puerto para validar el gate antes de produccion | OK | /tmp/staging-demo en 5053: humo 11/11 y auditoria 0 antes de publicar |
+| L30 | Auditar contenido de las pestanas (no solo 200) | OK | humo valida titulo unico y contenido de cada pestana |
+| L31 | Pendiente: menu de seccion y cabecera/pie de tienda en el panel | pendiente | jerarquia, no error |
+| L32 | Pendiente: prueba en telefono real | pendiente | se junta con D7 |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
