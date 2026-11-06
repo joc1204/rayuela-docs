@@ -92,6 +92,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L12 | Los ocultos sobreviven a la sincronización (trigger + control en la puerta) | ✅ | 05/11: probado actualización, recreación de fila y oculto manual |
 | L11 | Recordar a la librería que las correcciones se hacen en Bridge | ⬜ | el panel sólo oculta en la vitrina; Bridge es la fuente de la verdad |
 | L13 | Reglas automaticas de limpieza | ❌ descartadas | la coherencia manda: solo filtra el admin desde el panel |
+| L14 | Pantalla única del catálogo (`/admin/catalogo`) | ✅ | 05/11: unifica "qué se publica" y "limpiar por criterios"; busca por texto/ISBN, oculta, muestra y destaca |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
