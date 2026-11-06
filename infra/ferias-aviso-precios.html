@@ -1,0 +1,16 @@
+{# Aviso de precios que cambiaron en el sistema (sin instrucciones) #}
+{% if cambios %}
+<details class="aviso-precios">
+  <summary class="aviso-precios-titulo">
+    {% if cambios|length == 1 %}Cambió 1 precio{% else %}Cambiaron {{ cambios|length }} precios{% endif %}
+  </summary>
+  <ul>
+    {% for c in cambios[:8] %}
+      <li>{{ c.titulo or '—' }}: ${{ '%.2f'|format(c.antes) }} → <b>${{ '%.2f'|format(c.despues) }}</b></li>
+    {% endfor %}
+  </ul>
+  {% if cambios|length > 8 %}
+    <div class="chico tenue" style="margin-top:4px">y {{ cambios|length - 8 }} más…</div>
+  {% endif %}
+</details>
+{% endif %}

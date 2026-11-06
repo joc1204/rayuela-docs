@@ -1,0 +1,242 @@
+:root {
+  --fondo: #e7edf2;
+  --panel: #ffffff;
+  --texto: #16202a;
+  --tenue: #4c5964;
+  --borde: #cfd8e0;
+  --acento: #1f7a4d;
+  --acento2: #175f3c;
+  --peligro: #b3261e;
+  --aviso: #8a5a00;
+  --radio: 12px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  background: var(--fondo); color: var(--texto);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px; line-height: 1.35;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom));
+}
+a { color: var(--acento2); }
+header.barra {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; gap: 12px;
+  background: var(--panel); border-bottom: 1px solid var(--borde);
+  padding: 10px 14px;
+}
+header.barra .logo { font-weight: 700; letter-spacing: .2px; }
+header.barra .quien { margin-left: auto; font-size: 14px; color: var(--tenue); text-align: right; }
+header.barra form { margin: 0; }
+main { max-width: 760px; margin: 0 auto; padding: 14px; }
+h1 { font-size: 22px; margin: 4px 0 12px; }
+h2 { font-size: 18px; margin: 18px 0 8px; }
+h3 { font-size: 17px; margin: 14px 0 6px; color: var(--tenue); text-transform: uppercase; letter-spacing: .4px; }
+.tenue { color: var(--tenue); }
+.chico { font-size: 15px; }
+.tarjeta { background: var(--panel); border: 1px solid var(--borde); border-radius: var(--radio); padding: 14px; margin-bottom: 12px; }
+.fila { display: flex; gap: 8px; align-items: center; }
+.fila > * { min-width: 0; }
+.crece { flex: 1; }
+button, .boton {
+  font: inherit; padding: 11px 14px; border-radius: 10px; border: 0;
+  background: var(--acento); color: #fff; cursor: pointer;
+  display: inline-block; text-decoration: none; text-align: center;
+}
+button:hover, .boton:hover { background: var(--acento2); }
+button.sec, .boton.sec { background: #e4eaef; color: var(--texto); border: 1px solid #b9c6d0; }
+button.sec:hover, .boton.sec:hover { background: #d6dee5; border-color: #9fb0bd; }
+button.sec:hover, .boton.sec:hover { background: #dbe2e8; }
+button.peligro { background: var(--peligro); }
+button:disabled { opacity: .5; cursor: default; }
+input, select, textarea {
+  font: inherit; padding: 11px 12px; border-radius: 10px;
+  border: 1px solid var(--borde); background: #fff; color: var(--texto);
+  width: 100%;
+}
+label { display: block; font-size: 15px; color: #3f4d57; margin: 8px 0 4px; font-weight: 600; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--borde); vertical-align: top; }
+th { color: #4c5964; font-weight: 700; font-size: 14px; text-transform: uppercase; }
+td.num, th.num { text-align: right; white-space: nowrap; }
+.aviso { border-radius: 10px; padding: 12px 14px; margin: 0 0 10px; font-size: 16px; font-weight: 600; }
+.aviso.ok { background: #e3f3e9; color: #14532d; border: 1px solid #b9e0c8; }
+.aviso.error { background: #fdeaea; color: #7f1d1d; border: 1px solid #f3c9c9; }
+.etiqueta { display: inline-block; font-size: 15px; padding: 3px 10px; border-radius: 999px; background: #e4eaef; color: #3f4d57; border: 1px solid #c6d2da; }
+.etiqueta.abierta { background: #d8f0e2; color: #14532d; border-color: #a9dcc0; }
+.etiqueta.cerrada { background: #fdeaea; color: #8f1d17; border-color: #f3c9c9; }
+.etiqueta.preparacion { background: #fdf0d5; color: #7a4b00; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
+
+/* escaner */
+.video-caja { position: relative; border-radius: var(--radio); overflow: hidden; background: #000; aspect-ratio: 4 / 3; margin-bottom: 10px; }
+.video-caja video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-caja .marco { position: absolute; inset: 16% 8%; border: 3px solid #ffffffcc; border-radius: 10px; pointer-events: none; box-shadow: 0 0 0 9999px rgba(0,0,0,.3); }
+.oculto { display: none !important; }
+
+/* vender */
+.precio-grande { font-size: 30px; font-weight: 800; letter-spacing: -.5px; }
+.item-venta { border-bottom: 1px solid var(--borde); padding: 10px 0; }
+.item-venta .titulo { font-weight: 600; font-size: 17px; }
+.item-venta .meta { font-size: 15px; color: var(--tenue); }
+.cant { display: flex; align-items: center; gap: 6px; }
+.cant button { padding: 7px 12px; }
+.cant input { width: 68px; text-align: center; }
+.pie-venta { position: sticky; bottom: 0; background: var(--panel); border-top: 1px solid var(--borde); padding: 12px 14px calc(12px + env(safe-area-inset-bottom)); margin: 12px -14px -14px; }
+.pie-venta .total { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.pie-venta .total b { font-size: 30px; }
+.formas { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.formas button { flex: 1 1 45%; background: #e4eaef; color: var(--texto); padding: 12px; border: 1px solid #b9c6d0; font-weight: 600; }
+.formas button.sel { background: var(--acento); color: #fff; }
+.resumen-linea { display: flex; justify-content: space-between; font-size: 16px; color: var(--texto); }
+/* etiqueta de las filas de plata en el pie: mismo tamaño que el resumen */
+.pie-venta .etiqueta-linea { font-size: 16px; color: var(--texto); }
+.pie-venta .ayuda-cliente { font-size: 15px; color: var(--tenue); }
+/* datos de plata que no son el total pero importan */
+.dato-caja { font-size: 16px; color: var(--texto); margin-top: 4px; }
+
+/* franja de venta sin terminar recuperada del telefono */
+.franja-venta {
+  display: flex; align-items: center; gap: 10px;
+  background: #fff4e0; color: #7a4b00; border: 1px solid #f0d9a8;
+  border-radius: 10px; padding: 10px 12px; margin-bottom: 12px;
+  font-size: 16px; font-weight: 600;
+}
+.franja-venta span { flex: 1; }
+.ticket { text-align: center; padding: 20px 0; }
+.ticket .numero { font-size: 26px; font-weight: 800; }
+.ticket .total { font-size: 30px; font-weight: 800; }
+
+/* --- pestanas de la feria --- */
+.tabs {
+  display: flex; gap: 6px; overflow-x: auto; margin: 12px 0 14px;
+  padding-bottom: 2px; -webkit-overflow-scrolling: touch;
+}
+.tabs a {
+  flex: 1 0 auto; text-align: center; padding: 11px 14px; border-radius: 10px;
+  text-decoration: none; background: #e4eaef; color: var(--texto); border: 1px solid #b9c6d0;
+  font-size: 16px; font-weight: 700; white-space: nowrap;
+}
+.tabs a.activo { background: var(--acento); color: #fff; }
+.tabs a:hover { background: #dbe2e8; }
+.tabs a.activo:hover { background: var(--acento2); }
+
+/* --- boton grande de accion --- */
+.grande-btn { font-size: 19px; padding: 16px; font-weight: 600; }
+
+/* --- escaner a pantalla completa --- */
+.escaneo { position: fixed; inset: 0; z-index: 60; background: #000; }
+.escaneo video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.escaneo .marco {
+  position: absolute; inset: 18% 7%; border: 3px solid #ffffffdd; border-radius: 14px;
+  pointer-events: none; box-shadow: 0 0 0 9999px rgba(0, 0, 0, .25);
+}
+.escaneo-aviso {
+  position: absolute; left: 14px; right: 14px; bottom: 124px; display: none;
+  background: rgba(10, 20, 15, .82); color: #fff; font-size: 22px; font-weight: 700;
+  line-height: 1.35; padding: 16px 18px; border-radius: 16px; text-align: center;
+  white-space: pre-line; border: 1px solid rgba(255, 255, 255, .18);
+}
+.escaneo-aviso.error { background: rgba(150, 20, 20, .9); }
+.escaneo-pie {
+  position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center;
+  gap: 12px; padding: 16px calc(16px + env(safe-area-inset-bottom));
+  background: linear-gradient(transparent, rgba(0, 0, 0, .65));
+}
+.escaneo-pie span { color: #fff; font-size: 18px; flex: 1; }
+.escaneo-pie button { font-size: 20px; padding: 14px 24px; }
+
+/* --- aviso flotante (pantalla de venta) --- */
+.toast-grande {
+  position: fixed; left: 14px; right: 14px; bottom: 210px; z-index: 45;
+  background: rgba(10, 20, 15, .9); color: #fff; font-size: 20px; font-weight: 700;
+  padding: 14px 16px; border-radius: 14px; text-align: center; white-space: pre-line;
+  border: 1px solid rgba(255, 255, 255, .18);
+}
+.toast-grande.error { background: rgba(150, 20, 20, .9); }
+.toast-grande.abajo { bottom: 40px; }
+
+/* --- pantalla de carga: estado --- */
+.estado-escaner {
+  min-height: 26px; margin: 10px 2px 0; font-size: 17px; color: #3f4d57;
+}
+.estado-escaner.error { color: var(--peligro); font-weight: 600; }
+
+/* --- panel de confirmacion de lectura --- */
+.confirmar-panel {
+  background: #fff; border: 2px solid var(--acento); border-radius: 14px;
+  padding: 16px; margin-top: 12px;
+}
+.confirmar-panel .panel-titulo {
+  font-size: 22px; font-weight: 800; line-height: 1.25; letter-spacing: -.2px;
+}
+.confirmar-panel .panel-precio { font-size: 20px; margin-top: 4px; }
+.confirmar-panel .panel-hint { font-size: 15px; color: var(--tenue); margin-top: 6px; }
+
+/* --- lista de libros cargados (sin tabla) --- */
+.libro-fila {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--borde);
+}
+.libro-fila .titulo { font-weight: 600; line-height: 1.25; }
+.libro-fila .cant {
+  font-weight: 800; font-size: 17px; white-space: nowrap; flex: 0 0 auto;
+}
+.libro-fila button { flex: 0 0 auto; padding: 8px 12px; }
+
+/* fila del carrito con mas aire para que no se apriete */
+.item-venta > .fila { flex-wrap: wrap; row-gap: 8px; }
+/* aviso de precios actualizados (carteles) */
+.aviso-precios { background:#fff4e0; border:1px solid #f0d9a8; color:#7a4b00; border-radius:12px; padding:12px 14px; margin-bottom:12px; }
+.aviso-precios-titulo { font-size:17px; font-weight:700; cursor:pointer;
+  list-style:none; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.aviso-precios-titulo::-webkit-details-marker { display:none; }
+.aviso-precios-titulo::after { content:'▾'; font-weight:400; font-size:20px; }
+.aviso-precios[open] .aviso-precios-titulo::after { content:'▴'; }
+.aviso-precios ul { margin:8px 0 0 18px; padding:0; }
+.aviso-precios li { font-size:15px; margin:2px 0; }
+/* --- tarjetas: separacion clara entre ellas y del fondo --- */
+.tarjeta { box-shadow: 0 1px 2px rgba(16, 24, 32, .07); }
+.tarjeta-nueva { border: 1px solid #b9d9c7; border-left: 5px solid var(--acento); background: #f4fbf7; }
+.tarjeta-nueva h3 { text-transform: none; letter-spacing: 0; font-size: 18px; font-weight: 700; }
+.acciones-tarjeta {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--borde);
+}
+button.peligro { background: var(--peligro); color: #fff; }
+button.peligro:hover { background: #8f1d17; }
+/* editar dentro de la tarjeta, plegado */
+.detalle-editar > summary {
+  list-style: none; cursor: pointer; padding: 11px 14px;
+  border-radius: 10px; background: #e4eaef; border: 1px solid #b9c6d0;
+  font-weight: 600; display: inline-block;
+}
+.detalle-editar > summary::-webkit-details-marker { display: none; }
+.detalle-editar > summary:hover { background: #d6dee5; }
+.detalle-editar[open] { flex-basis: 100%; order: 10; }
+.detalle-editar[open] > summary { background: #d6dee5; }
+.acciones-tarjeta { align-items: flex-start; }
+.acciones-tarjeta form { flex: 0 0 auto; }
+/* --- descargas y links de accion --- */
+a.descarga {
+  display: inline-block; font-size: 17px; font-weight: 700;
+  padding: 8px 12px; border-radius: 10px;
+  background: #e4eaef; border: 1px solid #b9c6d0; text-decoration: none;
+}
+a.descarga:hover { background: #d6dee5; }
+
+/* --- pestanas con flechas --- */
+.tabs-caja { display: flex; align-items: center; gap: 6px; margin: 12px 0 14px; }
+.tabs-caja .tabs { flex: 1 1 auto; margin: 0; scrollbar-width: none; }
+.tabs-caja .tabs::-webkit-scrollbar { display: none; }
+.tabs-flecha {
+  flex: 0 0 auto; width: 34px; height: 46px; padding: 0;
+  border-radius: 10px; background: #2c3a45; color: #fff;
+  border: 0; font-size: 22px; font-weight: 800; line-height: 1;
+  box-shadow: 0 1px 3px rgba(10, 18, 25, .3);
+}
+.tabs-flecha:hover { background: #1c272f; }
+/* --- formas de pago: activa vs inactiva bien distinto --- */
+.tarjeta-inactiva { background: #f6f8f9; border-style: dashed; border-color: #d3dbe2; }
+.tarjeta-inactiva .titulo-forma { color: #6b7680; }
