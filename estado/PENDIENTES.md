@@ -215,7 +215,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L134 | Velo de procesando en acciones del catalogo | OK | 07/11: spinner y contador al ocultar/mostrar o aplicar filtros |
 | L135 | Resumen del listado aclara criterio y ofrece ver los ocultos | OK | 07/11: "mostrando 100 de 183.039 con este criterio" + enlace |
 | L136 | Definir si se oculta stock <= 2 solo (422.475) o combinado con precio | pendiente | decision de Jorge/Vero |
-| L137 | Selector Y/O para combinar criterios del catalogo | OK | 07/11: Y por defecto; O deja 423.458 con precio<=15000 o stock<=2 |
+| L137 | Selector Y/O para combinar criterios del catalogo | OK | 07/11: default O; con precio<=15000 O stock<=2 = 423.458 |
 | L138 | Confirmar con Jorge antes de ocultar por O (423.458 = casi todo) | pendiente | accion destructiva enorme |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
