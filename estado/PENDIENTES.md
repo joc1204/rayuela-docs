@@ -168,6 +168,11 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L87 | Renombrar "publicables" en Estado de la tienda | pendiente | dice "publicables (incluye ocultos)"; mejor "titulos en el catalogo (visibles + ocultos)" |
 | L88 | Cada ocultamiento guarda el criterio aplicado y se puede revertir | OK | 07/11: seccion "Aplicado a la web" con criterio, cantidad, fecha y boton Revertir |
 | L89 | Reconstruir las condiciones viejas (600 + 11.262) sin criterio guardado | OK | 07/11: se recuperaron por lote y fecha; el criterio exacto no se guardaba antes |
+| L90 | Catalogo: filtros por tapa, ficha y sinopsis | OK | 07/11: columnas con tilde en el listado y filtros combinables |
+| L91 | Catalogo: vistas guardadas (combinacion completa de filtros) | OK | 07/11: se guardan desde el formulario y se abren con ?vista=ID |
+| L92 | Indice de tapas y fichas (tabla archivos) | OK | 07/11: 130.789 filas; se actualiza al terminar cada tanda de enriquecimiento |
+| L93 | Editorial con lista de valores para tildar (multi-seleccion) | pendiente | lo proximo del modelo autofiltro |
+| L94 | Que el buscador de la web sea mejor que Bridge | pendiente | aspiracion de Jorge: mas facil, simple y completo para el vendedor |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
