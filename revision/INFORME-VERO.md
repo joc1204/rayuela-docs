@@ -209,3 +209,15 @@ Lo agrupé en seis ideas. Para cada una: qué es, por qué suma y de qué depend
 Nada de esto cambia la esencia de Rayuela. Al contrario: la web tiene que hacer visible lo que Rayuela ya es —una librería con librero— y sacarle los obstáculos al cliente para que compre.
 
 La tecnología ya está en la demo: registro de búsquedas, equivalencias, recomendaciones por autor y tema, radar de tendencias. Lo que falta es decidir qué mostramos y con qué criterio.
+
+---
+
+## Anexo — Cómo se ven las portadas analizadas
+
+Capturas del 7/11/2026 en escritorio (1366×900).
+
+- [Cúspide](capturas/sitios/2026-11-07-cuspide.png)
+- [SBS](capturas/sitios/2026-11-07-sbs.png)
+- [Yenny / El Ateneo](capturas/sitios/2026-11-07-yenny.png)
+- [Penguin Libros](capturas/sitios/2026-11-07-penguin.png)
+- [Buscalibre](capturas/sitios/2026-11-07-buscalibre.png)
