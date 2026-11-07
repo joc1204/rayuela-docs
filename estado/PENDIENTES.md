@@ -188,6 +188,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L107 | Tarjeta de sincronizacion simplificada: un solo aviso, franja desde/hasta | OK | 07/11: arranca detenida; frecuencia 2 h por defecto |
 | L108 | Instalar timer y activar cuando llegue la URL de produccion | pendiente | el admin activa desde el panel |
 | L109 | Filtros del catalogo reorganizados por concepto | OK | 07/11: 4 bloques, controles parejos, guardar vista separado, un solo primario |
+| L110 | Filtros: grilla fija por bloque y controles de 34 px | OK | 07/11: se corrigio el conflicto de CSS que estiraba los campos al 100% |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
