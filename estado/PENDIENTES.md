@@ -153,6 +153,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L72 | Los informes avisan adentro si falta el cierre de caja | OK | 06/11: fila en el resumen, 00-aviso.txt en el ZIP y hoja Como usar del Excel |
 | L73 | Catalogo: muestra el criterio aplicado y permite aplicar al listado total | OK | 06/11: chips con boton para quitar cada criterio; check para ocultar/mostrar los N del filtro en todas las paginas |
 | L74 | El humo tomaba un ISBN fijo que el admin puede ocultar | OK | 06/11: ahora el libro visible se elige de la base |
+| L75 | Catalogo: el usuario elige cuantos titulos por pagina (50/100/200/500) | OK | 06/11: se conserva al filtrar y paginar; default 100 |
+| L76 | En celular el listado esconde autor y editorial | OK | 06/11: menos scroll horizontal |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
