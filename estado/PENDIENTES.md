@@ -191,7 +191,12 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L110 | Filtros: grilla fija por bloque y controles de 34 px | OK | 07/11: se corrigio el conflicto de CSS que estiraba los campos al 100% |
 | L111 | Capturas de UI obligatorias antes de publicar | OK | 07/11: playwright + chromium en /opt/rayuela/capturas; scripts vista_previa y capturar_ui |
 | L112 | Patrones de interfaz escritos | OK | 07/11: revision/UI-PATRONES.md con alturas, grillas y prohibiciones |
-| L113 | Barra superior en 1024 y 390 se aprieta | pendiente | visto en las capturas: "Subir lista" se parte y el carrito queda enorme |
+| L113 | Barra superior en 1024 y 390 | OK | 07/11: enlaces sin partir, carrito compacto; capturas en revision/capturas |
+| L114 | Seccion Destacados en la portada visible aunque este vacia | OK | 07/11: explica como destacar y que hace la portada mientras tanto |
+| L115 | Registro de como esta quedando la web | OK | 07/11: revision/PORTADA.md con composicion, estado y capturas |
+| L116 | Curar destacados para la demo | pendiente | hoy 0: la portada usa 12 al azar con tapa y stock |
+| L117 | Precio minimo publicable (hay $1, $195, $295 en la portada) | pendiente | definir con Jorge/Vero y aplicar con el motor de condiciones |
+| L118 | Franjas parejas en la portada (12 y 11) y "Ver todo" | pendiente | visto en la revision 07/11 |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |

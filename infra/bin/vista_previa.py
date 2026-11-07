@@ -41,6 +41,9 @@ def main():
     html = re.sub(r'<link[^>]+favicon[^>]*>', '', html)
     html = html.replace('"/static/', '"file://' + BASE + '/static/')
     html = html.replace("'/static/", "'file://" + BASE + "/static/")
+    # las tapas las sirve nginx; en la vista previa se leen del disco
+    html = html.replace('"/tapas/', '"file://' + BASE + '/tapas/')
+    html = html.replace('"/tapas-externas/', '"file:///opt/rayuela/tapas_externas/tapas/')
 
     extra = ''
     if args.sin_barras:
