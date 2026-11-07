@@ -54,3 +54,12 @@ publicar cualquier cambio de interfaz.
 
 Las capturas revisadas se guardan en `revision/capturas/` con fecha y ancho:
 `2026-11-07-catalogo-1280.png`, `-1024.png`, `-390.png`.
+
+
+## Vocabulario de personas
+
+- **Cliente / navegante**: quien usa la tienda publica.
+- **Equipo**: el personal de la libreria. Es el mismo "vendedor" del mostrador.
+- En la web nunca se escribe "vendedor" ni "librero": se escribe **equipo**.
+- El buscador es uno solo: lo usan clientes y equipo. Lo que cambia es el contexto
+  (el equipo ve el catalogo completo desde el panel).
