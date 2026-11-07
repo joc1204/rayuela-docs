@@ -50,7 +50,7 @@ while true; do
   sleep 20
 
   cd /opt/rayuela/novedades || exit 1
-  "$PY" "$SCRIPT" --limite "$LOTE" --pausa 0.5 --con-tapa --sitios sbs,yenny >> "$LOG" 2>&1
+  "$PY" "$SCRIPT" --limite "$LOTE" --pausa 0.8 --sitios sbs,yenny >> "$LOG" 2>&1
 
   despues=$(restantes)
   ganancia=$((antes - despues))

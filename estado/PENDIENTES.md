@@ -222,6 +222,11 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L141 | Scrapeo independiente de la visibilidad de la tienda | OK | 07/11: sin filtro=0; probado con un libro oculto que igual se proceso |
 | L142 | Registro de intentos por titulo y fuente | OK | 07/11: tabla intentos_enriquecido; no se repiten los sin_datos en todas las fuentes |
 | L143 | Prototipo CLIP + OCR para buscar por tapa | pendiente | aprobado para probar con 100 tapas antes de procesar todo |
+| L144 | Prototipo CLIP de busqueda por tapa | OK | 07/11: MobileCLIP2-S0, 0,11 s/tapa, pico 916 MB; foca/elefante acierta |
+| L145 | Indexar todas las tapas de titulos con stock | pendiente | 25.731 tapas ~47 min; definir si tambien las 63.833 |
+| L146 | OCR de tapas con tesseract (spa/eng) | pendiente | para buscar "English 3" y texto visibles |
+| L147 | Evaluar descripcion de tapas con IA (US$25-75) si CLIP no alcanza | pendiente | fase 2 de busqueda por imagen |
+| L148 | Evaluar agregar swap al VPS (hoy no tiene) | pendiente | el pico de CLIP es 916 MB sobre 2 GB |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
