@@ -1,9 +1,9 @@
 [Unit]
-Description=Sincronizacion de la demo desde Rayuela, solo de noche
+Description=Rayuela demo - revisar si toca sincronizar (cada hora)
 
 [Timer]
-OnCalendar=*-*-* 21,23,01,03,05,07:00:00
-AccuracySec=5min
+OnCalendar=*-*-* *:05:00
+AccuracySec=2min
 Persistent=true
 
 [Install]

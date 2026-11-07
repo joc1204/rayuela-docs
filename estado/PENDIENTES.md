@@ -181,6 +181,10 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L100 | Gatillo Actualizar ahora en el panel | OK (deshabilitado) | 07/11: se habilita con SYNC_API_HABILITADA=1 y la URL de produccion |
 | L101 | Activar la sincronizacion nocturna (timer) | pendiente | unidades creadas en infra/units; falta URL de produccion y autorizacion |
 | L102 | Primer catch-up grande desde el 04/11 | pendiente | el tope por pasada es 2000 paginas; una sola pasada completa el atraso |
+| L103 | Panel: activar/detener la sincronizacion y elegir cada cuantas horas | OK | 07/11: la automática arranca detenida |
+| L104 | Panel: franja horaria opcional para la sincronizacion | OK | 07/11: el admin decide; por defecto 21-8 (regla vigente) |
+| L105 | Definir con Jorge la franja y la frecuencia definitivas | pendiente | hoy: detenida, cada 2 h, franja 21-8 |
+| L106 | Instalar el timer horario cuando este la URL de produccion | pendiente | unidades listas en infra/units |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |

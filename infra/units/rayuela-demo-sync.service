@@ -7,6 +7,6 @@ Type=oneshot
 User=rayuela
 WorkingDirectory=/opt/rayuela/demo
 EnvironmentFile=/etc/rayuela/demo-sync.env
-ExecStart=/opt/rayuela/ferias/venv/bin/python /opt/rayuela/demo/sincronizar_rapido.py --una
+ExecStart=/opt/rayuela/ferias/venv/bin/python /opt/rayuela/demo/turno_sync.py
 Nice=10
 IOSchedulingClass=idle
