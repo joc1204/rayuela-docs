@@ -213,6 +213,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L132 | Accion masiva verifica el total esperado antes de ocultar | OK | 07/11: incidente del catalogo entero; ver estado/INCIDENTES.md |
 | L133 | Probar en copia toda accion masiva antes de publicar | pendiente | regla nueva para acciones destructivas |
 | L134 | Velo de procesando en acciones del catalogo | OK | 07/11: spinner y contador al ocultar/mostrar o aplicar filtros |
+| L135 | Resumen del listado aclara criterio y ofrece ver los ocultos | OK | 07/11: "mostrando 100 de 183.039 con este criterio" + enlace |
+| L136 | Definir si se oculta stock <= 2 solo (422.475) o combinado con precio | pendiente | decision de Jorge/Vero |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
