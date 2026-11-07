@@ -1,0 +1,10 @@
+[Unit]
+Description=Rayuela - resumen diario de busquedas
+After=network.target
+
+[Service]
+Type=oneshot
+User=rayuela
+WorkingDirectory=/opt/rayuela/demo
+Environment=CATALOGO_DB=/opt/rayuela/demo/catalogo.db
+ExecStart=/opt/rayuela/ferias/venv/bin/python /opt/rayuela/demo/resumir_busquedas.py

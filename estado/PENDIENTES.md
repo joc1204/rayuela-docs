@@ -253,6 +253,9 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L172 | Demanda registrada en Estado: 7/30 dias, en alza, coincidencias con stock | OK | 07/11: numeros, sin recomendaciones |
 | L173 | Guardar resumen diario de busquedas para historia larga | pendiente | hoy se lee la tabla eventos; conviene agregado diario |
 | L174 | Marcar acontecimientos (premios, efemerides) para cruzar con la demanda | pendiente | opcional, solo numeros |
+| L175 | Resumen diario de busquedas (03:20) y export CSV | OK | 07/11: busquedas_diarias + /admin/busquedas.csv |
+| L176 | Radar de tendencias en fuentes gratis (Wikipedia, noticias, YouTube) | pendiente | pageviews y RSS ya responden; YouTube Data API pide clave gratis |
+| L177 | Instagram/TikTok: sin busqueda oficial gratis; no scrapear | pendiente | solo si aparece una fuente autorizada |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
