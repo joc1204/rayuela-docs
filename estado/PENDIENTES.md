@@ -227,6 +227,10 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L146 | OCR de tapas con tesseract (spa/eng) | pendiente | para buscar "English 3" y texto visibles |
 | L147 | Evaluar descripcion de tapas con IA (US$25-75) si CLIP no alcanza | pendiente | fase 2 de busqueda por imagen |
 | L148 | Evaluar agregar swap al VPS (hoy no tiene) | pendiente | el pico de CLIP es 916 MB sobre 2 GB |
+| L149 | Busqueda por tema: cuenta palabras dentro de TEMA1-3 | OK | 07/11: "duelo" sugiere Duelo (17) aunque cada combinacion exacta sea distinta |
+| L150 | Sincronizar categoria y rubro desde Bridge | pendiente | endpoints /categorias y /rubros andan en pruebas; categoria_id hoy vacio |
+| L151 | Campo temas_extra derivado de sinopsis externas, sin pisar temas de Rayuela | pendiente | para busqueda y relacionados, como ultimo recurso |
+| L152 | Relacionados: usar temas de Rayuela, luego rubro, luego temas_extra | pendiente | nunca reemplazar la curaduria de Rayuela |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
