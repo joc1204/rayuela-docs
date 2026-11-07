@@ -173,6 +173,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L92 | Indice de tapas y fichas (tabla archivos) | OK | 07/11: 130.789 filas; se actualiza al terminar cada tanda de enriquecimiento |
 | L93 | Editorial con lista de valores para tildar (multi-seleccion) | pendiente | lo proximo del modelo autofiltro |
 | L94 | Que el buscador de la web sea mejor que Bridge | pendiente | aspiracion de Jorge: mas facil, simple y completo para el vendedor |
+| L95 | Un solo nombre por dato: Tapa, Sinopsis y Datos extra | OK | 07/11: se saco "ficha" de todas las pantallas del admin |
+| L96 | Renombrar "ficha" en el codigo y archivos internos | pendiente | hoy queda en nombres de carpeta y funciones; no se ve en pantalla |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
