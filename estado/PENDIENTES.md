@@ -155,6 +155,9 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L74 | El humo tomaba un ISBN fijo que el admin puede ocultar | OK | 06/11: ahora el libro visible se elige de la base |
 | L75 | Catalogo: el usuario elige cuantos titulos por pagina (50/100/200/500) | OK | 06/11: se conserva al filtrar y paginar; default 100 |
 | L76 | En celular el listado esconde autor y editorial | OK | 06/11: menos scroll horizontal |
+| L77 | Accesos "Ver la tienda" arriba en panel y catalogo | OK | 06/11: ya no hay que scrollear hasta el fondo |
+| L78 | Estructura de revision UX/UI (checklist + chequeos automaticos + revisor) | OK | 06/11: auditor valida navegacion arriba y acciones antes de tablas largas |
+| L79 | Corregir los hallazgos del revisor UX | pendiente | ver rayuela-docs/revision/ |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
