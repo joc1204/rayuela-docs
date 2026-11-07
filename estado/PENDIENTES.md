@@ -242,6 +242,11 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L161 | Informe de busquedas en la pestana Estado | OK | 07/11: 30 dias, top, sin resultados, clics y % clic |
 | L162 | Enriquecimiento libera la base cada 5 titulos | OK | 07/11: dejaba una transaccion abierta minutos y bloqueaba migraciones |
 | L163 | Equivalencias de terminos modernos (amigurumi, estoicismo) | pendiente | construirlas a partir de busquedas sin resultados y clics |
+| L164 | Proponedor de equivalencias desde busquedas (sesion y tipeo) | OK | 07/11: probado en copia; amigurumi->tejido, borgs->borges |
+| L165 | Equivalencias aprobadas aplicadas al buscador | OK | 07/11: suma resultados del destino y muestra aviso |
+| L166 | Aprobar/rechazar equivalencias desde Catalogo > Estado | OK | 07/11 |
+| L167 | Poner en cero el registro de busquedas (todo o hasta fecha) | OK | 07/11 |
+| L168 | Correr el proponedor periodicamente (cron diario) | pendiente | despues de ver algunos dias de busquedas |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
