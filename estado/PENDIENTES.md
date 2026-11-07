@@ -250,6 +250,9 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L169 | Proponedor usa el tema del libro clickeado | OK | 07/11: amigurumi -> costura y tejido; exige 2 sesiones |
 | L170 | Timer diario del proponedor (03:30) | OK | 07/11: rayuela-equivalencias.timer |
 | L171 | Detectar vocabulario que cambia y limpiar equivalencias viejas | pendiente | el proponedor lee 90 dias; falta medir uso de las aprobadas |
+| L172 | Demanda registrada en Estado: 7/30 dias, en alza, coincidencias con stock | OK | 07/11: numeros, sin recomendaciones |
+| L173 | Guardar resumen diario de busquedas para historia larga | pendiente | hoy se lee la tabla eventos; conviene agregado diario |
+| L174 | Marcar acontecimientos (premios, efemerides) para cruzar con la demanda | pendiente | opcional, solo numeros |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
