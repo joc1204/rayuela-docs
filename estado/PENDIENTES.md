@@ -176,6 +176,11 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L95 | Un solo nombre por dato: Tapa, Sinopsis y Datos extra | OK | 07/11: se saco "ficha" de todas las pantallas del admin |
 | L96 | Renombrar "ficha" en el codigo y archivos internos | pendiente | hoy queda en nombres de carpeta y funciones; no se ve en pantalla |
 | L97 | Boton de traer datos dice el origen: Traer de Rayuela | OK | 07/11: aclara que no modifica nada y muestra aviso visible de pausa |
+| L98 | Sincronizacion incremental de precios y stock contra Rayuela | OK (mecanica) | 07/11: validada contra el servidor de pruebas; 2 paginas 200 cambios en 1,1 s |
+| L99 | Sacar la consulta a Rayuela al abrir un libro y el boton manual | OK | 07/11: la web queda servida por la base local |
+| L100 | Gatillo Actualizar ahora en el panel | OK (deshabilitado) | 07/11: se habilita con SYNC_API_HABILITADA=1 y la URL de produccion |
+| L101 | Activar la sincronizacion nocturna (timer) | pendiente | unidades creadas en infra/units; falta URL de produccion y autorizacion |
+| L102 | Primer catch-up grande desde el 04/11 | pendiente | el tope por pasada es 2000 paginas; una sola pasada completa el atraso |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |

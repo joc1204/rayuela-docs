@@ -1,0 +1,10 @@
+[Unit]
+Description=Sincronizacion de la demo desde Rayuela, solo de noche
+
+[Timer]
+OnCalendar=*-*-* 21,23,01,03,05,07:00:00
+AccuracySec=5min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,12 @@
+[Unit]
+Description=Rayuela demo - sincronizacion de precios y stock desde Rayuela (una pasada)
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=rayuela
+WorkingDirectory=/opt/rayuela/demo
+EnvironmentFile=/etc/rayuela/demo-sync.env
+ExecStart=/opt/rayuela/ferias/venv/bin/python /opt/rayuela/demo/sincronizar_rapido.py --una
+Nice=10
+IOSchedulingClass=idle
