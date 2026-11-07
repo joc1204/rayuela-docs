@@ -256,6 +256,10 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L175 | Resumen diario de busquedas (03:20) y export CSV | OK | 07/11: busquedas_diarias + /admin/busquedas.csv |
 | L176 | Radar de tendencias en fuentes gratis (Wikipedia, noticias, YouTube) | pendiente | pageviews y RSS ya responden; YouTube Data API pide clave gratis |
 | L177 | Instagram/TikTok: sin busqueda oficial gratis; no scrapear | pendiente | solo si aparece una fuente autorizada |
+| L178 | Dos carruseles en la ficha: mismo autor y otros autores del mismo tema | OK | 07/11: 24 y 12 tarjetas en pruebas |
+| L179 | Radar de tendencias: Wikipedia pageviews + Google Noticias | OK | 07/11: 5 terminos medidos; timer 03:40 |
+| L180 | Sumar YouTube Data API al radar (clave gratis) | pendiente | requiere clave de Google Cloud |
+| L181 | Evaluar Instagram/TikTok solo con fuente autorizada | pendiente | no hay busqueda oficial gratis |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
