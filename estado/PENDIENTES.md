@@ -185,6 +185,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L104 | Panel: franja horaria opcional para la sincronizacion | OK | 07/11: el admin decide; por defecto 21-8 (regla vigente) |
 | L105 | Definir con Jorge la franja y la frecuencia definitivas | pendiente | hoy: detenida, cada 2 h, franja 21-8 |
 | L106 | Instalar el timer horario cuando este la URL de produccion | pendiente | unidades listas en infra/units |
+| L107 | Tarjeta de sincronizacion simplificada: un solo aviso, franja desde/hasta | OK | 07/11: arranca detenida; frecuencia 2 h por defecto |
+| L108 | Instalar timer y activar cuando llegue la URL de produccion | pendiente | el admin activa desde el panel |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
