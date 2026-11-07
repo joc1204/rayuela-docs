@@ -207,6 +207,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L126 | Autofiltro por columna en el catalogo | OK | 07/11: Stock, Tapa, Datos extra, Sinopsis y Estado con select en la cabecera; combinan con el resto |
 | L127 | Precio y Editorial tambien como filtro de columna | pendiente | hoy estan en el panel de arriba |
 | L128 | Mostrar stock negativo marcado en el admin | OK | 07/11: en naranja con aviso de revisar inventario |
+| L129 | Autofiltro numerico con operadores en Precio y Stock | OK | 07/11: >, >=, <, <=, =, <> con valor; probado contra SQL |
+| L130 | Agregar "entre" (rango) al autofiltro numerico | pendiente | dos valores en la misma condicion |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
