@@ -151,6 +151,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L70 | Pestana Reportes en la app con descarga por reporte, ZIP y compartir | OK | 06/11: solo admin; en celular abre el menu para mandar los CSV por WhatsApp o email |
 | L71 | Probar el compartir en el celular de Vero | pendiente | Web Share con archivos: Android Chrome si; iOS Safari a veces solo comparte texto |
 | L72 | Los informes avisan adentro si falta el cierre de caja | OK | 06/11: fila en el resumen, 00-aviso.txt en el ZIP y hoja Como usar del Excel |
+| L73 | Catalogo: muestra el criterio aplicado y permite aplicar al listado total | OK | 06/11: chips con boton para quitar cada criterio; check para ocultar/mostrar los N del filtro en todas las paginas |
+| L74 | El humo tomaba un ISBN fijo que el admin puede ocultar | OK | 06/11: ahora el libro visible se elige de la base |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
