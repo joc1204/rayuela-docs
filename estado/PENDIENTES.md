@@ -210,6 +210,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L129 | Autofiltro numerico con operadores en Precio y Stock | OK | 07/11: >, >=, <, <=, =, <> con valor; probado contra SQL |
 | L130 | "Entre" (rango) en el autofiltro numerico | OK | 07/11: dos valores en Precio y Stock; probado stock entre 2 y 4 = 12.391 |
 | L131 | Catalogo mas limpio: panel compacto, resumen en una linea y boton Aplicar | OK | 07/11: sin cajas de explicacion entre filtros y listado |
+| L132 | Accion masiva verifica el total esperado antes de ocultar | OK | 07/11: incidente del catalogo entero; ver estado/INCIDENTES.md |
+| L133 | Probar en copia toda accion masiva antes de publicar | pendiente | regla nueva para acciones destructivas |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
