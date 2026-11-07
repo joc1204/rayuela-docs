@@ -34,3 +34,9 @@ Se aplica **antes de publicar** cualquier cambio de interfaz. Dos capas: chequeo
 - Informe en `_revision/AAAA-MM-DD-ux.md` y copia en `rayuela-docs/revision/`.
 - Cada defecto: severidad (crítico / importante / menor), pantalla, qué pasa, qué se espera.
 - No se publica con defectos críticos abiertos; los importantes se corrigen o se anotan.
+
+## Capturas obligatorias
+
+- Antes de mostrar o publicar un cambio de interfaz: capturas a 1280, 1024 y 390 px, revisadas contra `revision/UI-PATRONES.md`.
+- Guardarlas en `revision/capturas/` con la fecha.
+- Herramientas: `infra/bin/vista_previa.py` y `infra/bin/capturar_ui.py` (corren en el VPS).
