@@ -200,12 +200,13 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L119 | Busqueda del panel: usa el mismo indice que la web | OK | 07/11: antes buscaba frase exacta y fallaba con titulos invertidos ("NOMBRE DEL VIENTO, EL") |
 | L120 | El catalogo no recibe titulos nuevos desde el 04/11 | pendiente | la sincronizacion esta detenida hasta tener la URL de produccion |
 | L121 | Lista vacia del catalogo explica y ofrece quitar precio y stock | OK | 07/11: probado con q + stock imposible |
-| L122 | Stock negativo (-1) y precios raros en la base | pendiente | visto con los titulos de Corbera: stock -1 y precios $4.200 |
+| L122 | Stock negativo: es de Rayuela, no de la web | OK | 07/11: Rayuela no hace inventario y ajusta al facturar. La web muestra "a pedido" y nunca el negativo; el admin lo marca para revisar |
 | L123 | El catalogo del admin muestra todo por defecto | OK | 07/11: Estado "Todos" y listado sin exigir criterio; oculto es solo para el navegante |
 | L124 | Arreglado error 500 al ocultar o mostrar titulos tildados | OK | 07/11: la cantidad no se calculaba en la seleccion a mano |
 | L125 | Panel "Que se ve en la web" pasa debajo del listado | OK | 07/11: el listado aparece apenas se abre el catalogo |
 | L126 | Autofiltro por columna en el catalogo | OK | 07/11: Stock, Tapa, Datos extra, Sinopsis y Estado con select en la cabecera; combinan con el resto |
 | L127 | Precio y Editorial tambien como filtro de columna | pendiente | hoy estan en el panel de arriba |
+| L128 | Mostrar stock negativo marcado en el admin | OK | 07/11: en naranja con aviso de revisar inventario |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
