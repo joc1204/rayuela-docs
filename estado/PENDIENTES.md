@@ -158,6 +158,12 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L77 | Accesos "Ver la tienda" arriba en panel y catalogo | OK | 06/11: ya no hay que scrollear hasta el fondo |
 | L78 | Estructura de revision UX/UI (checklist + chequeos automaticos + revisor) | OK | 06/11: auditor valida navegacion arriba y acciones antes de tablas largas |
 | L79 | Corregir los hallazgos del revisor UX | pendiente | ver rayuela-docs/revision/ |
+| L80 | Catalogo: condiciones guardadas de visibilidad para la web | OK | 07/11: se crean, editan y quitan; muestran cuantos titulos afectan |
+| L81 | Catalogo: tildar por titulo, por pagina o todo el filtro | OK | 07/11: tildado = oculto; aplicacion masiva por SQL en ~3 s |
+| L82 | Excepciones por titulo (fijar visible/oculto siempre) | OK | 07/11: las condiciones no tocan los fijados; vista Ver excepciones |
+| L83 | Portada y Lo mas visto respetan los ocultos | OK | 07/11: era el bug que revivia titulos ocultos |
+| L84 | Crear y aplicar la condicion de stock (menos de 2 unidades) | pendiente | decision de Jorge/Vero; la herramienta ya esta publicada |
+| L85 | Verificar en produccion los 11.862 titulos ocultos de la prueba del 07/11 | pendiente | se ocultaron a mano; revisar con Ver=ocultos y volver a mostrar lo que corresponda |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
