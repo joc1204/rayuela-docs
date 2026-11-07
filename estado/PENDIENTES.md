@@ -217,6 +217,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L136 | Definir si se oculta stock <= 2 solo (422.475) o combinado con precio | pendiente | decision de Jorge/Vero |
 | L137 | Selector Y/O para combinar criterios del catalogo | OK | 07/11: default O; con precio<=15000 O stock<=2 = 423.458 |
 | L138 | Confirmar con Jorge antes de ocultar por O (423.458 = casi todo) | pendiente | accion destructiva enorme |
+| L139 | Buscador y editorial acotan siempre (no entran en el Y/O) | OK | 07/11: Y/O solo combina filtros de columna; biodesco+stock>0 = 6 |
+| L140 | Revisar si conviene revertir la ultima tanda de 408.069 ocultos | pendiente | decision de Jorge |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
