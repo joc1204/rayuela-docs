@@ -58,8 +58,11 @@ Las capturas revisadas se guardan en `revision/capturas/` con fecha y ancho:
 
 ## Vocabulario de personas
 
-- **Cliente / navegante**: quien usa la tienda publica.
-- **Equipo**: el personal de la libreria. Es el mismo "vendedor" del mostrador.
-- En la web nunca se escribe "vendedor" ni "librero": se escribe **equipo**.
-- El buscador es uno solo: lo usan clientes y equipo. Lo que cambia es el contexto
-  (el equipo ve el catalogo completo desde el panel).
+- **Cliente / navegante**: quien usa la tienda publica (el e-commerce).
+- **Equipo**: todo el personal de la libreria: vendedores, administrativos, compras, duenos.
+  El e-commerce lo administra el equipo.
+- **Librero**: la persona que sabe de libros. No es lo mismo que vendedor de cadena.
+  El termino se usa con peso en lo curatorial: "Recomendados por el librero",
+  "seleccion del librero". No se reemplaza por "equipo" cuando se habla del criterio.
+- En la web el e-commerce tiene que ser perfecto para que el cliente compre; las
+  recomendaciones del librero son una parte central de esa experiencia.
