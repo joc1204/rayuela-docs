@@ -2,6 +2,10 @@
 # Enriquecimiento en cadena: tanda tras tanda hasta que no queden libros por completar.
 # No toca Rayuela: consulta librerias de terceros (sbs, yenny) a ritmo bajo.
 #
+# Independiente de la tienda: NO mira si el libro esta oculto o visible.
+# Trabaja sobre publicables con stock positivo a los que les falta editorial o sinopsis.
+# Los que ya dieron "sin datos" en todas las fuentes quedan registrados y no se repiten.
+#
 # Se detiene solo (y se puede detener a mano):
 #   - si no quedan libros con stock sin editorial o sin sinopsis
 #   - si dos tandas seguidas no suman datos nuevos
@@ -16,9 +20,13 @@ PAUSA=/etc/rayuela/pausa-enriquecido
 LOTE=4000
 
 restantes() {
-  sqlite3 "$DB" "SELECT COUNT(*) FROM productos
-                   WHERE publicable = 1 AND oculto = 0 AND filtro = 0 AND stock > 0
-                     AND ((marca IS NULL OR marca = '') OR (detalle IS NULL OR detalle = ''));" 2>/dev/null || echo 0
+  sqlite3 "$DB" "SELECT COUNT(*) FROM productos p
+                   WHERE p.publicable = 1 AND p.oculto = 0 AND p.stock > 0
+                     AND ((p.marca IS NULL OR p.marca = '') OR (p.detalle IS NULL OR p.detalle = ''))
+                     AND p.codigo NOT IN (
+                       SELECT codigo FROM intentos_enriquecido
+                       WHERE resultado = 'sin_datos'
+                       GROUP BY codigo HAVING COUNT(DISTINCT fuente) >= 2);" 2>/dev/null || echo 0
 }
 
 echo "$(date '+%F %T') === arranca el enriquecimiento en cadena ===" >> "$LOG"

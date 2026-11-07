@@ -219,6 +219,9 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L138 | Confirmar con Jorge antes de ocultar por O (423.458 = casi todo) | pendiente | accion destructiva enorme |
 | L139 | Buscador y editorial acotan siempre (no entran en el Y/O) | OK | 07/11: Y/O solo combina filtros de columna; biodesco+stock>0 = 6 |
 | L140 | Revisar si conviene revertir la ultima tanda de 408.069 ocultos | pendiente | decision de Jorge |
+| L141 | Scrapeo independiente de la visibilidad de la tienda | OK | 07/11: sin filtro=0; probado con un libro oculto que igual se proceso |
+| L142 | Registro de intentos por titulo y fuente | OK | 07/11: tabla intentos_enriquecido; no se repiten los sin_datos en todas las fuentes |
+| L143 | Prototipo CLIP + OCR para buscar por tapa | pendiente | aprobado para probar con 100 tapas antes de procesar todo |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
