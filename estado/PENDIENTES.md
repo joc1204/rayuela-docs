@@ -164,6 +164,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L83 | Portada y Lo mas visto respetan los ocultos | OK | 07/11: era el bug que revivia titulos ocultos |
 | L84 | Crear y aplicar la condicion de stock (menos de 2 unidades) | pendiente | decision de Jorge/Vero; la herramienta ya esta publicada |
 | L85 | Verificar en produccion los 11.862 titulos ocultos de la prueba del 07/11 | pendiente | se ocultaron a mano; revisar con Ver=ocultos y volver a mostrar lo que corresponda |
+| L86 | Espaciado de la tarjeta de condiciones del catalogo | OK | 07/11: padding, titulo y formulario alineados con el resto |
+| L87 | Renombrar "publicables" en Estado de la tienda | pendiente | dice "publicables (incluye ocultos)"; mejor "titulos en el catalogo (visibles + ocultos)" |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
