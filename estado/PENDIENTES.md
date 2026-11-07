@@ -199,6 +199,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L118 | Franjas parejas en la portada (12 y 11) y "Ver todo" | pendiente | visto en la revision 07/11 |
 | L119 | Busqueda del panel: usa el mismo indice que la web | OK | 07/11: antes buscaba frase exacta y fallaba con titulos invertidos ("NOMBRE DEL VIENTO, EL") |
 | L120 | El catalogo no recibe titulos nuevos desde el 04/11 | pendiente | la sincronizacion esta detenida hasta tener la URL de produccion |
+| L121 | Lista vacia del catalogo explica y ofrece quitar precio y stock | OK | 07/11: probado con q + stock imposible |
+| L122 | Stock negativo (-1) y precios raros en la base | pendiente | visto con los titulos de Corbera: stock -1 y precios $4.200 |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
