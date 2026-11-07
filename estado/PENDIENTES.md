@@ -175,6 +175,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L94 | Que el buscador de la web sea mejor que Bridge | pendiente | aspiracion de Jorge: mas facil, simple y completo para el vendedor |
 | L95 | Un solo nombre por dato: Tapa, Sinopsis y Datos extra | OK | 07/11: se saco "ficha" de todas las pantallas del admin |
 | L96 | Renombrar "ficha" en el codigo y archivos internos | pendiente | hoy queda en nombres de carpeta y funciones; no se ve en pantalla |
+| L97 | Boton de traer datos dice el origen: Traer de Rayuela | OK | 07/11: aclara que no modifica nada y muestra aviso visible de pausa |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
