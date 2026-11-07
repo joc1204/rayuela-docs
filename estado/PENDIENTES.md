@@ -234,6 +234,10 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L153 | Export de Bridge analizado: trae Rubro y Categoria, no TEMA1-3 | OK | 07/11: ver estado/EXPORT-BRIDGE.md |
 | L154 | Sincronizar rubro/categoria/stock/precio/detalle por API v1 en bloque | pendiente | 200 por pagina, ~15 min el catalogo completo |
 | L155 | Pedir export de Bridge con TEMA1/TEMA2/TEMA3 si el listado lo permite | pendiente | evita el sync lento de atributos |
+| L156 | Script de sync por API v1 (rubro, categoria, stock, precio, detalle_bridge) | OK (pruebas) | 07/11: 400 filas validadas contra el servidor de pruebas; 6,5 s por pagina |
+| L157 | Correr sync completo cuando Luis pase la API de produccion | pendiente | ~2.248 paginas; avance guardado en sync_estado |
+| L158 | Usar rubro/categoria en busqueda, relacionados y filtros del admin | pendiente | depende del sync |
+| L159 | Definir regla de sinopsis: detalle_bridge vs detalle externo | pendiente | Bridge suele traer detalle corto; el externo es largo |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
