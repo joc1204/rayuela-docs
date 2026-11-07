@@ -26,13 +26,13 @@ Hay dos grupos:
 
 | Grupo | Librerías | Qué las define |
 |---|---|---|
-| **Con editorial propia** | Penguin, Yenny / El Ateneo, Cúspide | Tienen sellos propios. Su web también funciona como vidriera de marca y contenido: autores, colecciones, novedades editoriales. |
+| **Con marca editorial fuerte** | Penguin (editorial); Yenny / El Ateneo y Cúspide (cadenas con marca y catálogo curado) | Su web también funciona como vidriera de marca y contenido: autores, colecciones, novedades editoriales. |
 | **Distribuidoras** | SBS, Buscalibre | No tienen editorial propia: viven de la variedad del catálogo, el precio, las promociones y la logística. |
 
 Rayuela es una **librería independiente**. No compite con el catálogo infinito ni con el descuento permanente. Su fuerza es otra: **el librero, la selección y el local**. Entonces:
 
 - De las distribuidoras conviene tomar **cómo hacen fácil encontrar y comprar**.
-- De las editoriales conviene tomar **cómo muestran el contenido y la curaduría**.
+- De las editoriales y cadenas conviene tomar **cómo muestran el contenido y la curaduría**.
 - Pero la voz y el criterio tienen que ser los de Rayuela.
 
 ---
