@@ -238,6 +238,10 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L157 | Correr sync completo cuando Luis pase la API de produccion | pendiente | ~2.248 paginas; avance guardado en sync_estado |
 | L158 | Usar rubro/categoria en busqueda, relacionados y filtros del admin | pendiente | depende del sync |
 | L159 | Definir regla de sinopsis: detalle_bridge vs detalle externo | pendiente | Bridge suele traer detalle corto; el externo es largo |
+| L160 | Registro de busquedas: termino, resultados y clic | OK | 07/11: columnas resultados/posicion en eventos; clic ligado a la ultima busqueda |
+| L161 | Informe de busquedas en la pestana Estado | OK | 07/11: 30 dias, top, sin resultados, clics y % clic |
+| L162 | Enriquecimiento libera la base cada 5 titulos | OK | 07/11: dejaba una transaccion abierta minutos y bloqueaba migraciones |
+| L163 | Equivalencias de terminos modernos (amigurumi, estoicismo) | pendiente | construirlas a partir de busquedas sin resultados y clics |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
