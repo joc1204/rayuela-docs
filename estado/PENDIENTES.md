@@ -260,6 +260,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L179 | Radar de tendencias: Wikipedia pageviews + Google Noticias | OK | 07/11: 5 terminos medidos; timer 03:40 |
 | L180 | Sumar YouTube Data API al radar (clave gratis) | pendiente | requiere clave de Google Cloud |
 | L181 | Evaluar Instagram/TikTok solo con fuente autorizada | pendiente | no hay busqueda oficial gratis |
+| L182 | Sinopsis completas: limite 4000 y opcion --completar | OK | 08/11: Corbera paso de 900 a 1838 caracteres desde SBS |
+| L183 | Completar las 8.051 sinopsis cortadas en 900 | pendiente | correr despues del sync de la API |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
