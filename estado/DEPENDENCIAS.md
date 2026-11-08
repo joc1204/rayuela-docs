@@ -7,12 +7,10 @@ Cada fila tiene el archivo y la línea que lo respalda.
 
 | Componente | Endpoint / acción | Archivo:línea | Token | Si la REST se cae |
 |---|---|---|---|---|
-| **App de ferias (y autoconsulta del lector)** | `BuscadorProductosAction.do?method=buscarArticulo` | `/opt/rayuela/ferias/rayuela.py:11` (usado desde `app.py:333, 517, 704, 766`) | **No** | **Sigue funcionando** |
-| Demo: ficha bajo demanda | `/rest/webservice/articulo/{isbn}` | `/opt/rayuela/demo/app.py:40` (base) y `:285` | Sí (desde 04/11) | No funciona |
-| Demo: sincronización (precios, metadatos) | `/rest/webservice/articulos/...` vía `sincronizar.traer` | `demo/sincronizar.py` (1 referencia); lo usan `metadatos.py` y `sincronizar_rapido.py` (0 referencias directas: llaman a `traer`) | Sí | No funciona |
-| Demo: stock por libro | `/rest/webservice/articulo/{isbn}/stock` | `demo/stock_publicados.py` (2 referencias) | Sí | No funciona |
-| Demo: fichas completas | `/rest/webservice/articulo/{isbn}` | `demo/fichas_nocturnas.py` (3 referencias) | Sí | No funciona |
-| Demo: tapas | `/rest/webservice/articulo/{isbn}/imagen` | `demo/tapas_publicadas.py` (2 referencias) | Sí | No funciona |
+| **Autoconsulta (precio, titulo, autor, temas)** | `BuscadorProductosAction.do?method=buscarArticulo` | `/opt/rayuela/ferias/rayuela.py:11` | **No** | **Sigue funcionando** |
+| **Demo: actualizacion (precio, stock, rubro, categoria, detalle)** | API v1 `/api/productos` del servidor de pruebas | `demo/sincronizar_api.py` | **Si** | **Fuente actual** |
+| Verificacion de precio | autoconsulta, un ISBN por vez | `rayuela-docs/infra/bin/comparar_bridge.py` | No | Sigue funcionando |
+| **v0 `/rest/webservice/...`** | **RETIRADA — no usar** | scripts viejos (`sincronizar.py`, `fichas_*`, `stock_publicados.py`, `tapas_publicadas.py`, etc.) | — | No responde |
 | **Novedades / scraper** | sitios de terceros (zivals, yenny, sbs) | `/opt/rayuela/novedades/novedades/sitios.py` | No aplica | **Sigue funcionando** |
 | Reclamo de tapas externas | sitios de terceros | `demo/tapas_externas.py` | No aplica | **Sigue funcionando** |
 

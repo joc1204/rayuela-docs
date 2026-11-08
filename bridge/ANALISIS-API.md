@@ -1,4 +1,4 @@
-# Bridge · Lo que se descubrió probando la API documentada (vieja)
+# DOCUMENTO HISTORICO — la API v0 fue retirada. No usar.Bridge · Lo que se descubrió probando la API documentada (vieja)
 
 **Fecha:** 03/11/2026
 **Base:** `http://rayuela1.serveftp.net:9090/BSGestion`
@@ -205,3 +205,7 @@ Construir la integración contra la **v0 documentada** (que funciona hoy y tiene
 stock, tapa, sinopsis, propiedades de libro e incrementales), con una **capa de
 adaptador** que permita enchufar la v1 cuando esté disponible (para códigos de barras,
 `ventaDiscontinua`, nombres de clasificación y precios con IVA).
+
+> **Aviso (08/11/2026):** este documento describe la API v0 (`/rest/webservice`), que fue retirada.
+> La fuente actual es la API v1 del servidor de pruebas (precio, stock, rubro, categoria, detalle)
+> y la autoconsulta para verificar precio. Ver `estado/DEPENDENCIAS.md`.

@@ -38,7 +38,7 @@ Cada dato tiene su archivo:línea o su comando de verificación.
 ### Demo de tienda
 - **Código:** `/opt/rayuela/demo` (repo `rayuela-demo`) · **Puerto:** 5052 · **Servicio:** `rayuela-demo`
 - **Para qué:** tienda online de demostración con el catálogo real.
-- **Usa:** API REST v0 (`/rest/webservice/...`) para fichas, stock, tapas y metadatos.
+- **Usa:** API v1 `/api/productos` (servidor de pruebas) para precio, stock, rubro, categoria y detalle. La v0 fue retirada.
 - **Bloqueo actual:** Bridge exige token y el token disponible da 401 (ver `API-V1-CLIENTE.md`).
 - **Publicación:** sólo a través de `publicar.sh` (puerta de humo obligatoria).
 

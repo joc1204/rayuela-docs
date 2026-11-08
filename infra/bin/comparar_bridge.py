@@ -1,145 +1,126 @@
-"""Compara, para varios ISBN, los datos de Rayuela produccion, el servidor de
-pruebas y nuestra base.
+"""Compara datos de Rayuela contra la autoconsulta y nuestra base.
 
-Uso (cuando Rayuela esta cerrada, para no cargarla):
+La autoconsulta es el endpoint que usa el local:
+    http://rayuela1.serveftp.net:9090/BSGestion/BuscadorProductosAction.do
+        ?method=buscarArticulo&buscarPorDescripcion=false&id=<ISBN>
 
+Trae datos actuales de Rayuela (titulo, precio, descripcion, autor, TEMA1-3).
+NO trae stock. El stock de la demo viene de la API v1 (/api/productos, campo stock)
+y no se puede contrastar aca.
+
+No usa el webservice v0 (/rest/webservice): fue retirado.
+
+    python3 comparar_bridge.py --isbn 9789876918732,9780194442312
     python3 comparar_bridge.py --limite 10
-    python3 comparar_bridge.py --isbn 9788433998088,9789871307845
-    python3 comparar_bridge.py --limite 10 --sin-produccion   # solo pruebas
-
-Lee el articulo por el webservice viejo (/rest/webservice/articulo/<isbn>) en
-produccion y en pruebas, y ademas la API v1 de pruebas (token de /etc/rayuela/bridge.env)
-para rubro/categoria/stock/precio.
-
-No escribe nada: solo GET.
 """
 import argparse
 import json
-import os
+import re
 import sqlite3
 import time
-import urllib.error
+import unicodedata
+import urllib.parse
 import urllib.request
 
-PROD = 'http://rayuela1.serveftp.net:9090/BSGestion'
-PRUEBAS = 'http://brd.serveftp.net:10160/BSGestionRayuela'
+AUTOCONSULTA = ('http://rayuela1.serveftp.net:9090/BSGestion/'
+                'BuscadorProductosAction.do')
 DB = '/opt/rayuela/demo/catalogo.db'
 
 
-def token():
+def precio_a_numero(crudo):
+    s = re.sub(r'[^\d,.\-]', '', str(crudo or ''))
+    if not s:
+        return 0.0
+    if ',' in s and '.' in s:
+        s = s.replace('.', '').replace(',', '.')
+    elif ',' in s:
+        s = s.replace(',', '.')
     try:
-        for linea in open('/etc/rayuela/bridge.env', encoding='utf-8', errors='ignore'):
-            if linea.startswith('BRIDGE_TOKEN='):
-                return linea.split('=', 1)[1].strip().strip('"').strip("'")
-    except OSError:
-        pass
-    return ''
+        return round(float(s), 2)
+    except ValueError:
+        return 0.0
 
 
-def get_json(url, clave=None, timeout=30):
-    pedido = urllib.request.Request(url)
-    if clave:
-        pedido.add_header('Authorization', 'Bearer ' + clave)
-    try:
-        with urllib.request.urlopen(pedido, timeout=timeout) as respuesta:
-            return json.loads(respuesta.read().decode('utf-8', 'ignore'))
-    except (urllib.error.URLError, ValueError):
+def normalizar(texto):
+    texto = unicodedata.normalize('NFD', texto or '')
+    texto = ''.join(c for c in texto if unicodedata.category(c) != 'Mn')
+    return ' '.join(texto.lower().split())
+
+
+def autoconsultar(isbn):
+    """Devuelve los datos actuales de Rayuela para un ISBN, sin stock."""
+    url = (AUTOCONSULTA + '?method=buscarArticulo&buscarPorDescripcion=false&id='
+           + urllib.parse.quote(str(isbn)))
+    with urllib.request.urlopen(url, timeout=20) as respuesta:
+        crudo = respuesta.read().decode('utf-8', 'replace')
+    datos = json.loads(crudo)
+    if not isinstance(datos, list) or len(datos) < 5:
         return None
-
-
-def propiedades(ficha):
-    salida = {}
-    for p in (ficha or {}).get('propiedades') or []:
-        nombre = (p.get('nombre') or '').strip().upper()
-        valor = (p.get('valor') or '').strip()
-        if nombre and valor:
-            salida[nombre] = valor
-    return salida
-
-
-def resumen(ficha):
-    if not ficha:
-        return None
-    props = propiedades(ficha)
+    attrs = {}
+    for par in datos[5:]:
+        if isinstance(par, list) and len(par) == 2:
+            attrs[str(par[0]).upper()] = str(par[1])
+    temas = [str(attrs.get('TEMA%d' % i) or '').strip() for i in (1, 2, 3)]
     return {
-        'descripcion': (ficha.get('descripcion') or '').strip(),
-        'detalle': (ficha.get('detalle') or '').strip(),
-        'marca': (ficha.get('marca') or '').strip(),
-        'precio': ficha.get('precioLista'),
-        'stock': ficha.get('stockVenta'),
-        'estado': (ficha.get('estado') or '').strip(),
-        'categoria': ficha.get('categoria'),
-        'fechaMod': ficha.get('fechaMod') or ficha.get('fechaAct'),
-        'autor': props.get('AUTOR', ''),
-        'tema1': props.get('TEMA1', ''),
-        'tema2': props.get('TEMA2', ''),
-        'tema3': props.get('TEMA3', ''),
-        'coleccion': props.get('COLECCION', ''),
-        'paginas': props.get('PAGINAS', ''),
+        'id': datos[0],
+        'titulo': str(datos[1] or '').strip(),
+        'precio': precio_a_numero(datos[2]),
+        'isbn': str(datos[3] or '').strip(),
+        'detalle': str(datos[4] or '').strip(),
+        'autor': str(attrs.get('AUTOR') or '').strip(),
+        'editorial': str(attrs.get('EDITORIAL') or '').strip(),
+        'coleccion': str(attrs.get('COLECCION') or '').strip(),
+        'temas': ' | '.join(t for t in temas if t),
+        'agotado': str(attrs.get('AGOTADO DESDE') or '').strip(),
     }
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--isbn', default=None, help='lista separada por comas')
-    ap.add_argument('--limite', type=int, default=10)
-    ap.add_argument('--sin-produccion', action='store_true',
-                    help='no consulta produccion (para probar el script)')
-    ap.add_argument('--pausa', type=float, default=0.4)
-    ap.add_argument('--salida', default='/tmp/comparacion-bridge.json')
+    ap.add_argument('--limite', type=int, default=5)
+    ap.add_argument('--pausa', type=float, default=0.3)
     args = ap.parse_args()
 
-    clave = token()
     if args.isbn:
         codigos = [c.strip() for c in args.isbn.split(',') if c.strip()]
     else:
         con = sqlite3.connect('file:%s?mode=ro' % DB, uri=True)
         codigos = [fila[0] for fila in con.execute(
             "select codigo from productos where publicable=1 and oculto=0 and filtro=0 "
-            "and coalesce(stock,0) > 0 and detalle is not null and detalle != '' "
+            "and coalesce(stock,0) > 0 and actualizado >= '2026-11-08' "
             "order by actualizado desc limit ?", (args.limite,))]
         con.close()
 
     con = sqlite3.connect('file:%s?mode=ro' % DB, uri=True)
     con.row_factory = sqlite3.Row
-    informe = []
+    print('  ISBN · titulo · precio (base / Rayuela) · autor · temas')
     for codigo in codigos:
-        nuestro = con.execute('select * from productos where codigo = ?',
-                             (codigo,)).fetchone()
-        pruebas = resumen(get_json('%s/rest/webservice/articulo/%s' % (PRUEBAS, codigo)))
-        produccion = None if args.sin_produccion else resumen(
-            get_json('%s/rest/webservice/articulo/%s' % (PROD, codigo)))
-        api_pruebas = get_json('%s/api/productos?pagina=1&limite=1&busqueda=%s'
-                               '&campos=codigo,descripcion,categoria,rubro,stock,precioVenta'
-                               % (PRUEBAS, codigo), clave)
-        api = ((api_pruebas or {}).get('datos') or [{}])[0] if api_pruebas else {}
-
-        informe.append({
-            'codigo': codigo,
-            'nuestro': dict(nuestro) if nuestro else None,
-            'pruebas': pruebas,
-            'produccion': produccion,
-            'api_pruebas': api,
-        })
-        print('  %s · %s' % (codigo, (nuestro['descripcion'] if nuestro else '?')[:45]))
-        if produccion and pruebas:
-            iguales = sum(1 for k in pruebas if pruebas.get(k) == produccion.get(k))
-            print('    pruebas vs produccion: %d/%d campos iguales' % (iguales, len(pruebas)))
-            for campo in ('stock', 'precio', 'estado', 'categoria', 'tema1', 'fechaMod'):
-                if pruebas.get(campo) != produccion.get(campo):
-                    print('    distinto en %s: pruebas=%r produccion=%r'
-                          % (campo, pruebas.get(campo), produccion.get(campo)))
-        elif args.sin_produccion:
-            print('    (sin produccion) stock=%r precio=%r temas=%r'
-                  % (pruebas.get('stock') if pruebas else None,
-                     pruebas.get('precio') if pruebas else None,
-                     (pruebas.get('tema1'), pruebas.get('tema2'), pruebas.get('tema3')) if pruebas else None))
+        nuestro = con.execute('select * from productos where codigo = ?', (codigo,)).fetchone()
+        if not nuestro:
+            print('  %s · no esta en nuestra base' % codigo)
+            continue
+        try:
+            vivo = autoconsultar(codigo)
+        except Exception as error:
+            print('  %s · error en autoconsulta: %s' % (codigo, str(error)[:80]))
+            continue
+        if not vivo:
+            print('  %s · la autoconsulta no devolvio datos' % codigo)
+            continue
+        precio_ok = abs(float(nuestro['precio'] or 0) - vivo['precio']) < 0.5
+        autor_ok = normalizar(nuestro['autor'] or '') == normalizar(vivo['autor'])
+        temas_ok = normalizar(nuestro['temas'] or '') == normalizar(vivo['temas'])
+        print('  %s · %-30s · %s / %s %s · autor %s · temas %s'
+              % (codigo, (nuestro['descripcion'] or '')[:30],
+                 nuestro['precio'], vivo['precio'], 'OK' if precio_ok else 'DISTINTO',
+                 'OK' if autor_ok else 'DISTINTO',
+                 'OK' if temas_ok else 'DISTINTO'))
+        if vivo['detalle']:
+            print('    Rayuela detalle: %d caracteres · nuestro detalle: %d'
+                  % (len(vivo['detalle']), len(nuestro['detalle'] or '')))
         time.sleep(args.pausa)
-
     con.close()
-    with open(args.salida, 'w', encoding='utf-8') as archivo:
-        json.dump(informe, archivo, ensure_ascii=False, indent=1)
-    print('  informe: %s' % args.salida)
     return 0
 
 
