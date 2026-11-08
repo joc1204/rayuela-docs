@@ -42,3 +42,24 @@ nunca más.
 | Actualización REST (stock, fichas, tapas) | — | **Bloqueada por token** |
 
 Conclusión: la librería no perdió ninguna función. Lo único bloqueado es la actualización de la demo.
+
+
+## Autoconsulta: precios si, stock no
+
+El endpoint de autoconsulta que usa el local es:
+
+```
+http://rayuela1.serveftp.net:9090/BSGestion/BuscadorProductosAction.do
+  ?method=buscarArticulo&buscarPorDescripcion=false&id=<ISBN>
+```
+
+Devuelve id, titulo, precio, ISBN, descripcion y propiedades (AUTOR, TEMA1-3, etc.).
+**No devuelve stock.** El unico dato de disponibilidad es `AGOTADO DESDE`, que no es
+la cantidad.
+
+Por lo tanto:
+
+- **Precio**: se verifica contra la autoconsulta.
+- **Stock**: viene de la API v1 (`/api/productos`, campo `stock`) y no se puede
+  contrastar contra la autoconsulta.
+- No usar `stockVenta` del webservice viejo como si fuera stock real.
