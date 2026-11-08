@@ -61,3 +61,6 @@ Por lo tanto:
 - **Stock**: viene de la API v1 (`/api/productos`, campo `stock`) y no se puede
   contrastar contra la autoconsulta.
 - No usar `stockVenta` del webservice viejo como si fuera stock real.
+
+
+Referencia unica de endpoints: `estado/ENDPOINTS.md`.
