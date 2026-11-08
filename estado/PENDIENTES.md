@@ -275,6 +275,10 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L194 | Diseno agrupado en pestana propia | OK | 08/11: identidad, colores y contacto |
 | L195 | Editar URLs del muestreo desde el panel | OK | 08/11: boton Editar por fuente; tope 5 |
 | L196 | Catalogo en dosis: 25 por pagina por defecto | OK | 08/11: selector 25/50/100/200 |
+| L197 | Calidad medida sobre titulos con stock y muestra de tapas aclarada | OK | 08/11: 34.197 con stock, 9.324 sin tapa, link al catalogo filtrado |
+| L198 | Estado sin duplicado, sin dato falso y con navegacion interna | OK | 08/11 |
+| L199 | Consultas filtradas: pendientes/respondidas/todas | OK | 08/11 |
+| L200 | Mercado: fecha en formato argentino y fuentes plegadas abajo | OK | 08/11 |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
