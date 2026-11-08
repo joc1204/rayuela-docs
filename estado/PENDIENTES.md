@@ -268,6 +268,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L187 | Auditoria: estado/calidad no exigen acciones masivas | OK | 08/11, el listado sigue auditado |
 | L188 | Probar recomendador con Vero y ajustar pesos | pendiente | 30-50 consultas reales |
 | L189 | Retiro total de la API v0 y control en publicacion | OK | 08/11: legacy_v0, auditar_endpoints.py, ENDPOINTS.md |
+| L190 | Pestana Mercado con hasta 5 URLs administrables | OK | 08/11: Aleph, Cuspide, SBS, Yenny; muestra diaria 04:00 |
+| L191 | Muestreo diario de novedades/mas vendidos/recomendados | OK | 08/11: parsing JSON-LD + tarjetas; 679 muestras iniciales |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |

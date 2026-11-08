@@ -1,0 +1,11 @@
+[Unit]
+Description=Rayuela - muestreo diario de mercado
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=rayuela
+WorkingDirectory=/opt/rayuela/demo
+Environment=CATALOGO_DB=/opt/rayuela/demo/catalogo.db
+ExecStart=/opt/rayuela/capturas/venv/bin/python /opt/rayuela/demo/muestrear_mercado.py
