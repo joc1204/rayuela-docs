@@ -1,0 +1,15 @@
+[Unit]
+Description=Rayuela - sincronizacion por API de Luis
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /opt/rayuela/demo/sincronizar_api_produccion.sh
+Restart=on-failure
+RestartSec=60
+StartLimitIntervalSec=0
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target
