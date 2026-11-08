@@ -19,7 +19,7 @@ No modifica el catálogo, no publica nada y no copia sinopsis ni imágenes.
 4. Yenny — ranking de ventas
 5. Aleph — novedades
 
-Se pueden pausar, eliminar y agregar otras desde la pestaña. El tope es 5.
+Desde **Mercado → Administrar URLs**, cada fila tiene **Editar** (nombre y URL), ademas de pausar/eliminar. El tope es 5.
 
 ## Cuándo corre
 

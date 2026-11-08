@@ -273,6 +273,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L192 | Administracion con una sola barra de pestanas | OK | 08/11: Resumen/Catalogo/Calidad/Estado/Mercado/Consultas/Diseno |
 | L193 | Mercado paginado por fuente, sin pantalla infinita | OK | 08/11: resumen, chips y 12 por pagina |
 | L194 | Diseno agrupado en pestana propia | OK | 08/11: identidad, colores y contacto |
+| L195 | Editar URLs del muestreo desde el panel | OK | 08/11: boton Editar por fuente; tope 5 |
+| L196 | Catalogo en dosis: 25 por pagina por defecto | OK | 08/11: selector 25/50/100/200 |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
