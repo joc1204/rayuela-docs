@@ -270,6 +270,9 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L189 | Retiro total de la API v0 y control en publicacion | OK | 08/11: legacy_v0, auditar_endpoints.py, ENDPOINTS.md |
 | L190 | Pestana Mercado con hasta 5 URLs administrables | OK | 08/11: Aleph, Cuspide, SBS, Yenny; muestra diaria 04:00 |
 | L191 | Muestreo diario de novedades/mas vendidos/recomendados | OK | 08/11: parsing JSON-LD + tarjetas; 679 muestras iniciales |
+| L192 | Administracion con una sola barra de pestanas | OK | 08/11: Resumen/Catalogo/Calidad/Estado/Mercado/Consultas/Diseno |
+| L193 | Mercado paginado por fuente, sin pantalla infinita | OK | 08/11: resumen, chips y 12 por pagina |
+| L194 | Diseno agrupado en pestana propia | OK | 08/11: identidad, colores y contacto |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
