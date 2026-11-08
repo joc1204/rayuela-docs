@@ -290,3 +290,15 @@ concepto existente, se unifica; no se agrega. El glosario vive en `auditar_ui.py
 
 **Regla de coherencia**: si una regla no esta escrita en el codigo, no existe. Nada de "por
 definicion" que el admin no pueda ver y controlar.
+
+
+## Regla de reversibilidad (pedido de Jorge, 08/11/2026)
+
+Todo lo que se implemente tiene que poder volver atras.
+
+1. Antes de publicar, respaldar la version anterior (git y respaldo de la base cuando corresponda).
+2. Toda funcion nueva va detras de un interruptor o en una ruta separada; si no funciona, se apaga sin tocar el resto.
+3. Para el recomendador de prueba: la ruta /recomendador se desactiva con
+   `sqlite3 /opt/rayuela/demo/catalogo.db "insert into ajustes (clave, valor) values ('recomendador','0') on conflict(clave) do update set valor='0';"`
+   y vuelve a activar con el mismo comando con valor '1'.
+4. Ningun gasto nuevo se asume sin que el crecimiento de ventas lo justifique. La version de prueba es de costo cero.

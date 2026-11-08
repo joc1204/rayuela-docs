@@ -263,6 +263,10 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L182 | Sinopsis completas: limite 4000 y opcion --completar | OK | 08/11: Corbera paso de 900 a 1838 caracteres desde SBS |
 | L183 | Completar las 8.051 sinopsis cortadas en 900 | pendiente | correr despues del sync de la API |
 | L184 | Sync API con reintentos y reinicio automatico (systemd) | OK | 08/11: Restart=on-failure, retoma api_pagina, no duplica respaldo |
+| L185 | Recomendador de costo cero en /recomendador | OK (prueba) | 08/11: lenguaje natural, edad, genero, stock, motivos |
+| L186 | Interruptor de reversibilidad del recomendador | OK | ajustes.recomendador=0 lo apaga; probado 404/200 |
+| L187 | Auditoria: estado/calidad no exigen acciones masivas | OK | 08/11, el listado sigue auditado |
+| L188 | Probar recomendador con Vero y ajustar pesos | pendiente | 30-50 consultas reales |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
