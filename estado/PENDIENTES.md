@@ -279,6 +279,7 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L198 | Estado sin duplicado, sin dato falso y con navegacion interna | OK | 08/11 |
 | L199 | Consultas filtradas: pendientes/respondidas/todas | OK | 08/11 |
 | L200 | Mercado: fecha en formato argentino y fuentes plegadas abajo | OK | 08/11 |
+| L201 | Sacar busquedas internas de la portada publica | OK | 08/11: incluia pruebas, ISBNs y errores de tipeo |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
