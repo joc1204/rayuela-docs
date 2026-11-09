@@ -282,6 +282,8 @@ Estados: ✅ hecho · 🔄 en curso · ⬜ pendiente · ⛔ bloqueado (espera a 
 | L201 | Sacar busquedas internas de la portada publica | OK | 08/11: incluia pruebas, ISBNs y errores de tipeo |
 | L202 | Enriquecimiento reorientado a sinopsis | OK | 08/11: lote viejo frenado; modo --solo-sinopsis, 3 fuentes |
 | L203 | Medir avance real de sinopsis y no de editorial | OK | 08/11: 20 sinopsis nuevas en los primeros 50 |
+| L204 | SBS: parser de sinopsis y fallback a ficha | OK | 09/11: recupera sinopsis que antes descartaba |
+| L205 | Reintentar intentos SBS descartados | OK | 09/11: respaldo intentos_enriquecido_bak_sbs_20261109 |
 | L3 | Que Vero defina piso definitivo y criterio de no-libros | ⬜ | resumen `Limpieza-del-catalogo-para-Vero.docx` |
 | L4 | Corregir los 874 precios del CSV y volver a mostrarlos | ⬜ | requiere precios reales (Bridge o carga manual) |
 | L5 | Tandas nocturnas de enriquecimiento externo (20 mil con stock) | 🔄 | 1.398 completados de 2.000 el 05/11 |
