@@ -3,7 +3,7 @@
 # No toca Rayuela: consulta librerias de terceros (sbs, yenny) a ritmo bajo.
 #
 # Independiente de la tienda: NO mira si el libro esta oculto o visible.
-# Trabaja sobre publicables con stock positivo a los que les falta editorial o sinopsis.
+# Trabaja sobre publicables con stock positivo a los que les falta la sinopsis.
 # Los que ya dieron "sin datos" en todas las fuentes quedan registrados y no se repiten.
 #
 # Se detiene solo (y se puede detener a mano):
@@ -22,11 +22,11 @@ LOTE=4000
 restantes() {
   sqlite3 "$DB" "SELECT COUNT(*) FROM productos p
                    WHERE p.publicable = 1 AND p.oculto = 0 AND p.stock > 0
-                     AND ((p.marca IS NULL OR p.marca = '') OR (p.detalle IS NULL OR p.detalle = ''))
+                     AND (p.detalle IS NULL OR p.detalle = '')
                      AND p.codigo NOT IN (
                        SELECT codigo FROM intentos_enriquecido
                        WHERE resultado = 'sin_datos'
-                       GROUP BY codigo HAVING COUNT(DISTINCT fuente) >= 2);" 2>/dev/null || echo 0
+                       GROUP BY codigo HAVING COUNT(DISTINCT fuente) >= 3);" 2>/dev/null || echo 0
 }
 
 echo "$(date '+%F %T') === arranca el enriquecimiento en cadena ===" >> "$LOG"
@@ -50,7 +50,7 @@ while true; do
   sleep 20
 
   cd /opt/rayuela/novedades || exit 1
-  "$PY" "$SCRIPT" --limite "$LOTE" --pausa 0.8 --sitios sbs,yenny >> "$LOG" 2>&1
+  "$PY" "$SCRIPT" --limite "$LOTE" --pausa 0.8 --sitios sbs,yenny,zivals --solo-sinopsis >> "$LOG" 2>&1
 
   despues=$(restantes)
   ganancia=$((antes - despues))
